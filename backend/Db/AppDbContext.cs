@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 
 namespace backend.Db;
 
@@ -20,6 +19,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 
         options
             .UseNpgsql(connectionString)
+            .AddInterceptors(new AppDbContextSaveChangesInterceptors())
             .UseSnakeCaseNamingConvention();
     }
     protected override void OnModelCreating(ModelBuilder builder)
@@ -35,10 +35,6 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
             .Entity<HoleResult>()
             .HasOne(holeResult => holeResult.Hole)
             .WithOne();
-
-        builder
-            .Entity<HoleResult>()
-            .HasKey(holeResult => new { holeResult.UserId, holeResult.HoleId });
 
         builder
             .Entity<Round>()

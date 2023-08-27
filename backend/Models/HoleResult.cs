@@ -2,7 +2,7 @@
 
 namespace backend.Models;
 
-public class HoleResult
+public class HoleResult : BaseModel
 {
     public User User { get; set; } = null!;
     public Hole Hole { get; set; } = null!;

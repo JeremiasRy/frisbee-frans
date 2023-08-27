@@ -2,6 +2,6 @@
 
 public class Course : BaseModel
 {
-    public int Name { get; set; }
-    public List<Hole> Layout { get; set; } = null!;
+    public string Name { get; set; } = null!;
+    public List<Hole> Holes { get; set; } = null!;
 }

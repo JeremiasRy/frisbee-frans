@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.Db;
@@ -11,9 +12,10 @@ using backend.Db;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230827043841_HoleResult")]
+    partial class HoleResult
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +37,8 @@ namespace backend.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("Name")
+                        .HasColumnType("integer")
                         .HasColumnName("name");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -67,17 +68,17 @@ namespace backend.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<int>("Length")
+                    b.Property<int?>("NextHoleId")
                         .HasColumnType("integer")
-                        .HasColumnName("length");
-
-                    b.Property<int>("NthHole")
-                        .HasColumnType("integer")
-                        .HasColumnName("nth_hole");
+                        .HasColumnName("next_hole_id");
 
                     b.Property<int>("Par")
                         .HasColumnType("integer")
                         .HasColumnName("par");
+
+                    b.Property<int?>("PreviousHoleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("previous_hole_id");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone")
@@ -94,20 +95,21 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.HoleResult", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("integer")
-                        .HasColumnName("id");
+                        .HasColumnName("user_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<int>("HoleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("hole_id");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<int>("HoleId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer")
-                        .HasColumnName("hole_id");
+                        .HasColumnName("id");
 
                     b.Property<int>("Penalties")
                         .HasColumnType("integer")
@@ -125,11 +127,7 @@ namespace backend.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
+                    b.HasKey("UserId", "HoleId")
                         .HasName("pk_hole_result");
 
                     b.HasIndex("HoleId")
@@ -426,7 +424,7 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Hole", b =>
                 {
                     b.HasOne("backend.Models.Course", "Course")
-                        .WithMany("Holes")
+                        .WithMany("Layout")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -532,7 +530,7 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Course", b =>
                 {
-                    b.Navigation("Holes");
+                    b.Navigation("Layout");
                 });
 
             modelBuilder.Entity("backend.Models.Round", b =>
