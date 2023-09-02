@@ -12,6 +12,10 @@ public class HoleDTO : BaseDTO<Hole>
 
     public override void UpdateModel(Hole model)
     {
-        throw new NotImplementedException();
+        model.Par = Par;
+        model.Length = Length;
+        model.NthHole = NthHole;
+        model.Course = Course;
+        model.CourseId = Course.Id;
     }
 }

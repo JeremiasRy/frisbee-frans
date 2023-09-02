@@ -3,12 +3,13 @@ using backend.DTOs;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Services;
+namespace backend.Services.Abstraction;
 
-public class CrudService<TModel, TDto> : ICrudService<TModel, TDto> where TModel : BaseModel, new()
+public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
+    where TModel : BaseModel, new()
     where TDto : BaseDTO<TModel>
 {
-    private readonly AppDbContext _appDbContext;
+    protected readonly AppDbContext _appDbContext;
     public CrudService(AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
