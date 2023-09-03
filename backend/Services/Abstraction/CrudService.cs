@@ -48,4 +48,11 @@ public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
         _appDbContext.Remove(item);
         await _appDbContext.SaveChangesAsync();
     }
+
+    public async Task<TModel> DeleteOneAsync(int id)
+    {
+        TModel item = await GetByIdAsync(id);
+        _appDbContext.Remove(item);
+        return item;
+    }
 }

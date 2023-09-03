@@ -6,8 +6,10 @@ public class HoleResult : BaseModel
 {
     public User User { get; set; } = null!;
     public Hole Hole { get; set; } = null!;
+    public Round Round { get; set; } = null!;
     public int UserId { get; set; }
     public int HoleId { get; set; }
+    public int RoundId { get; set; }
     public int Throws { get; set; }
     public int Penalties { get; set; }
 

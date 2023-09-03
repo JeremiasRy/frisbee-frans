@@ -25,20 +25,5 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-        builder
-            .Entity<HoleResult>()
-            .HasOne(holeResult => holeResult.User)
-            .WithOne();
-
-        builder
-            .Entity<HoleResult>()
-            .HasOne(holeResult => holeResult.Hole)
-            .WithOne();
-
-        builder
-            .Entity<Round>()
-            .HasMany(round => round.RoundResult)
-            .WithOne();
     }
 }
