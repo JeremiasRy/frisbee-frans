@@ -1,10 +1,9 @@
 ﻿using backend.Models;
 
-namespace backend.Services
+namespace backend.Services;
+
+public interface IUserService
 {
-    public interface IUserService
-    {
-        Task<User> CreateUserAsync(string name);
-        Task<User> GetUserAsync(string name);
-    }
+    Task<User> CreateUserAsync(string name);
+    Task<User> GetUserAsync(string name);
 }
