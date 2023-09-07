@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
-namespace backend.Controllers;
+namespace backend.Controllers.Abstraction;
 
 [ApiController]
 [Produces(MediaTypeNames.Application.Json)]

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace backend.Services.Impl;
 
-public class UserService
+public class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
     public UserService(UserManager<User> userManager)

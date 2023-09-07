@@ -24,6 +24,14 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     }
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Entity<Course>()
+            .Navigation(course => course.Holes)
+            .AutoInclude();
+
+        builder.Entity<User>()
+            .Navigation(user => user.Rounds)
+            .AutoInclude();
+
         base.OnModelCreating(builder);
     }
 }

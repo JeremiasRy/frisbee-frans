@@ -2,9 +2,9 @@
 using backend.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Controllers;
+namespace backend.Controllers.Abstraction;
 
-public class CrudController<TModel, TDto>: ApiControllerBase
+public class CrudController<TModel, TDto> : ApiControllerBase
 {
     private readonly ICrudService<TModel, TDto> _service;
     public CrudController(ICrudService<TModel, TDto> service)
@@ -22,7 +22,7 @@ public class CrudController<TModel, TDto>: ApiControllerBase
         return await _service.GetByIdAsync(id);
     }
     [HttpPost]
-    public async Task<TModel> CreateOne(TDto request)
+    public async Task<TModel> CreateOne([FromBody] TDto request)
     {
         return await _service.CreateOneAsync(request);
     }
