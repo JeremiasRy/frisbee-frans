@@ -1,8 +1,12 @@
-﻿namespace backend.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace backend.Models;
 
 public class Round : BaseModel
 {
     public User User { get; set; } = null!;
     public int UserId { get; set; }
     public List<HoleResult> RoundResult { get; set; } = null!;
+    [NotMapped]
+    public int RoundTotal => RoundResult.Sum(result => result.Penalties + result.Throws);
 }

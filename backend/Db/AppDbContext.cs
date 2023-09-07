@@ -32,6 +32,14 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
             .Navigation(user => user.Rounds)
             .AutoInclude();
 
+        builder.Entity<HoleResult>()
+            .Navigation(holeResult => holeResult.Hole)
+            .AutoInclude();
+
+        builder.Entity<Round>()
+            .Navigation(round => round.RoundResult)
+            .AutoInclude();
+
         base.OnModelCreating(builder);
     }
 }

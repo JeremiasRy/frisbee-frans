@@ -7,7 +7,10 @@ namespace backend.Db
     {
         public void UpdateTimestamps(DbContextEventData data)
         {
-            var entries = data.Context!.ChangeTracker.Entries().Where(entry => entry.Entity is BaseModel && (entry.State == Microsoft.EntityFrameworkCore.EntityState.Added || entry.State == Microsoft.EntityFrameworkCore.EntityState.Modified));
+            var entries = data.Context!.ChangeTracker
+                .Entries()
+                .Where(entry => entry.Entity is BaseModel && (entry.State == Microsoft.EntityFrameworkCore.EntityState.Added || entry.State == Microsoft.EntityFrameworkCore.EntityState.Modified));
+
             foreach (var entry in entries)
             {
                 if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Added)

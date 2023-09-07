@@ -11,8 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
-    .AddScoped<ICourseService, CourseService>()
     .AddScoped<IUserService, UserService>()
+    .AddScoped<ICrudService<Course, CourseDTO>, CourseService>()
     .AddScoped<ICrudService<Course, CourseDTO>, CourseService>()
     .AddScoped<ICrudService<HoleResult, HoleResultDTO>, HoleResultService>()
     .AddScoped<ICrudService<Hole, HoleDTO>, HoleService>()

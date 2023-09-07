@@ -17,7 +17,7 @@ public class CrudController<TModel, TDto> : ApiControllerBase
         return await _service.GetAllAsync();
     }
     [HttpGet("{id:int}")]
-    public async Task<TModel> GetById([FromRoute] int id)
+    public virtual async Task<TModel> GetById([FromRoute] int id)
     {
         return await _service.GetByIdAsync(id);
     }
