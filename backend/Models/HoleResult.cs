@@ -14,7 +14,18 @@ public class HoleResult : BaseModel
     public int Penalties { get; set; }
 
     [NotMapped]
-    public ResultIdentifier ScoreTag => Throws + Penalties == 1 ? ResultIdentifier.HoleInOne : (ResultIdentifier)(Throws + Penalties - Hole.Par);
+    public ResultIdentifier? ScoreTag 
+    { get
+        { 
+            if (Hole == null)
+            {
+                return null;
+            }
+            return Throws + Penalties == 1
+                ? ResultIdentifier.HoleInOne
+                : (ResultIdentifier)(Throws + Penalties - Hole.Par);
+        } 
+    }
 
     public enum ResultIdentifier
     {

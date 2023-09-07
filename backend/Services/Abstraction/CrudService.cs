@@ -42,17 +42,11 @@ public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
         await _appDbContext.SaveChangesAsync();
         return item;
     }
-    public async Task RemoveOneAsync(int id)
-    {
-        TModel item = await GetByIdAsync(id);
-        _appDbContext.Remove(item);
-        await _appDbContext.SaveChangesAsync();
-    }
-
     public async Task<TModel> DeleteOneAsync(int id)
     {
         TModel item = await GetByIdAsync(id);
         _appDbContext.Remove(item);
+        await _appDbContext.SaveChangesAsync();
         return item;
     }
 }
