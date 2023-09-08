@@ -13,7 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddScoped<IUserService, UserService>()
     .AddScoped<ICrudService<Course, CourseDTO>, CourseService>()
-    .AddScoped<ICrudService<Course, CourseDTO>, CourseService>()
     .AddScoped<ICrudService<HoleResult, HoleResultDTO>, HoleResultService>()
     .AddScoped<ICrudService<Hole, HoleDTO>, HoleService>()
     .AddScoped<ICrudService<Round, RoundDTO>, RoundService>();

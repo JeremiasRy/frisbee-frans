@@ -1,0 +1,11 @@
+body {
+    background-color: rgb(248, 237, 223);
+    height: 100vh;
+    margin: 0;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 100%, #33333311, #33333328 50%, #eeeeee3f 75%, #33333317 75%);
+}
