@@ -20,7 +20,7 @@ export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
     update: ReturnType<typeof createAsyncThunk<TModel, {id:number, request:TDto}>>;
     remove: ReturnType<typeof createAsyncThunk<TModel, WithId>>;
 
-    returnExtraReducers = () => {
+    returnAsyncThunks = () => {
         return {getAll: this.getAll, get: this.get, create: this.create, update: this.update, remove: this.remove}
     }
 
