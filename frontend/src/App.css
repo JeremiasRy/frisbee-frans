@@ -7,5 +7,5 @@ body {
 #root {
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 100%, #33333311, #33333328 50%, #eeeeee3f 75%, #33333317 75%);
+    background: radial-gradient(circle at 100%, #33333311, #33333328 23%, #eeeeee3f 75%, #33333317 75%);
 }

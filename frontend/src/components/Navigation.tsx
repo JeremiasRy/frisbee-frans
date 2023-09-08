@@ -1,4 +1,5 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import Logo from "./Logo";
 
 export default function Navigation() {
     const navLocations = ["Courses", "Rounds", "Profile"]
@@ -26,20 +27,25 @@ export default function Navigation() {
         </Box>
           
           {
-            navLocations.map(location => 
+            navLocations.map((location, idx) => 
             <Button
                 variant="contained"
                 color="info"
                 key={location}
                 sx={{
                     marginLeft: "1em",
-                    width: "25em",
+                    width: `${20 - idx}vw`,
                     textAlign: "left",
                     justifyContent: "flex-start"
                 }}>
             {location}
             </Button>)
           }
+          <Box sx={{
+            marginTop: "40vh"
+          }}>
+            <Logo />
+          </Box>
         </Box>
     )
 }
