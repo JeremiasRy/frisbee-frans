@@ -1,4 +1,5 @@
-﻿using backend.Db;
+﻿using backend.Common;
+using backend.Db;
 using backend.DTOs;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,12 @@ public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
             .Set<TModel>()
             .SingleOrDefaultAsync(item => item.Id == id) ?? throw new Exception($"Did not find item with id: {id}");
     }
-    public async Task<List<TModel>> GetAllAsync()
+    public async Task<List<TModel>> GetAllAsync(BaseQuery pagination)
     {
         return await _appDbContext
             .Set<TModel>()
+            .Skip(pagination.PageSize * (pagination.Page - 1))
+            .Take(pagination.PageSize)
             .ToListAsync();
     }
     public async Task<TModel> CreateOneAsync(TDto request)

@@ -1,5 +1,7 @@
-﻿using backend.Models;
+﻿using backend.Common;
+using backend.Models;
 using backend.Services.Abstraction;
+using Backend.Src.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers.Abstraction;
@@ -14,7 +16,8 @@ public class CrudController<TModel, TDto> : ApiControllerBase
     [HttpGet]
     public async Task<List<TModel>> GetAll()
     {
-        return await _service.GetAllAsync();
+        BaseQuery filter = Request.QueryString.ParseParams<BaseQuery>() ?? new BaseQuery();
+        return await _service.GetAllAsync(filter);
     }
     [HttpGet("{id:int}")]
     public virtual async Task<TModel> GetById([FromRoute] int id)

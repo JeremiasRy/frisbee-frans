@@ -1,14 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace backend.Models;
 
 public class Round : BaseModel
 {
+    [JsonIgnore]
     public User User { get; set; } = null!;
     public int UserId { get; set; }
+    [JsonIgnore]
     public Course Course { get; set; } = null!;
     public int CourseId { get; set; }
-    public List<HoleResult> RoundResult { get; set; } = null!;
+    public List<HoleResult> RoundResults { get; set; } = null!;
     [NotMapped]
-    public int RoundTotal => RoundResult == null ? 0 : RoundResult.Sum(result => result.Penalties + result.Throws);
+    public int RoundTotal => RoundResults == null ? 0 : RoundResults.Sum(result => result.Penalties + result.Throws);
+    [NotMapped]
+    public int RoundResult => RoundTotal != 0 ? RoundTotal - Course.CoursePar  : RoundTotal;
 }

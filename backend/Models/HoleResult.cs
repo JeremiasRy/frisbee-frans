@@ -1,11 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace backend.Models;
 
 public class HoleResult : BaseModel
 {
+    [JsonIgnore]
     public User User { get; set; } = null!;
+    [JsonIgnore]
     public Hole Hole { get; set; } = null!;
+    [JsonIgnore]
     public Round Round { get; set; } = null!;
     public int UserId { get; set; }
     public int HoleId { get; set; }
