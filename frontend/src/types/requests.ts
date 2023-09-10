@@ -1,8 +1,9 @@
 export type Base = {
     signal: AbortSignal
-    params: {}
+    params: {},
+    requestData: {}
 }
 
-export interface WithId extends Base  {
+export interface RequestWithId extends Base  {
     id: number
 } 
