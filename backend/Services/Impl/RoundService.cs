@@ -27,6 +27,7 @@ public class RoundService : CrudService<Round, RoundDTO>
                 query = query.Where(round => round.UserId == filter.UserId);
             }
             query = query.OrderBy(round => round.CreatedAt);
+
             return await query
                 .Skip(filter.PageSize * (filter.Page - 1))
                 .Take(filter.PageSize)

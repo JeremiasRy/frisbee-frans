@@ -4,9 +4,6 @@ using backend.DTOs;
 using backend.Models;
 using backend.Services.Abstraction;
 using Backend.Src.Common;
-using Microsoft.AspNetCore.HttpOverrides;
-using System.Runtime.CompilerServices;
-
 namespace backend.Controllers;
 
 public class RoundController : CrudController<Round, RoundDTO>

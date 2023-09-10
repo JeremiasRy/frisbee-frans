@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import courseReducer from "./reducer/courseReducer";
+import roundReducer from "./reducer/roundReducer";
 
 export const store = configureStore({
     reducer: {
-        course: courseReducer
+        course: courseReducer,
+        round: roundReducer
     },
 });
 

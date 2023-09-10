@@ -42,7 +42,7 @@ export default function Navigation() {
             </Button>)
           }
           <Box sx={{
-            marginTop: "40vh"
+            marginTop: "50%"
           }}>
             <Logo />
           </Box>
