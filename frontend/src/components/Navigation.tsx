@@ -10,6 +10,7 @@ export default function Navigation() {
             flexDirection: "column",
             rowGap: "1em",
             width: "calc(30% - 2em)",
+            maxHeight: "90vh",
             padding: "1em"
         }}>
         <Box sx={{

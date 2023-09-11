@@ -29,7 +29,9 @@ export default function LatestRounds() {
         <Box sx={{
             display: "flex",
             flexDirection: "column",
-            rowGap: "1em"
+            rowGap: "1em",
+            height: "100%",
+            overflow: "auto"
         }}>
             {
                 state.entities.map(round => 

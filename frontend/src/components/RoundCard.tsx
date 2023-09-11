@@ -11,9 +11,11 @@ export default function RoundCard(props:RoundCardProps) {
     const sortedResults = [...round.roundResults].sort((a, b) => a.nthHole - b.nthHole);
 
     return (
-        <Paper sx={{
-            padding: "1em"
-        }}>
+        <Paper
+            elevation={2} 
+            sx={{
+                padding: "1em"
+            }}>
             <Typography variant={"h4"}>{round.courseName}</Typography>
             <Typography 
                 variant={"subtitle1"} 
@@ -35,7 +37,7 @@ export default function RoundCard(props:RoundCardProps) {
                     {sortedResults.map((result, idx) => <HoleResultCard result={result} isLast={idx === sortedResults.length - 1} />)}
                 </Box>
                 <Box>
-                    <Typography variant="h1">{round.roundResult}</Typography>
+                    <Typography variant="h3">{round.roundResult}</Typography>
                 </Box>
             </Box>
         </Paper>
