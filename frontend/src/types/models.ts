@@ -31,6 +31,7 @@ export interface Round extends BaseModel {
     roundTotal: number,
     roundResult: number,
     by: string,
+    coursePar: number,
     courseName: string
 }
 

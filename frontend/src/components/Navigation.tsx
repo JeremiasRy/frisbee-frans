@@ -1,8 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import Logo from "./Logo";
+import { useNavigate } from "react-router-dom";
 
 export default function Navigation() {
     const navLocations = ["Courses", "Rounds", "Profile"]
+    const navigate = useNavigate();
     return (
         <Box
         sx={{
@@ -18,21 +20,25 @@ export default function Navigation() {
         }}>
             <Typography 
                 variant="h4"
+                onClick={() => navigate("/")}
                 sx={{
                     letterSpacing: "0.2em",
                     textTransform: "uppercase",
-                    fontStyle: "italic"
+                    fontStyle: "italic",
+                    "&:hover": {
+                        cursor: "pointer"
+                    }
                 }}
             >frisbee frans
             </Typography>
         </Box>
-          
           {
             navLocations.map((location, idx) => 
             <Button
                 variant="contained"
                 color="info"
                 key={location}
+                onClick={() => navigate(`/${location.toLocaleLowerCase()}`)}
                 sx={{
                     marginLeft: "1em",
                     width: `${20 - idx}vw`,

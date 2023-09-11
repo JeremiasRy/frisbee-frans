@@ -17,6 +17,8 @@ public class Round : BaseModel
     [NotMapped]
     public string By => User.UserName;
     [NotMapped]
+    public int CoursePar => Course.CoursePar;
+    [NotMapped]
     public int RoundTotal => RoundResults == null ? 0 : RoundResults.Sum(result => result.Penalties + result.Throws);
     [NotMapped]
     public int RoundResult => RoundTotal != 0 ? RoundTotal - Course.CoursePar  : RoundTotal;

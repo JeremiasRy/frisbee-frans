@@ -1,7 +1,8 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import Root from "./pages/Root";
-import LatestRounds from "./components/LatestRounds";
+import LatestRounds from "./pages/LatestRounds";
+import Courses from "./pages/Courses";
 
 function App() {
 
@@ -12,7 +13,10 @@ function App() {
       children: [{
         path: "/",
         element: <LatestRounds />,
-    }]
+      }, {
+        path: "courses",
+        element: <Courses />
+      }]
     }
   ])
   return (

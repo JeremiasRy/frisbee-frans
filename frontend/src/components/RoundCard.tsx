@@ -12,32 +12,59 @@ export default function RoundCard(props:RoundCardProps) {
 
     return (
         <Paper
-            elevation={2} 
-            sx={{
-                padding: "1em"
-            }}>
+        elevation={2} 
+        sx={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "1em",
+            columnGap: "0.5em",
+            flexShrink: 0
+        }}>
             <Typography variant={"h4"}>{round.courseName}</Typography>
             <Typography 
-                variant={"subtitle1"} 
-                sx={{
-                    paddingLeft: "0.5em"
-            }}>By: {round.by}</Typography>
+            variant={"subtitle1"} 
+            sx={{
+                paddingLeft: "0.5em"
+            }}>
+                By: {round.by}
+            </Typography>
             <Box 
-                sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    paddingRight: "5em"
-                }}>
+            sx={{
+                display: "flex",
+                flexDirection: "row",
+                paddingRight: "5em"
+            }}>
                 <Box
                 sx={{
                     display: "flex",
                     flexDirection: "row",
+                    width: "80%",
+                    paddingLeft: "2em"
                 }}>
                     {sortedResults.map((result, idx) => <HoleResultCard result={result} isLast={idx === sortedResults.length - 1} />)}
+                    <Box 
+                    sx={{
+                        width: "5em", 
+                        marginLeft: "1em", 
+                        display: "flex", 
+                        flexDirection: "column", 
+                        alignItems: "center"
+                    }}>
+                        <Box sx={{margin: "auto"}}>
+                            <Typography>total: {round.roundTotal}</Typography>
+                            <Typography>par: {round.coursePar}</Typography>
+                        </Box>
+                    </Box>
                 </Box>
-                <Box>
-                    <Typography variant="h3">{round.roundResult}</Typography>
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    columnGap: "2em"
+                }}>
+                    
+                    <Box>
+                        <Typography variant="h3" sx={{width: "5em"}}>Score: {round.roundResult}</Typography>
+                    </Box>
                 </Box>
             </Box>
         </Paper>

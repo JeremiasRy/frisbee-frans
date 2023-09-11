@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getAllRounds } from "../redux/reducer/roundReducer";
-import RoundCard from "./RoundCard";
+import RoundCard from "../components/RoundCard";
 
 export default function LatestRounds() {
     const state = useAppSelector(state => state.round);
@@ -10,9 +10,6 @@ export default function LatestRounds() {
 
     useEffect(() => {
         const controller = new AbortController();
-        if (state.state === "pending") {
-            return;
-        }
         dispatch(getAllRounds({
             signal: controller.signal,
             params: {},
@@ -25,12 +22,13 @@ export default function LatestRounds() {
 
     return (
         <>
-        <Typography variant="h2" sx={{textAlign: "center"}}>Latest</Typography>
+        <Typography variant="h2" sx={{textAlign: "center", marginBottom: "1em"}}>Latest</Typography>
         <Box sx={{
             display: "flex",
             flexDirection: "column",
             rowGap: "1em",
             height: "100%",
+            maxWidth: "80vw",
             overflow: "auto"
         }}>
             {
