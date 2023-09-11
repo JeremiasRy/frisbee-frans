@@ -1,3 +1,4 @@
+import { ScoreTag } from "../helper";
 import { BaseModel } from "./base";
 
 export interface Course extends BaseModel {
@@ -18,8 +19,9 @@ export interface HoleResult extends BaseModel {
     holeId: number,
     roundId: number,
     throws: number,
+    nthHole: number,
     penalties: number,
-    scoreTag: string
+    scoreTag: ScoreTag
 }
 
 export interface Round extends BaseModel {
@@ -27,7 +29,9 @@ export interface Round extends BaseModel {
     courseId: number,
     roundResults: HoleResult[],
     roundTotal: number,
-    roundResult: number
+    roundResult: number,
+    by: string,
+    courseName: string
 }
 
 export interface User {

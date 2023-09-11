@@ -35,7 +35,7 @@ export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
             reducers: {},
             extraReducers: builder => {
                 builder.addCase(this.getAll.fulfilled, (_, action) => {
-                    return { entities: action.payload, state: "succeeded"}
+                    return {entities: action.payload, state: "succeeded"}
                 })
                 .addCase(this.get.fulfilled, (_, action) => {
                     return {entities: [action.payload], state: "succeeded"}

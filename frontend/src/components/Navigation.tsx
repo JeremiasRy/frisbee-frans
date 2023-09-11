@@ -9,7 +9,7 @@ export default function Navigation() {
             display: "flex",
             flexDirection: "column",
             rowGap: "1em",
-            width: "calc(20% - 2em)",
+            width: "calc(30% - 2em)",
             padding: "1em"
         }}>
         <Box sx={{
@@ -42,7 +42,8 @@ export default function Navigation() {
             </Button>)
           }
           <Box sx={{
-            marginTop: "50%"
+            marginTop: "50%",
+            padding: "10em 10em 10em 0"
           }}>
             <Logo />
           </Box>
