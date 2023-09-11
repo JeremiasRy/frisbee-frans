@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getAllCourses } from "../redux/reducer/courseReducer";
 import { Box, Typography } from "@mui/material";
 import CourseCard from "../components/CourseCard";
+import { getAllRounds } from "../redux/reducer/roundReducer";
 
 export default function Courses() {
     const state = useAppSelector(state => state.course);
@@ -10,7 +11,8 @@ export default function Courses() {
 
     useEffect(() => {
         const controller = new AbortController()
-        dispatch(getAllCourses({signal: controller.signal, params: {}, requestData: {}}))
+        dispatch(getAllCourses({signal: controller.signal, params: {}, requestData: {}}));
+        dispatch(getAllRounds({signal: controller.signal, params: {pageSize: 1000000}, requestData: {}}))
         return () => {
             controller.abort();
         }

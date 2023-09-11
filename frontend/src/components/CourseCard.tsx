@@ -1,6 +1,7 @@
 import { Paper, Typography } from "@mui/material"
 import { Course } from "../types/models"
 import { useState } from "react";
+import { useAppSelector } from "../redux/hooks";
 
 export interface CourseCardProps {
     course: Course
@@ -8,6 +9,8 @@ export interface CourseCardProps {
 
 export default function CourseCard(props:CourseCardProps) {
     const { course } = {...props}
+    const rounds = useAppSelector(state => state.round);
+
     const [rotateX, setRotateX] = useState(0);
     const [rotateY, setRotateY] = useState(0);
     const [circleX, setCircleX] = useState(0);
@@ -56,7 +59,7 @@ export default function CourseCard(props:CourseCardProps) {
             }
         }}>
             <Typography variant="h4" sx={{textAlign: "center"}}>{course.name}</Typography>
-            <Typography>Holes: {course.holes.length}<br/> Par: {course.coursePar}</Typography>
+            <Typography>Holes: {course.holes.length}<br/> Par: {course.coursePar} <br/> Rounds played {rounds.entities.filter(round => round.courseId === course.id).length}</Typography>
         </Paper>
     )
 }
