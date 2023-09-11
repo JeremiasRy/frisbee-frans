@@ -16,7 +16,12 @@ public class RoundService : CrudService<Round, RoundDTO>
     {
         if (request is RoundFilter filter)
         {
-            var query = _appDbContext.Set<Round>().Where(c => true);
+            var query = _appDbContext
+                .Set<Round>()
+                .OrderBy(round => round.Id)
+                .OrderByDescending(round => round.CreatedAt)
+                .AsSplitQuery()
+                .AsNoTracking().Where(c => true);
 
             if (filter.CourseId != 0)
             {
@@ -26,7 +31,6 @@ public class RoundService : CrudService<Round, RoundDTO>
             {
                 query = query.Where(round => round.UserId == filter.UserId);
             }
-            query = query.OrderBy(round => round.CreatedAt);
 
             return await query
                 .Skip(filter.PageSize * (filter.Page - 1))

@@ -9,6 +9,9 @@ export default function LatestRounds() {
 
     useEffect(() => {
         const controller = new AbortController();
+        if (state.state === "pending") {
+            return;
+        }
         dispatch(getAllRounds({
             signal: controller.signal,
             params: {},
@@ -19,7 +22,7 @@ export default function LatestRounds() {
         }
     }, [])
 
-    console.log(state);
+    console.log(state.entities)
 
     return (
         <>

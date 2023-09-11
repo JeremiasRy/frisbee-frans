@@ -19,6 +19,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 
         options
             .UseNpgsql(connectionString)
+            .LogTo(Console.WriteLine, LogLevel.Information)
             .AddInterceptors(new AppDbContextSaveChangesInterceptors())
             .UseSnakeCaseNamingConvention();
     }

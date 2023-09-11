@@ -27,13 +27,16 @@ public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
         {
             return await _appDbContext
                 .Set<TModel>()
-                .OrderBy(item => item.CreatedAt)
+                .AsNoTracking()
+                .OrderByDescending(item => item.CreatedAt)
                 .Skip(pagination.PageSize * (pagination.Page - 1))
                 .Take(pagination.PageSize)
                 .ToListAsync();
         }
         return await _appDbContext
             .Set<TModel>()
+            .AsNoTracking()
+            .OrderByDescending(item => item.CreatedAt)
             .Skip(0)
             .Take(20)
             .ToListAsync();

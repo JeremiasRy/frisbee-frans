@@ -15,7 +15,7 @@ export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
     slice: ReturnType<typeof createSlice<SliceState<TModel>, {}, string>>;
 
     getAll: ReturnType<typeof createAsyncThunk<TModel[], TDto>>;
-    get: ReturnType<typeof createAsyncThunk<TModel, RequestWithId>>;
+    get: ReturnType<typeof createAsyncThunk<TModel, RequestWithId >>;
     create: ReturnType<typeof createAsyncThunk<TModel, TDto>>;
     update: ReturnType<typeof createAsyncThunk<TModel, {id:number, request:TDto}>>;
     remove: ReturnType<typeof createAsyncThunk<TModel, RequestWithId>>;
@@ -49,6 +49,15 @@ export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
                 .addCase(this.remove.fulfilled, (_, action) => {
                     return {entities: [action.payload], state: "succeeded"}
                 })
+                .addCase(this.getAll.pending, (state) => {
+                    return {...state, state: "pending"}
+                })
+                .addCase(this.getAll.rejected, (state, action) => {
+                    if (action.error.code === "ERR_CANCELLED") {
+                        return;
+                    }
+                    return {...state, state: "rejected"}
+                })
             }
         })
 
@@ -63,7 +72,7 @@ export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
         this.get = createAsyncThunk(
             "get" + this.name,
             async (request) => {
-                let result = await axios.get<TModel>(`${this.url}/${request.id}`, {signal: request.signal});
+                let result = await axios.get<TModel>(`${this.url}/${request.id}`, {params: {...request.params}, signal: request.signal});
                 return result.data;
             }
         )
@@ -71,7 +80,7 @@ export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
         this.create = createAsyncThunk(
             "create" + this.name,
             async (request) => {
-                let result = await axios.post(this.url, request.requestData, {signal: request.signal});
+                let result = await axios.post(this.url, request.params, {signal: request.signal});
                 return result.data;
             }
         )
@@ -79,7 +88,7 @@ export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
         this.update = createAsyncThunk(
             "update" + this.name,
             async (request) => {
-                let result = await axios.put(`${this.url}/${request.id}`, request.request.requestData, {signal: request.request.signal});
+                let result = await axios.put(`${this.url}/${request.id}`, request.request.params, {signal: request.request.signal});
                 return result.data;
             }
         )
