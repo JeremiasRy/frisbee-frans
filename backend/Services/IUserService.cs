@@ -1,9 +1,10 @@
-﻿using backend.Models;
+﻿using backend.DTOs;
 
 namespace backend.Services;
 
 public interface IUserService
 {
-    Task<User> CreateUserAsync(string name);
-    Task<User> GetUserAsync(string name);
+    Task<PublicUserInfoDTO?> CreateUserAsync(RegisterDTO request);
+    Task<List<PublicUserInfoDTO>> GetUsersAsync(string name);
+    Task<LoginResponseDTO?> Login(RegisterDTO request);
 }

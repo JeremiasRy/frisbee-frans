@@ -1,6 +1,8 @@
 ﻿using backend.Controllers.Abstraction;
+using backend.DTOs;
 using backend.Models;
 using backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
@@ -13,13 +15,20 @@ public class UserController : ApiControllerBase
         _service = service;
     }
     [HttpPost("signup")]
-    public async Task<User> CreateOne([FromBody] string name)
+    [AllowAnonymous]
+    public async Task<PublicUserInfoDTO?> CreateOne([FromBody] RegisterDTO request)
     {
-        return await _service.CreateUserAsync(name);
+        return await _service.CreateUserAsync(request);
+    }
+    [HttpPost("login")]
+    [AllowAnonymous]
+    public async Task<PublicUserInfoDTO?> Login([FromBody] RegisterDTO request)
+    {
+        return await _service.CreateUserAsync(request);
     }
     [HttpGet]
-    public async Task<User> Get([FromQuery] string name)
+    public async Task<List<PublicUserInfoDTO>> GetUsers([FromQuery] string name)
     {
-        return await _service.GetUserAsync(name);
+        return await _service.GetUsersAsync(name);
     }
 }

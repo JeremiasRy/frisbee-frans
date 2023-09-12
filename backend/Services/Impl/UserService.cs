@@ -1,26 +1,48 @@
-﻿using backend.Models;
+﻿using backend.DTOs;
+using backend.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services.Impl;
 
 public class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
-    public UserService(UserManager<User> userManager)
+    private readonly IJwtService _jwtService;
+    public UserService(UserManager<User> userManager, IJwtService jwtService)
     {
         _userManager = userManager;
+        _jwtService = jwtService;
     }
-    public async Task<User> CreateUserAsync(string name)
+    public async Task<PublicUserInfoDTO?> CreateUserAsync(RegisterDTO request)
     {
-        var user = new User
+        var user = new User()
         {
-            UserName = name
+            UserName = request.Name,
         };
-        await _userManager.CreateAsync(user);
-        return user;
+        var result = await _userManager.CreateAsync(user, request.Password);
+
+        if (result.Succeeded)
+        {
+            return PublicUserInfoDTO.FromUser(user);
+        }
+        return null;
     }
-    public async Task<User> GetUserAsync(string name)
+    public async Task<List<PublicUserInfoDTO>> GetUsersAsync(string name)
     {
-        return await _userManager.FindByNameAsync(name);
+        var result = await _userManager.Users.Where(user => user.NormalizedUserName.Contains(name.Normalize())).ToListAsync();
+
+        return result.Select(user => PublicUserInfoDTO.FromUser(user)).ToList(); 
+    }
+    public async Task<LoginResponseDTO?> Login(RegisterDTO request)
+    {
+        var user = await _userManager.FindByNameAsync(request.Name);
+
+        if (!await _userManager.CheckPasswordAsync(user, request.Password))
+        {
+            return null;
+        }
+
+        return _jwtService.CreateToken(user);
     }
 }
