@@ -1,15 +1,18 @@
 import { Paper, Typography } from "@mui/material"
 import { Course } from "../types/models"
 import { useState } from "react";
-import { useAppSelector } from "../redux/hooks";
+import { useNavigate } from "react-router-dom";
+
+export type OnClickAction = "Navigate" | "Select"
 
 export interface CourseCardProps {
-    course: Course
+    course: Course,
+    onClickAction: OnClickAction
 }
 
 export default function CourseCard(props:CourseCardProps) {
-    const { course } = {...props}
-    const rounds = useAppSelector(state => state.round);
+    const { course, onClickAction } = {...props}
+    const navigate = useNavigate();
 
     const [rotateX, setRotateX] = useState(0);
     const [rotateY, setRotateY] = useState(0);
@@ -42,10 +45,19 @@ export default function CourseCard(props:CourseCardProps) {
         setScale(true);
     }
 
+    function handleClick() {
+        if (onClickAction === "Navigate") {
+            navigate(`${course.id}`)
+        } else {
+
+        }
+    }
+
     return (
         <Paper
         onMouseLeave={zeroRotate}
         onMouseMove={rotateMouse} 
+        onClick={handleClick}
         sx={{
             width: "20vw",
             height: "20vh",
@@ -59,7 +71,7 @@ export default function CourseCard(props:CourseCardProps) {
             }
         }}>
             <Typography variant="h4" sx={{textAlign: "center"}}>{course.name}</Typography>
-            <Typography>Holes: {course.holes.length}<br/> Par: {course.coursePar} <br/> Rounds played {rounds.entities.filter(round => round.courseId === course.id).length}</Typography>
+            <Typography>Holes: {course.holes.length}<br/> Par: {course.coursePar} </Typography>
         </Paper>
     )
 }

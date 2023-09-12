@@ -14,3 +14,10 @@ export type RoundDto = {
     userId: number,
     courseId: number,
 }
+
+export type HoleDto = {
+    par: number,
+    length: number,
+    nthHole: number,
+    courseId: number
+}

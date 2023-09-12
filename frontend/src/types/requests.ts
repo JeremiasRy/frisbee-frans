@@ -1,9 +1,9 @@
-export type Base = {
+export type RequestBase<TDto> = {
     signal: AbortSignal
     params: {},
-    requestData: {}
+    requestData: TDto | {}
 }
 
-export interface RequestWithId extends Base  {
+export interface RequestWithId<TDto> extends RequestBase<TDto>  {
     id: number
 } 

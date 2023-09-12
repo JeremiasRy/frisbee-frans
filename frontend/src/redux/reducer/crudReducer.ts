@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BaseModel } from "../../types/base";
 import axios from "axios";
-import { Base, RequestWithId } from "../../types/requests";
+import { RequestBase, RequestWithId } from "../../types/requests";
 
 
 export type SliceState<TModel> = { entities: TModel[], state: "idle" | "pending" | "succeeded" | "rejected"};
 
-export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
+export class CrudReducer<TModel extends BaseModel, TDto> {
     initialState: SliceState<TModel> = {entities: [], state: "idle"};
     reducerName: string;
     name: string;
@@ -14,11 +14,11 @@ export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
     
     slice: ReturnType<typeof createSlice<SliceState<TModel>, {}, string>>;
 
-    getAll: ReturnType<typeof createAsyncThunk<TModel[], TDto>>;
-    get: ReturnType<typeof createAsyncThunk<TModel, RequestWithId >>;
-    create: ReturnType<typeof createAsyncThunk<TModel, TDto>>;
-    update: ReturnType<typeof createAsyncThunk<TModel, {id:number, request:TDto}>>;
-    remove: ReturnType<typeof createAsyncThunk<TModel, RequestWithId>>;
+    getAll: ReturnType<typeof createAsyncThunk<TModel[], RequestBase<TDto>>>;
+    get: ReturnType<typeof createAsyncThunk<TModel, RequestWithId<TDto> >>;
+    create: ReturnType<typeof createAsyncThunk<TModel, RequestBase<TDto>>>;
+    update: ReturnType<typeof createAsyncThunk<TModel, RequestWithId<TDto>>>;
+    remove: ReturnType<typeof createAsyncThunk<TModel, RequestWithId<TDto>>>;
 
     returnAsyncThunks = () => {
         return {getAll: this.getAll, get: this.get, create: this.create, update: this.update, remove: this.remove}
@@ -88,7 +88,7 @@ export class CrudReducer<TModel extends BaseModel, TDto extends Base> {
         this.update = createAsyncThunk(
             "update" + this.name,
             async (request) => {
-                let result = await axios.put(`${this.url}/${request.id}`, request.request.params, {signal: request.request.signal});
+                let result = await axios.put(`${this.url}/${request.id}`, {signal: request.signal});
                 return result.data;
             }
         )

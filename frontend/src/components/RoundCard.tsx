@@ -20,7 +20,7 @@ export default function RoundCard(props:RoundCardProps) {
             columnGap: "0.5em",
             flexShrink: 0
         }}>
-            <Typography variant={"h4"}>{round.courseName}</Typography>
+            <Typography variant={"h4"}>{round.course.name}</Typography>
             <Typography 
             variant={"subtitle1"} 
             sx={{
@@ -52,7 +52,7 @@ export default function RoundCard(props:RoundCardProps) {
                     }}>
                         <Box sx={{margin: "auto"}}>
                             <Typography>total: {round.roundTotal}</Typography>
-                            <Typography>par: {round.coursePar}</Typography>
+                            <Typography>par: {round.course.coursePar}</Typography>
                         </Box>
                     </Box>
                 </Box>

@@ -27,12 +27,11 @@ export interface HoleResult extends BaseModel {
 export interface Round extends BaseModel {
     userId: number,
     courseId: number,
+    course: Course,
     roundResults: HoleResult[],
     roundTotal: number,
     roundResult: number,
-    by: string,
-    coursePar: number,
-    courseName: string
+    by: string
 }
 
 export interface User {
