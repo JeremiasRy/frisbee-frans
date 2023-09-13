@@ -32,6 +32,7 @@ export interface Round extends BaseModel {
     roundTotal: number,
     roundResult: number,
     by: string
+    createdAt: Date
 }
 
 export interface User {

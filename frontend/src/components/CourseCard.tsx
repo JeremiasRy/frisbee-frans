@@ -8,10 +8,11 @@ export type OnClickAction = "Navigate" | "Select"
 export interface CourseCardProps {
     course: Course,
     onClickAction: OnClickAction
+    setCourse: React.Dispatch<React.SetStateAction<number>> | null
 }
 
 export default function CourseCard(props:CourseCardProps) {
-    const { course, onClickAction } = {...props}
+    const { course, onClickAction, setCourse } = {...props}
     const navigate = useNavigate();
 
     const [rotateX, setRotateX] = useState(0);
@@ -48,8 +49,8 @@ export default function CourseCard(props:CourseCardProps) {
     function handleClick() {
         if (onClickAction === "Navigate") {
             navigate(`${course.id}`)
-        } else {
-
+        } else if (setCourse) {
+            setCourse(course.id);
         }
     }
 

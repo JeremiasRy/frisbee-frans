@@ -14,7 +14,7 @@ public class RoundService : CrudService<Round, RoundDTO>
     }
     public async override Task<List<Round>> GetAllAsync(IFilterOptions request)
     {
-        if (request is RoundFilter filter)
+        if (request is IdFilter filter)
         {
             var query = _appDbContext
                 .Set<Round>()

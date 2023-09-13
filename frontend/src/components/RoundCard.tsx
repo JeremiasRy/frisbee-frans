@@ -28,6 +28,10 @@ export default function RoundCard(props:RoundCardProps) {
             }}>
                 By: {round.by}
             </Typography>
+            <Typography 
+            variant={"subtitle2"}>
+                {new Date(round.createdAt).toLocaleDateString()}
+            </Typography>
             <Box 
             sx={{
                 display: "flex",

@@ -3,7 +3,6 @@ import { BaseModel } from "../../types/base";
 import axios from "axios";
 import { RequestBase, RequestWithId } from "../../types/requests";
 
-
 export type SliceState<TModel> = { entities: TModel[], state: "idle" | "pending" | "succeeded" | "rejected"};
 
 export class CrudReducer<TModel extends BaseModel, TDto> {

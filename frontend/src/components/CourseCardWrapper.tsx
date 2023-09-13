@@ -4,11 +4,12 @@ import CourseCard, { OnClickAction } from "./CourseCard";
 
 export interface CourseCardWrapperProps {
     courses: Course[],
-    onClickAction: OnClickAction
+    onClickAction: OnClickAction,
+    setCourse: React.Dispatch<React.SetStateAction<number>> | null
 }
 
 export default function CourseCardWrapper(props:CourseCardWrapperProps) {
-    const {courses, onClickAction} = {...props}; 
+    const {courses, onClickAction, setCourse} = {...props}; 
     return (
         <Box 
             sx={{
@@ -19,7 +20,7 @@ export default function CourseCardWrapper(props:CourseCardWrapperProps) {
             }}>
                 {
                     courses.map(course => 
-                        <CourseCard course={course} onClickAction={onClickAction}/>)
+                        <CourseCard course={course} onClickAction={onClickAction} setCourse={setCourse}/>)
                 }
         </Box>
     )
