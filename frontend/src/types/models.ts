@@ -39,3 +39,8 @@ export interface User {
     name: string,
     rounds: Round[],
 }
+
+export interface LoggedIn {
+    token:string,
+    id:number
+}

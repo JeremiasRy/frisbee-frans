@@ -4,6 +4,7 @@ using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace backend.Controllers;
 
@@ -22,13 +23,18 @@ public class UserController : ApiControllerBase
     }
     [HttpPost("login")]
     [AllowAnonymous]
-    public async Task<PublicUserInfoDTO?> Login([FromBody] RegisterDTO request)
+    public async Task<LoginResponseDTO?> Login([FromBody] RegisterDTO request)
     {
-        return await _service.CreateUserAsync(request);
+        return await _service.Login(request);
     }
     [HttpGet]
     public async Task<List<PublicUserInfoDTO>> GetUsers([FromQuery] string name)
     {
         return await _service.GetUsersAsync(name);
+    }
+    [HttpGet("check")]
+    public IActionResult CheckUser()
+    {
+        return Ok();
     }
 }

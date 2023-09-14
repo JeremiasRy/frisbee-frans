@@ -39,7 +39,7 @@ public class JwtTokenService : IJwtService
 
         var writer = new JwtSecurityTokenHandler();
 
-        return new LoginResponseDTO() { Token = writer.WriteToken(token) };
+        return new LoginResponseDTO() { Token = writer.WriteToken(token), Id = user.Id };
     }
 
     public JwtSecurityToken ReadToken(string token)

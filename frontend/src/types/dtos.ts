@@ -21,3 +21,8 @@ export type HoleDto = {
     nthHole: number,
     courseId: number
 }
+
+export type LoginDto = {
+    name: string,
+    password: string
+}
