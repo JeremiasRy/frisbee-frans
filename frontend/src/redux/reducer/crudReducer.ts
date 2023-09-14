@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BaseModel } from "../../types/base";
 import axios from "axios";
 import { RequestBase, RequestWithId } from "../../types/requests";
+import { RootState } from "../store";
 
 export type SliceState<TModel> = { entities: TModel[], state: "idle" | "pending" | "succeeded" | "rejected"};
 
@@ -62,40 +63,45 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
 
         this.getAll = createAsyncThunk(
             "getAll" + this.name,
-            async (request) => {
-                let result = await axios.get<TModel[]>(this.url, {params: {...request.params}, signal: request.signal});
+            async (request, thunkAPI) => {
+                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                let result = await axios.get<TModel[]>(this.url, {params: {...request.params}, headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )
 
         this.get = createAsyncThunk(
             "get" + this.name,
-            async (request) => {
-                let result = await axios.get<TModel>(`${this.url}/${request.id}`, {params: {...request.params}, signal: request.signal});
+            async (request, thunkAPI) => {
+                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                let result = await axios.get<TModel>(`${this.url}/${request.id}`, {params: {...request.params}, headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )
 
         this.create = createAsyncThunk(
             "create" + this.name,
-            async (request) => {
-                let result = await axios.post(this.url, request.params, {signal: request.signal});
+            async (request, thunkAPI) => {
+                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                let result = await axios.post(this.url, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )
 
         this.update = createAsyncThunk(
             "update" + this.name,
-            async (request) => {
-                let result = await axios.put(`${this.url}/${request.id}`, {signal: request.signal});
+            async (request, thunkAPI) => {
+                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                let result = await axios.put(`${this.url}/${request.id}`, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )
 
         this.remove = createAsyncThunk(
             "remove" + this.name,
-            async (request) => {
-                let result = await axios.delete(`${this.url}/${request.id}`, {signal: request.signal});
+            async (request, thunkAPI) => {
+                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                let result = await axios.delete(`${this.url}/${request.id}`, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )

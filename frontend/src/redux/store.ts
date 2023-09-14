@@ -6,7 +6,6 @@ import { LoggedIn } from "../types/models";
 
 let preLogin: LoggedIn | null = null
 const login = localStorage.getItem("login");
-console.log(login)
 
 if (preLogin === null) {
     try {

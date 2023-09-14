@@ -1,10 +1,8 @@
 ﻿using backend.Controllers.Abstraction;
 using backend.DTOs;
-using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace backend.Controllers;
 
