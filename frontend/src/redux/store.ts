@@ -6,20 +6,25 @@ import { LoggedIn } from "../types/models";
 
 let preLogin: LoggedIn | null = null
 const login = localStorage.getItem("login");
+console.log(login)
 
-if (preLogin) {
+if (preLogin === null) {
     try {
         preLogin = JSON.parse(login as string);
+        console.log(preLogin)
     } catch {
         console.log("No data in local storage")
     }
 }
+
+
 
 const preLoadedState = {
     login: {state: "idle", loggedIn: preLogin} as LoginReducerState
 };
 
 function saveState(state:RootState) {
+    console.log(state)
     try {
         let login = JSON.stringify(state.login.loggedIn);
         localStorage.setItem("login", login);

@@ -36,7 +36,8 @@ const loginReducer = createSlice({
                 loggedIn: null
             }
         })
-        .addCase(checkToken.rejected, () => {
+        .addCase(checkToken.rejected, (state, action) => {
+            console.log(action.error)
             return {
                 state: "idle",
                 loggedIn: null
@@ -51,21 +52,18 @@ export const { logout } = loginReducer.actions;
 export const login = createAsyncThunk(
     "login",
     async (request: LoginDto, thunkAPI) => {
-        try {
-            let result = await axios.post<LoggedIn>(`${import.meta.env.VITE_BACKEND_URL}/login`, request);
-            return result.data
-        } catch {
+        let result = await axios.post<LoggedIn>(`${import.meta.env.VITE_BACKEND_URL}/users/login`, request);
+        if (!result.data) {
             thunkAPI.dispatch(register(request));
-            return null;
         }
-        
+        return result.data
     }
 )
 
 export const register = createAsyncThunk(
     "register",
     async (request: LoginDto, thunkAPI) => {
-        await axios.post<LoggedIn>(`${import.meta.env.VITE_BACKEND_URL}/signup`, request);
+        await axios.post<LoggedIn>(`${import.meta.env.VITE_BACKEND_URL}/users/signup`, request);
         thunkAPI.dispatch(login(request))
     } 
 )
@@ -73,6 +71,9 @@ export const register = createAsyncThunk(
 export const checkToken = createAsyncThunk(
     "checkAuthentication",
     async (_, thunkAPI) => {
-        await axios.get(`${import.meta.env.VITE_BACKEND_URL}/check`, {headers: {Authorization: `Bearer ${(thunkAPI.getState() as RootState).login.loggedIn?.token}`}})
+        console.log("ETSIT MINUA!!!")
+        console.log((thunkAPI.getState() as RootState).login.loggedIn?.token)
+        let result = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/check`, {headers: {Authorization: `Bearer ${(thunkAPI.getState() as RootState).login.loggedIn?.token}`}})
+        console.log(result)
     }
 )

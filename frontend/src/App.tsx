@@ -17,7 +17,7 @@ function App() {
         element: <LatestRounds />,
       }, {
         path: "courses",
-        element: <Courses onClickAction="Navigate"/>
+        element: <Courses onClickAction="Navigate" setCourse={null}/>
       }, {
         path: "courses/:id",
         element: <></>
