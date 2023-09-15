@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace backend.Models;
 
 public class Course : BaseModel
 {
     public string Name { get; set; } = null!;
+    [JsonIgnore]
+    public string NameNormalized { get; set; } = null!;
     public List<Hole> Holes { get; set; } = null!;
     [NotMapped]
     public int CoursePar 

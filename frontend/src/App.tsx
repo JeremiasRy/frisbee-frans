@@ -5,6 +5,7 @@ import LatestRounds from "./pages/LatestRounds";
 import Courses from "./pages/Courses";
 import Rounds from "./pages/Rounds";
 import { CreateRound } from "./pages/CreateRound";
+import Round from "./pages/Round";
 
 function App() {
 
@@ -28,6 +29,9 @@ function App() {
       }, {
         path: "rounds/new",
         element: <CreateRound />
+      },{
+        path: "rounds/:id",
+        element: <Round />
       }]
     }
   ])

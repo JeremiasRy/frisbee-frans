@@ -19,7 +19,7 @@ public class CourseService : CrudService<Course, CourseDTO>
         {
             return await _appDbContext
                 .Set<Course>()
-                .Where(course => course.Name.Contains(filter.Name))
+                .Where(course => course.NameNormalized.Contains(filter.Name.ToUpperInvariant()))
                 .Skip(filter.PageSize * (filter.Page - 1))
                 .Take(filter.PageSize)
                 .ToListAsync();

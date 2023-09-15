@@ -8,5 +8,6 @@ public class CourseDTO : BaseDTO<Course>
     public override void UpdateModel(Course model)
     {
         model.Name = Name;
+        model.NameNormalized = Name.ToUpperInvariant();
     }
 }

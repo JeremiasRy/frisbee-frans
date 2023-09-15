@@ -4,7 +4,7 @@ import axios from "axios";
 import { RequestBase, RequestWithId } from "../../types/requests";
 import { RootState } from "../store";
 
-export type SliceState<TModel> = { entities: TModel[], state: "idle" | "pending" | "succeeded" | "rejected"};
+export type SliceState<TModel> = { entities: TModel[], state: "idle" | "pending" | "succeeded" | "rejected" | "created"};
 
 export class CrudReducer<TModel extends BaseModel, TDto> {
     initialState: SliceState<TModel> = {entities: [], state: "idle"};
@@ -32,7 +32,8 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
         this.slice = createSlice({
             name: this.reducerName,
             initialState: this.initialState,
-            reducers: {},
+            reducers: {
+            },
             extraReducers: builder => {
                 builder.addCase(this.getAll.fulfilled, (_, action) => {
                     return {entities: action.payload, state: "succeeded"}
@@ -41,7 +42,7 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
                     return {entities: [action.payload], state: "succeeded"}
                 })
                 .addCase(this.create.fulfilled, (_, action) => {
-                    return {entities: [action.payload], state: "succeeded"}
+                    return {entities: [action.payload], state: "created"}
                 })
                 .addCase(this.update.fulfilled, (_, action) => {
                     return {entities: [action.payload], state: "succeeded"}

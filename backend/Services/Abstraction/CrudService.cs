@@ -48,6 +48,7 @@ public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
         request.UpdateModel(item);
         _appDbContext.Add(item);
         await _appDbContext.SaveChangesAsync();
+        item = await GetByIdAsync(item.Id);
         return item;
     }
     public virtual async Task<TModel> UpdateOneAsync(int id, TDto request)

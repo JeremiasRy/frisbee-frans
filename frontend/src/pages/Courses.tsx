@@ -20,7 +20,10 @@ export default function Courses(props: CoursesProps) {
     useEffect(() => {
         const controller = new AbortController()
         timeout = setTimeout(() => {
-            dispatch(getAllCourses({signal: controller.signal, params: {name: filter}, requestData: {}}));
+            dispatch(getAllCourses({
+                signal: controller.signal, 
+                params: {name: filter}, 
+                requestData: {}}));
         }, 500)
 
         return () => {

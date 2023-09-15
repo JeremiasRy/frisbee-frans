@@ -16,7 +16,6 @@ export default function Root() {
         dispatch(checkToken());
     }, [])
 
-    console.log(login);
     return (
         <Box sx={{
             display: "flex"
