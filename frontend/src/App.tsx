@@ -6,6 +6,7 @@ import Courses from "./pages/Courses";
 import Rounds from "./pages/Rounds";
 import { CreateRound } from "./pages/CreateRound";
 import Round from "./pages/Round";
+import ScoreCard from "./pages/ScoreCard";
 
 function App() {
 
@@ -32,6 +33,9 @@ function App() {
       },{
         path: "rounds/:id",
         element: <Round />
+      }, {
+        path: "rounds/:id/fill/:holeNumber",
+        element: <ScoreCard />
       }]
     }
   ])
