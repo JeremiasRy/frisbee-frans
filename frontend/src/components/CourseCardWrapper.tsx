@@ -20,7 +20,7 @@ export default function CourseCardWrapper(props:CourseCardWrapperProps) {
             }}>
                 {
                     courses.map(course => 
-                        <CourseCard course={course} onClickAction={onClickAction} setCourse={setCourse}/>)
+                        <CourseCard key={course.id} course={course} onClickAction={onClickAction} setCourse={setCourse}/>)
                 }
         </Box>
     )

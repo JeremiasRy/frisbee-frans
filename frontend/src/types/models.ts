@@ -33,6 +33,7 @@ export interface Round extends BaseModel {
     roundResult: number,
     by: string
     createdAt: Date
+    status: "NotStarted" | "OnGoing" | "Completed"
 }
 
 export interface User {

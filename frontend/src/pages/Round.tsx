@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { useEffect } from "react";
-import { getRound } from "../redux/reducer/roundReducer";
+import { getRound, updateRound } from "../redux/reducer/roundReducer";
 import { Button } from "@mui/material";
 
 export default function Round() {
@@ -23,9 +23,38 @@ export default function Round() {
         }
 
     }, [id])
+
+    useEffect(() => {
+        if (round.state === "updated") {
+            navigate("fill/1")
+            return;
+        }
+    }, [round.state])
+
+    function handleRoundStart() {
+        const {userId, courseId} = {...round.entities[0]}
+        const controller = new AbortController();
+        dispatch(updateRound(
+            {
+                id: parseInt(id as string),
+                requestData: {
+                    userId,
+                    courseId,
+                    status: "OnGoing"
+                },
+                signal: controller.signal,
+                params: {}
+            }
+        ))
+    }
+
+    if (round.entities.length === 0) {
+        return;
+    }
+
     return (
         <>
-        <Button onClick={() => navigate("fill/1")}>Start round?</Button>
+        {round.entities[0].status === "NotStarted" && <Button onClick={handleRoundStart}>Start round?</Button>}
         </>
     )
 }

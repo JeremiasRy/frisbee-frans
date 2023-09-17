@@ -3,6 +3,7 @@ import courseReducer from "./reducer/courseReducer";
 import roundReducer from "./reducer/roundReducer";
 import loginReducer, { LoginReducerState } from "./reducer/loginReducer";
 import { LoggedIn } from "../types/models";
+import holeResultReducer from "./reducer/holeResultReducer";
 
 let preLogin: LoggedIn | null = null
 const login = localStorage.getItem("login");
@@ -15,8 +16,6 @@ if (preLogin === null) {
         console.log("No data in local storage")
     }
 }
-
-
 
 const preLoadedState = {
     login: {state: "idle", loggedIn: preLogin} as LoginReducerState
@@ -37,7 +36,8 @@ export const createStore = () => {
         reducer: {
             course: courseReducer,
             round: roundReducer,
-            login: loginReducer
+            login: loginReducer,
+            holeResult: holeResultReducer
         },
         preloadedState: preLoadedState
     })

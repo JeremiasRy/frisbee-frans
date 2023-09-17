@@ -4,7 +4,7 @@ export type CourseDto = {
 
 export type HoleResultDto = {
     userId: number,
-    courseId: number,
+    roundId: number,
     holeId: number,
     throws: number,
     penalties: number,

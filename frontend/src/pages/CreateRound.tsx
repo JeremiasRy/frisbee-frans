@@ -13,26 +13,30 @@ export function CreateRound() {
     const [course, setCourse] = useState(-1)
 
     useEffect(() => {
-        let controller = new AbortController();
-        let roundDto:RoundDto = {
+        const controller = new AbortController();
+        const roundDto:RoundDto = {
             userId: user.loggedIn?.id as number,
             courseId: course
         }
-        dispatch(createRound({
-            requestData: roundDto, 
-            signal: controller.signal, 
-            params: {}
-        }));
-
+        if (course > 0) {
+            dispatch(createRound({
+                requestData: roundDto, 
+                signal: controller.signal, 
+                params: {}
+            }));
+        }
         return () => {
             controller.abort()
         }
     }, [course])
 
-    if (roundReducer.state === "created") {
-        let newRoundId = roundReducer.entities[0].id;
-        navigate(`/rounds/${newRoundId}`)
-    }
+    useEffect(() => {
+        if (roundReducer.state === "created") {
+            const newRoundId = roundReducer.entities[0].id;
+            navigate(`/rounds/${newRoundId}`);
+            return;
+        }
+    }, [roundReducer.state])
 
     return (
         <Courses onClickAction="Select" setCourse={setCourse}/>

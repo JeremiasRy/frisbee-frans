@@ -4,7 +4,7 @@ import axios from "axios";
 import { RequestBase, RequestWithId } from "../../types/requests";
 import { RootState } from "../store";
 
-export type SliceState<TModel> = { entities: TModel[], state: "idle" | "pending" | "succeeded" | "rejected" | "created"};
+export type SliceState<TModel> = { entities: TModel[], state: "idle" | "pending" | "succeeded" | "rejected" | "created" | "updated"};
 
 export class CrudReducer<TModel extends BaseModel, TDto> {
     initialState: SliceState<TModel> = {entities: [], state: "idle"};
@@ -51,7 +51,7 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
                     return {entities: [action.payload], state: "created"}
                 })
                 .addCase(this.update.fulfilled, (_, action) => {
-                    return {entities: [action.payload], state: "succeeded"}
+                    return {entities: [action.payload], state: "updated"}
                 })
                 .addCase(this.remove.fulfilled, (_, action) => {
                     return {entities: [action.payload], state: "succeeded"}
@@ -80,7 +80,6 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
         this.get = createAsyncThunk(
             "get" + this.name,
             async (request, thunkAPI) => {
-                console.log("TTTTT")
                 let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
                 let result = await axios.get<TModel>(`${this.url}/${request.id}`, {params: {...request.params}, headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;

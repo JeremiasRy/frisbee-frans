@@ -32,7 +32,7 @@ export default function LatestRounds() {
             overflow: "auto"
         }}>
             {
-                state.entities.map(round => 
+                state.entities.filter(round => round.status === "Completed").map(round => 
                     <RoundCard key={round.id} round={round}/>
                 )
             }
