@@ -11,7 +11,6 @@ const login = localStorage.getItem("login");
 if (preLogin === null) {
     try {
         preLogin = JSON.parse(login as string);
-        console.log(preLogin)
     } catch {
         console.log("No data in local storage")
     }
@@ -22,7 +21,6 @@ const preLoadedState = {
 };
 
 function saveState(state:RootState) {
-    console.log(state)
     try {
         let login = JSON.stringify(state.login.loggedIn);
         localStorage.setItem("login", login);

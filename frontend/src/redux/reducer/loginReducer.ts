@@ -36,8 +36,7 @@ const loginReducer = createSlice({
                 loggedIn: null
             }
         })
-        .addCase(checkToken.rejected, (state, action) => {
-            console.log(action.error)
+        .addCase(checkToken.rejected, () => {
             return {
                 state: "idle",
                 loggedIn: null
@@ -71,9 +70,6 @@ export const register = createAsyncThunk(
 export const checkToken = createAsyncThunk(
     "checkAuthentication",
     async (_, thunkAPI) => {
-        console.log("ETSIT MINUA!!!")
-        console.log((thunkAPI.getState() as RootState).login.loggedIn?.token)
-        let result = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/check`, {headers: {Authorization: `Bearer ${(thunkAPI.getState() as RootState).login.loggedIn?.token}`}})
-        console.log(result)
+        await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/check`, {headers: {Authorization: `Bearer ${(thunkAPI.getState() as RootState).login.loggedIn?.token}`}})
     }
 )

@@ -9,9 +9,7 @@ import { LoginForm } from "../components/LoginForm";
 export default function Root() {
     const login = useAppSelector(state => state.login);
     const dispatch = useAppDispatch();
-
-    console.log(login)
-
+    
     useEffect(() => {
         dispatch(checkToken());
     }, [])

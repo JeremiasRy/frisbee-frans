@@ -7,3 +7,4 @@ const courseReducer = new CrudReducer<Course, RequestBase<CourseDto>>("courses",
 
 export default courseReducer.slice.reducer;
 export const {getAll: getAllCourses, get: getCourseById, create: createCourse, update: updateCourse, remove: removeCourse} = {...courseReducer.returnAsyncThunks()}
+export const {setStateToIdle: setCourseReducerStateToIdle } = courseReducer.slice.actions

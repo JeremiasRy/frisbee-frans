@@ -7,3 +7,4 @@ const holeReducer = new CrudReducer<Hole, RequestBase<HoleDto>>("holeReducer", "
 
 export default holeReducer.slice.reducer;
 export const {getAll: getAllHoles, get: getHole, create: createHole, update: updateHole, remove: removeHole} = {...holeReducer.returnAsyncThunks()}
+export const {setStateToIdle: setHoleReducerStateToIdle} = holeReducer.slice.actions;

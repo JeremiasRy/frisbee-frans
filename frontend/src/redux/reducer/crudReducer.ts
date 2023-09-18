@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { CaseReducer, SliceCaseReducers, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BaseModel } from "../../types/base";
 import axios from "axios";
 import { RequestBase, RequestWithId } from "../../types/requests";
@@ -12,13 +12,15 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
     name: string;
     url: string
     
-    slice: ReturnType<typeof createSlice<SliceState<TModel>, {}, string>>;
+    slice: ReturnType<typeof createSlice<SliceState<TModel>, SliceCaseReducers<SliceState<TModel>>, string>>;
 
     getAll: ReturnType<typeof createAsyncThunk<TModel[], RequestBase<TDto>>>;
     get: ReturnType<typeof createAsyncThunk<TModel, RequestWithId<TDto> >>;
     create: ReturnType<typeof createAsyncThunk<TModel, RequestBase<TDto>>>;
     update: ReturnType<typeof createAsyncThunk<TModel, RequestWithId<TDto>>>;
     remove: ReturnType<typeof createAsyncThunk<TModel, RequestWithId<TDto>>>;
+
+    setStateToIdle: CaseReducer<SliceState<TModel>, any>;
 
     returnAsyncThunks = () => {
         return {getAll: this.getAll, get: this.get, create: this.create, update: this.update, remove: this.remove}
@@ -28,11 +30,18 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
         this.url = `${import.meta.env.VITE_BACKEND_URL}/${endpoint}`;
         this.name = name.charAt(0).toLocaleUpperCase() + name.slice(1);
         this.reducerName = name + "Reducer";
+        this.setStateToIdle = (state) => {
+            return { 
+                ...state, 
+                state: "idle"
+            }
+        }
         
         this.slice = createSlice({
             name: this.reducerName,
             initialState: this.initialState,
             reducers: {
+                setStateToIdle: this.setStateToIdle
             },
             extraReducers: builder => {
                 builder.addCase(this.getAll.fulfilled, (_, action) => {
@@ -49,6 +58,12 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
                 })
                 .addCase(this.create.fulfilled, (_, action) => {
                     return {entities: [action.payload], state: "created"}
+                })
+                .addCase(this.create.pending, (state) => {
+                    return {
+                        ...state,
+                        state: "pending"
+                    }
                 })
                 .addCase(this.update.fulfilled, (_, action) => {
                     return {entities: [action.payload], state: "updated"}

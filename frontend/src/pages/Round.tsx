@@ -23,14 +23,7 @@ export default function Round() {
         }
 
     }, [id])
-
-    useEffect(() => {
-        if (round.state === "updated") {
-            navigate("fill/1")
-            return;
-        }
-    }, [round.state])
-
+    
     function handleRoundStart() {
         const {userId, courseId} = {...round.entities[0]}
         const controller = new AbortController();
@@ -46,6 +39,7 @@ export default function Round() {
                 params: {}
             }
         ))
+        navigate("fill/1")
     }
 
     if (round.entities.length === 0) {
