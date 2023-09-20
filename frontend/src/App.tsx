@@ -34,7 +34,7 @@ function App() {
         path: "rounds/:id",
         element: <Round />
       }, {
-        path: "rounds/:id/fill/:holeNumber",
+        path: "rounds/:id/scorecard/:holeNumber",
         element: <ScoreCard />
       }]
     }

@@ -21,7 +21,6 @@ export default function Round() {
         return () => {
             controller.abort()
         }
-
     }, [id])
     
     function handleRoundStart() {
@@ -39,7 +38,7 @@ export default function Round() {
                 params: {}
             }
         ))
-        navigate("fill/1")
+        navigate("scorecard/1")
     }
 
     if (round.entities.length === 0) {
