@@ -45,7 +45,7 @@ export default function RoundCard(props:RoundCardProps) {
                     width: "80%",
                     paddingLeft: "2em"
                 }}>
-                    {sortedResults.map((result, idx) => <HoleResultCard key={result.id} result={result} isLast={idx === sortedResults.length - 1} />)}
+                    {sortedResults.filter(result => result.throws > 0).map((result, idx) => <HoleResultCard key={result.id} result={result} isLast={idx === sortedResults.length - 1} />)}
                     <Box 
                     sx={{
                         width: "5em", 

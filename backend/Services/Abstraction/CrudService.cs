@@ -19,6 +19,7 @@ public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
     {
         return await _appDbContext
             .Set<TModel>()
+            .AsSplitQuery()
             .SingleOrDefaultAsync(item => item.Id == id) ?? throw new Exception($"Did not find item with id: {id}");
     }
     public virtual async Task<List<TModel>> GetAllAsync(IFilterOptions request)
@@ -29,6 +30,7 @@ public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
                 .Set<TModel>()
                 .AsNoTracking()
                 .OrderByDescending(item => item.CreatedAt)
+                .AsSplitQuery()
                 .Skip(pagination.PageSize * (pagination.Page - 1))
                 .Take(pagination.PageSize)
                 .ToListAsync();
@@ -37,6 +39,7 @@ public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
             .Set<TModel>()
             .AsNoTracking()
             .OrderByDescending(item => item.CreatedAt)
+            .AsSplitQuery()
             .Skip(0)
             .Take(20)
             .ToListAsync();

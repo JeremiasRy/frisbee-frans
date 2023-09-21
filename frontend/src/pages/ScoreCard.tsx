@@ -24,12 +24,20 @@ export default function ScoreCard() {
         setThrows(0)
         setPenalties(0)
     }
-    function navigateTo(nextLocation:number) {
-        navigate(`/rounds/${id}/scorecard/${nextLocation}}`)
+
+    function navigateTo(nextHole:number) {
+        navigate(`/rounds/${id}/scorecard/${nextHole}`)
+    }
+
+    function setThrowsAndPenaltiesFromHoleResult() {
+        const scorecard = holeResultReducer.entities[0];
+        setPenalties(scorecard.penalties);
+        setThrows(scorecard.throws);
     }
 
     useEffect(() => {
         const controller = new AbortController();
+        console.count("Hello from main useEffect")
         resetScoreCard();
         dispatch(getRound({
             id: parseInt(id as string),
@@ -52,10 +60,13 @@ export default function ScoreCard() {
     }, [id, holeNumber])
 
     useEffect(() => {
-        if (holeResultReducer.state === "created" || holeResultReducer.state === "updated") {
-            navigateTo(nextPage);
+        switch (holeResultReducer.state) {
+            case "updated": navigateTo(nextPage); break;
+            case "created": dispatch(setHoleResultReducerStateToIdle("")); break;
+            case "succeeded": holeResultReducer.entities.length === 0 ? handleResultCreate() : setThrowsAndPenaltiesFromHoleResult(); break;
         }
-    }, [holeResultReducer.state])
+
+    }, [holeResultReducer.state, holeResultReducer.entities])
 
     if (!roundReducer.entities[0]) {
         return;
@@ -64,12 +75,12 @@ export default function ScoreCard() {
     const round:Round = roundReducer.entities[0];
     const hole = round.course.holes.find(hole => hole.nthHole === parseInt(holeNumber as string)) as Hole;
     
-    const enteredScoreToAllHoles = round.course.holes.length <= parseInt(holeNumber as string)
+    const enteredScoreToAllHoles = round.roundResults.every(holeResult => holeResult.throws > 0);
     const roundLength = round.course.holes.length;
 
     function handleResultCreate() {
-        const {userId, id: roundId} = {...roundReducer.entities[0]}
-        const holeId = roundReducer.entities[0].course.holes.find(hole => hole.nthHole === parseInt(holeNumber as string))?.id as number;
+        const {userId, id: roundId} = {...round}
+        const holeId = round.course.holes.find(hole => hole.nthHole === parseInt(holeNumber as string))?.id as number;
         const controller = new AbortController();
 
         const requestData:HoleResultDto = {
@@ -83,8 +94,8 @@ export default function ScoreCard() {
     }
 
     function handleResultUpdate() {
-        const {userId, id: roundId} = {...roundReducer.entities[0]}
-        const holeId = roundReducer.entities[0].course.holes.find(hole => hole.nthHole === parseInt(holeNumber as string))?.id as number;
+        const {userId, id: roundId} = {...round}
+        const holeId = round.course.holes.find(hole => hole.nthHole === parseInt(holeNumber as string))?.id as number;
         const controller = new AbortController();
 
         const requestData:HoleResultDto = {
@@ -94,11 +105,11 @@ export default function ScoreCard() {
             roundId,
             penalties
         }
-        dispatch(updateHoleResult({id: parseInt(holeNumber as string), requestData, params: {}, signal: controller.signal}))
+        dispatch(updateHoleResult({id: holeResultReducer.entities[0].id, requestData, params: {}, signal: controller.signal}))
     }
 
     function handleRoundSubmit() {
-        const {userId, courseId} = {...roundReducer.entities[0]}
+        const {userId, courseId} = {...round}
         const controller = new AbortController();
         dispatch(updateRound(
             {
@@ -115,18 +126,16 @@ export default function ScoreCard() {
     }
 
     function handlePaginationChange(_: React.ChangeEvent<unknown>, page: number) {
-        if (holeResultReducer.entities.length === 0) {
-            handleResultCreate()
-        } else {
-            handleResultUpdate()
-        }
+        handleResultUpdate();
         setNextPage(page);
     }
+
+    console.log(holeResultReducer);
 
     return (
         <>
         {hole.length}m || Hole {hole.nthHole} || Par {hole.par}
-        <Pagination count={roundLength} boundaryCount={roundLength} onChange={handlePaginationChange}/>
+        <Pagination count={roundLength} boundaryCount={roundLength} onChange={handlePaginationChange} hideNextButton={throws < 1}/>
         <ScoreInput throws={throws} penalties={penalties} setPenalties={setPenalties} setThrows={setThrows}/>
         <RoundCard round={round} />
         </>
