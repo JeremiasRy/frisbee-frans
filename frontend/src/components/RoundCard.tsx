@@ -1,6 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { Round } from "../types/models";
 import  HoleResultCard from "./HoleResultCard";
+import { ScoreDictionary } from "../helper";
 
 export interface RoundCardProps {
     round: Round
@@ -29,7 +30,8 @@ export default function RoundCard(props:RoundCardProps) {
                 By: {round.by}
             </Typography>
             <Typography 
-            variant={"subtitle2"}>
+            variant={"subtitle2"}
+            >
                 {new Date(round.createdAt).toLocaleDateString()}
             </Typography>
             <Box 
@@ -64,10 +66,9 @@ export default function RoundCard(props:RoundCardProps) {
                     display: "flex",
                     flexDirection: "row",
                     columnGap: "2em"
-                }}>
-                    
+                }}>                    
                     <Box>
-                        <Typography variant="h3" sx={{width: "5em"}}>Score: {round.roundResult}</Typography>
+                        <Typography variant="h3" sx={{width: "5em"}}>Score: {sortedResults.filter(res => res.throws > 0).map(res => ScoreDictionary[res.scoreTag]).reduce((a, b) => a + b, 0)}</Typography>
                     </Box>
                 </Box>
             </Box>

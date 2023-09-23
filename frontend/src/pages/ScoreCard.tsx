@@ -17,6 +17,7 @@ export default function ScoreCard() {
     const holeResultReducer = useAppSelector(state => state.holeResult);
     const loggedInReducer = useAppSelector(state => state.login)
     const [nextPage, setNextPage] = useState(0);
+    const [page, setPage] = useState(0);
     const [throws, setThrows] = useState(0);
     const [penalties, setPenalties] = useState(0);
 
@@ -134,12 +135,10 @@ export default function ScoreCard() {
         handleResultUpdate();
     }
 
-    console.log(enteredScoreToAllHoles);
-
     return (
         <>
         {hole.length}m || Hole {hole.nthHole} || Par {hole.par}
-        <Pagination count={roundLength} boundaryCount={roundLength} onChange={handlePaginationChange} hideNextButton={parseInt(holeNumber as string) === roundLength || throws < 1} hidePrevButton={parseInt(holeNumber as string) === 1}/>
+        <Pagination count={roundLength} page={parseInt(id as string)} boundaryCount={9} onChange={handlePaginationChange} hideNextButton={true} hidePrevButton={true} />
         <ScoreInput throws={throws} penalties={penalties} setPenalties={setPenalties} setThrows={setThrows}/>
         <RoundCard round={round} />
         </>
