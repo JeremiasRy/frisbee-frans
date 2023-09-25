@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { getRound, updateRound } from "../redux/reducer/roundReducer";
 import { Box, Button, Pagination } from "@mui/material";
 import { createHoleResult, getAllHoleResults, getHoleResultById, setHoleResultReducerStateToIdle, updateHoleResult } from "../redux/reducer/holeResultReducer";
@@ -8,6 +8,7 @@ import { HoleResultDto } from "../types/dtos";
 import ScoreInput from "../components/ScoreInput";
 import RoundCard from "../components/RoundCard";
 import { Hole, Round } from "../types/models";
+import { RoundPagination } from "../components/RoundPagination";
 
 export default function ScoreCard() {
     const {id, holeNumber} = useParams();
@@ -126,7 +127,7 @@ export default function ScoreCard() {
         ))
     }
 
-    function handlePaginationChange(_: React.ChangeEvent<unknown>, page: number) {
+    function handlePaginationChange(page: number) {
         if (throws === holeResult.throws && penalties === holeResult.penalties) {
             navigateTo(page);
             return;
@@ -138,7 +139,7 @@ export default function ScoreCard() {
     return (
         <>
         {hole.length}m || Hole {hole.nthHole} || Par {hole.par}
-        <Pagination count={roundLength} page={parseInt(id as string)} boundaryCount={9} onChange={handlePaginationChange} hideNextButton={true} hidePrevButton={true} />
+        <RoundPagination onChange={handlePaginationChange} count={roundLength} disableNext={throws < 1} disablePrev={parseInt(holeNumber as string) === 1}/>
         <ScoreInput throws={throws} penalties={penalties} setPenalties={setPenalties} setThrows={setThrows}/>
         <RoundCard round={round} />
         </>
