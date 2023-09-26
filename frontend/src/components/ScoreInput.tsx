@@ -1,13 +1,13 @@
 import { Box, Button } from "@mui/material"
 
-export interface ScoreIntpuProps {
+export interface ScoreInputProps {
     throws: number,
     penalties: number,
     setThrows: React.Dispatch<React.SetStateAction<number>>,
     setPenalties: React.Dispatch<React.SetStateAction<number>>,
 }
 
-export default function ScoreInput(props:ScoreIntpuProps) {
+export default function ScoreInput(props:ScoreInputProps) {
     const {throws, setThrows, penalties, setPenalties} = {...props}
         return (
             <>

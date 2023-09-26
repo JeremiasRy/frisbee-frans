@@ -13,10 +13,6 @@ export function RoundPagination(props:RoundPaginationProps) {
     const [hole, setHole] = useState(1);
 
     function handleNextPress() {
-        if (hole === count) {
-            onChange(hole);
-            return;
-        }
         setHole(prev => prev + 1)
         onChange(hole + 1)
     }

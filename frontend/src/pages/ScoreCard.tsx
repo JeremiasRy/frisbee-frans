@@ -18,7 +18,6 @@ export default function ScoreCard() {
     const holeResultReducer = useAppSelector(state => state.holeResult);
     const loggedInReducer = useAppSelector(state => state.login)
     const [nextPage, setNextPage] = useState(0);
-    const [page, setPage] = useState(0);
     const [throws, setThrows] = useState(0);
     const [penalties, setPenalties] = useState(0);
 
@@ -46,6 +45,16 @@ export default function ScoreCard() {
             requestData: {},
             params: {}
         }))
+        return () => {
+            controller.abort();
+        }
+    }, [id, holeNumber])
+
+    useEffect(() => {
+        if (!roundReducer.entities[0]) {
+            return;
+        }
+        const controller = new AbortController();
         dispatch(getAllHoleResults({
             signal: controller.signal,
             requestData: {},
@@ -58,7 +67,7 @@ export default function ScoreCard() {
         return () => {
             controller.abort();
         }
-    }, [id, holeNumber])
+    }, [holeNumber])
 
     useEffect(() => {
         switch (holeResultReducer.state) {
@@ -77,8 +86,8 @@ export default function ScoreCard() {
     const hole = round.course.holes.find(hole => hole.nthHole === parseInt(holeNumber as string)) as Hole;
     const holeResult = holeResultReducer.entities[0];
     
-    const enteredScoreToAllHoles = round.roundResults.every(holeResult => holeResult.throws > 0);
     const roundLength = round.course.holes.length;
+    const enteredScoreToAllHoles = roundLength < parseInt(id as string);
 
     function handleResultCreate() {
         const {userId, id: roundId} = {...round}
@@ -138,9 +147,9 @@ export default function ScoreCard() {
 
     return (
         <>
-        {hole.length}m || Hole {hole.nthHole} || Par {hole.par}
+        {enteredScoreToAllHoles && <>{hole.length}m || Hole {hole.nthHole} || Par {hole.par}</>}
         <RoundPagination onChange={handlePaginationChange} count={roundLength} disableNext={throws < 1} disablePrev={parseInt(holeNumber as string) === 1}/>
-        <ScoreInput throws={throws} penalties={penalties} setPenalties={setPenalties} setThrows={setThrows}/>
+        {enteredScoreToAllHoles && <ScoreInput throws={throws} penalties={penalties} setPenalties={setPenalties} setThrows={setThrows}/>}
         <RoundCard round={round} />
         </>
     )
