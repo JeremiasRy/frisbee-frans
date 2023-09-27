@@ -21,6 +21,7 @@ export interface HoleResult extends BaseModel {
     throws: number,
     nthHole: number,
     penalties: number,
+    par: number,
     scoreTag: ScoreTag
 }
 

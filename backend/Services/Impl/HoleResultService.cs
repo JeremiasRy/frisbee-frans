@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services.Impl;
 
-public class HoleResultService : CrudService<HoleResult, HoleResultDTO>
+public class HoleResultService : CrudService<HoleResult, HoleResultDTO>, IHoleResultService
 {
     public HoleResultService(AppDbContext appDbContext) : base(appDbContext)
     {
@@ -21,7 +21,7 @@ public class HoleResultService : CrudService<HoleResult, HoleResultDTO>
             {
                 query = query.Where(holeResult => holeResult.UserId == filter.UserId);
             }
-            if (filter.RoundId > 0) 
+            if (filter.RoundId > 0)
             {
                 query = query.Where(holeResult => holeResult.RoundId == filter.RoundId);
             }
@@ -32,5 +32,17 @@ public class HoleResultService : CrudService<HoleResult, HoleResultDTO>
             return await query.ToListAsync();
         }
         return await base.GetAllAsync(request);
+    }
+    public async Task<List<HoleResult>> CreateMany(HoleResultDTO[] emptyRound)
+    {
+        var holeResults = emptyRound.Select(holeResultDTO =>
+        {
+            var newResult = new HoleResult();
+            holeResultDTO.UpdateModel(newResult);
+            return newResult;
+        });
+        _appDbContext.Set<HoleResult>().AddRange(holeResults);
+        await _appDbContext.SaveChangesAsync();
+        return await GetAllAsync(new IdFilter() { RoundId = holeResults.First().RoundId });
     }
 }

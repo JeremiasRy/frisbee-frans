@@ -16,6 +16,8 @@ public class HoleResult : BaseModel
     public int RoundId { get; set; }
     [NotMapped]
     public int NthHole => Hole.NthHole;
+    [NotMapped]
+    public int Par => Hole.Par;
     public int Throws { get; set; }
     public int Penalties { get; set; }
 

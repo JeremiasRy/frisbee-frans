@@ -32,10 +32,11 @@ function App() {
         element: <CreateRound />
       },{
         path: "rounds/:id",
-        element: <Round />
-      }, {
-        path: "rounds/:id/scorecard/:holeNumber",
-        element: <ScoreCard />
+        element: <Round />,
+        children: [{
+          path: "score/:nthHole",
+          element: <ScoreCard />
+        }]
       }]
     }
   ])

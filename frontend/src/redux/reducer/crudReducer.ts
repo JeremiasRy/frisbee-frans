@@ -88,7 +88,6 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
             async (request, thunkAPI) => {
                 let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
                 let result = await axios.get<TModel[]>(this.url, {params: {...request.params}, headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
-                console.log(result)
                 return result.data;
             }
         )
