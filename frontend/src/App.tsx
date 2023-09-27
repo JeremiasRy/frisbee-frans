@@ -36,7 +36,7 @@ function App() {
         path: "rounds/:id",
         element: <Round />,
         children: [{
-          path: "score",
+          path: "score/:nthHole",
           element: <ScoreCard />,
           children: [{
             path: ":holeResultId",

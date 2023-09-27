@@ -60,6 +60,7 @@ public class CrudService<TModel, TDto> : ICrudService<TModel, TDto>
         request.UpdateModel(item);
         _appDbContext.Update(item);
         await _appDbContext.SaveChangesAsync();
+        item = await GetByIdAsync(item.Id);
         return item;
     }
     public virtual async Task<TModel> DeleteOneAsync(int id)

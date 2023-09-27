@@ -1,22 +1,34 @@
 import { Box, Button } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export interface RoundPaginationProps {
     count: number,
-    disableNext: boolean,
-    disablePrev: boolean,
-    nthHole: number,
-    setNthHole: React.Dispatch<React.SetStateAction<number>>
 }
 
 export function RoundPagination(props:RoundPaginationProps) {
-    const { count, disableNext, disablePrev, setNthHole, nthHole } = {...props}
+    const { count } = {...props}
+    const navigate = useNavigate();
+    const location = useLocation();
+    const path = location.pathname.split("/");
+    path.shift();
+    const nthHole = parseInt(path[path.length - 2] as string)
+    const isFirst = nthHole === 1;
+    const isLast = nthHole === count;
 
     function handleNextPress() {
-        setNthHole(prev => prev + 1)
+        if (isLast) {
+            return;
+        }
+        path[path.length - 2] = (nthHole + 1).toString();
+        navigate("/" + path.join("/"));
     }
 
     function handlePrevPress() {
-        setNthHole(prev => prev - 1)
+        if (isFirst) {
+            return;
+        }
+        path[path.length - 2] = (nthHole - 1).toString();
+        navigate("/" + path.join("/"));
     }
 
     return (
@@ -32,7 +44,7 @@ export function RoundPagination(props:RoundPaginationProps) {
             gap: "0.5em",
             flexShrink: 0,
             }}>
-                {Array(count).fill(null).map((_, index) =><HoleIndicator holeNumber={index + 1} highlighted={nthHole === index + 1} />)}
+                {Array(count).fill(null).map((_, index) =><HoleIndicator key={Math.random() * 1000} holeNumber={index + 1} highlighted={nthHole === index + 1} />)}
             </Box>
             <Box sx={{
             display: "flex",
@@ -41,11 +53,11 @@ export function RoundPagination(props:RoundPaginationProps) {
             px: "7.5em",
             justifyContent: "space-between"
             }}>
-                <Button disabled={disablePrev} onClick={handlePrevPress}>
+                <Button  onClick={handlePrevPress}>
                     Previous
                 </Button>
-                <Button disabled={disableNext} onClick={handleNextPress}>
-                    {nthHole === count ? <>Submit</> : <>Next</>}
+                <Button onClick={handleNextPress}>
+                    {isLast ? <>Submit</> : <>Next</>}
                 </Button>
             </Box>
         </Box>

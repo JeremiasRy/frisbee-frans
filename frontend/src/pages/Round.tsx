@@ -1,7 +1,7 @@
 import { Outlet, useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { useEffect } from "react";
-import { getRound, updateRound } from "../redux/reducer/roundReducer";
+import { getRound, setRoundReducerStateToIdle, updateRound } from "../redux/reducer/roundReducer";
 import { Box, Button, Typography } from "@mui/material";
 import { HoleResultDto } from "../types/dtos";
 import { Hole } from "../types/models";
@@ -9,7 +9,7 @@ import { createManyHoleResults } from "../redux/reducer/holeResultReducer";
 import { setHoleReducerStateToIdle } from "../redux/reducer/holeReducer";
 
 export default function Round() {
-    const {id} = useParams();
+    const {id, nthHole} = useParams();
     const dispatch = useAppDispatch();
     const round = useAppSelector(state => state.round);
     const holeResult = useAppSelector(state => state.holeResult);
@@ -18,20 +18,20 @@ export default function Round() {
     useEffect(() => {
         const controller = new AbortController();
         if (round.state === "updated") {
-            navigate(`score/${[...holeResult.entities].sort((a,b) => a.nthHole - b.nthHole)[0].id}`);
+            dispatch(setRoundReducerStateToIdle(""));
+            navigate(`score/1/${[...holeResult.entities].sort((a,b) => a.nthHole - b.nthHole)[0].id}`);
             return
         }
-        dispatch(getRound({
-            id: parseInt(id as string),
-            requestData: {},
-            params: {},
-            signal: controller.signal
-        }))
-        
-        return () => {
-            controller.abort()
+        if (round.state !== "pending") {
+            dispatch(getRound({
+                id: parseInt(id as string),
+                requestData: {},
+                params: {},
+                signal: controller.signal
+            }))
         }
-    }, [id, round.state])
+        
+    }, [id, nthHole])
 
     useEffect(() => {
         const controller = new AbortController();
@@ -48,7 +48,9 @@ export default function Round() {
                     status: "OnGoing"
                 }
             }))
-
+        }
+        return () => {
+            controller.abort();
         }
     }, [holeResult.state])
 

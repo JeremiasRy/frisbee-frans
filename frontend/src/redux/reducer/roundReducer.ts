@@ -7,3 +7,4 @@ const roundReducer = new CrudReducer<Round, RequestBase<RoundDto>>("rounds", "ro
 
 export default roundReducer.slice.reducer;
 export const {getAll: getAllRounds, get: getRound, create: createRound, update: updateRound, remove: removeRound} = roundReducer.returnAsyncThunks();
+export const {setStateToIdle: setRoundReducerStateToIdle} = roundReducer.slice.actions;
