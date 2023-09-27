@@ -17,16 +17,21 @@ export default function Round() {
 
     useEffect(() => {
         const controller = new AbortController();
+        if (round.state === "updated") {
+            navigate(`score/${[...holeResult.entities].sort((a,b) => a.nthHole - b.nthHole)[0].id}`);
+            return
+        }
         dispatch(getRound({
             id: parseInt(id as string),
             requestData: {},
             params: {},
             signal: controller.signal
         }))
+        
         return () => {
             controller.abort()
         }
-    }, [id])
+    }, [id, round.state])
 
     useEffect(() => {
         const controller = new AbortController();
@@ -43,8 +48,7 @@ export default function Round() {
                     status: "OnGoing"
                 }
             }))
-            console.log([...holeResult.entities].sort((a,b) => a.nthHole - b.nthHole)[0].id)
-            navigate(`score/${[...holeResult.entities].sort((a,b) => a.nthHole - b.nthHole)[0].id}`)
+
         }
     }, [holeResult.state])
 
@@ -80,7 +84,7 @@ export default function Round() {
 
     return (
         <Box>
-            <Typography>Round at {round.entities[0].course.name}</Typography>
+            <Typography variant="h1" textAlign={"center"}>Round at {round.entities[0].course.name}</Typography>
             {round.entities[0].status === "NotStarted" && <Button onClick={handleRoundStart}>Start round?</Button>}
             <Box>
                 <Outlet />

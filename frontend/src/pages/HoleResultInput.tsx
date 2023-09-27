@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getHoleResultById } from "../redux/reducer/holeResultReducer";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import ScoreInput from "../components/ScoreInput";
 
 export default function HoleResultInput() {
     const dispatch = useAppDispatch();
@@ -23,9 +24,9 @@ export default function HoleResultInput() {
         }
     }, [holeResultId])
 
-    console.log(holeResult)
-
     return (
-        <></>
+        <>
+        <ScoreInput throws={throws} penalties={penalties} par={holeResult.entities[0].par} setThrows={setThrows} setPenalties={setPenalties} />
+        </>
     )
 }

@@ -1,25 +1,22 @@
 import { Box, Button } from "@mui/material";
-import { useState } from "react";
 
 export interface RoundPaginationProps {
-    onChange: (page: number) => void,
     count: number,
     disableNext: boolean,
-    disablePrev: boolean
+    disablePrev: boolean,
+    nthHole: number,
+    setNthHole: React.Dispatch<React.SetStateAction<number>>
 }
 
 export function RoundPagination(props:RoundPaginationProps) {
-    const { count, onChange, disableNext, disablePrev } = {...props}
-    const [hole, setHole] = useState(1);
+    const { count, disableNext, disablePrev, setNthHole, nthHole } = {...props}
 
     function handleNextPress() {
-        setHole(prev => prev + 1)
-        onChange(hole + 1)
+        setNthHole(prev => prev + 1)
     }
 
     function handlePrevPress() {
-        setHole(prev => prev - 1)
-        onChange(hole - 1)
+        setNthHole(prev => prev - 1)
     }
 
     return (
@@ -35,7 +32,7 @@ export function RoundPagination(props:RoundPaginationProps) {
             gap: "0.5em",
             flexShrink: 0,
             }}>
-                {Array(count).fill(null).map((_, index) =><HoleIndicator holeNumber={index + 1} highlighted={hole === index + 1} />)}
+                {Array(count).fill(null).map((_, index) =><HoleIndicator holeNumber={index + 1} highlighted={nthHole === index + 1} />)}
             </Box>
             <Box sx={{
             display: "flex",
@@ -48,7 +45,7 @@ export function RoundPagination(props:RoundPaginationProps) {
                     Previous
                 </Button>
                 <Button disabled={disableNext} onClick={handleNextPress}>
-                    {hole === count ? <>Submit</> : <>Next</>}
+                    {nthHole === count ? <>Submit</> : <>Next</>}
                 </Button>
             </Box>
         </Box>
