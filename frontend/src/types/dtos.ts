@@ -13,6 +13,7 @@ export type HoleResultDto = {
 export type RoundDto = {
     userId: number,
     courseId: number,
+    status: "NotStarted" | "OnGoing" | "Completed"
 }
 
 export type HoleDto = {

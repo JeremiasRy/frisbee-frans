@@ -5,10 +5,7 @@ import LatestRounds from "./pages/LatestRounds";
 import Courses from "./pages/Courses";
 import Rounds from "./pages/Rounds";
 import { CreateRound } from "./pages/CreateRound";
-import Round from "./pages/Round";
-import ScoreCard from "./pages/ScoreCard";
-import ScoreInput from "./components/ScoreInput";
-import HoleResultInput from "./pages/HoleResultInput";
+import ScoreInput from "./pages/ScoreInput";
 
 function App() {
 
@@ -32,19 +29,11 @@ function App() {
       }, {
         path: "rounds/new",
         element: <CreateRound />
-      },{
-        path: "rounds/:id",
-        element: <Round />,
-        children: [{
-          path: "score/:nthHole",
-          element: <ScoreCard />,
-          children: [{
-            path: ":holeResultId",
-            element: <HoleResultInput />
-          }]
-        }]
-      }]
-    }
+      }, {
+        path: "rounds/:id/scoreinput",
+        element: <ScoreInput />
+      }
+    ]}
   ])
   return (
     <RouterProvider router={router} />
