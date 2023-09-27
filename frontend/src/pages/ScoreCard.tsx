@@ -1,38 +1,23 @@
-import { Box, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Box, Button, Typography } from "@mui/material";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { SetStateAction, useEffect } from "react";
 import { getAllHoleResults } from "../redux/reducer/holeResultReducer";
 import ScoreInput from "../components/ScoreInput";
+import RoundCard from "../components/RoundCard";
+import { RoundPagination } from "../components/RoundPagination";
 
 export default function ScoreCard() {
-    const { id, nthHole } = useParams();
-    const dispatch = useAppDispatch();
-    const loginReducer = useAppSelector(state => state.login);
-    const holeResultReducer = useAppSelector(state => state.holeResult);
     const round = useAppSelector(state => state.round);
-    
-    const holeNumber = parseInt(nthHole as string);
-    const roundId = parseInt(id as string);
-
-    useEffect(() => {
-        const controller = new AbortController();
-        dispatch(getAllHoleResults({
-            signal: controller.signal,
-            params: {
-                roundId
-            },
-            requestData: {}
-        }))
-        return () => {
-            controller.abort();
-        }
-    }, [nthHole])
-
-    const results = [...holeResultReducer.entities].sort((a, b) => a.nthHole - b.nthHole);
+    const navigate = useNavigate();
 
     return (
         <Box>
+            <RoundPagination onChange={function (page: number): void {
+                throw new Error("Function not implemented.");
+            } } count={round.entities[0].roundResults.length} disableNext={false} disablePrev={false} />
+            <Outlet />
+            <RoundCard round={round.entities[0]}/>
         </Box>
     )
 }

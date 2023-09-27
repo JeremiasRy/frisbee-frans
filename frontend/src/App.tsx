@@ -7,6 +7,8 @@ import Rounds from "./pages/Rounds";
 import { CreateRound } from "./pages/CreateRound";
 import Round from "./pages/Round";
 import ScoreCard from "./pages/ScoreCard";
+import ScoreInput from "./components/ScoreInput";
+import HoleResultInput from "./pages/HoleResultInput";
 
 function App() {
 
@@ -34,8 +36,12 @@ function App() {
         path: "rounds/:id",
         element: <Round />,
         children: [{
-          path: "score/:nthHole",
-          element: <ScoreCard />
+          path: "score",
+          element: <ScoreCard />,
+          children: [{
+            path: ":holeResultId",
+            element: <HoleResultInput />
+          }]
         }]
       }]
     }

@@ -24,7 +24,7 @@ export default function ScoreInput(props:ScoreInputProps) {
             setThrows(par - 1);
             return;
         }
-        setThrows(prev => prev - 1);
+        setThrows(prev => prev - 1 < 0 ? 0 : prev - 1);
     }
         return (
             <>

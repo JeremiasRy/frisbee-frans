@@ -43,7 +43,8 @@ export default function Round() {
                     status: "OnGoing"
                 }
             }))
-            navigate("score/1")
+            console.log([...holeResult.entities].sort((a,b) => a.nthHole - b.nthHole)[0].id)
+            navigate(`score/${[...holeResult.entities].sort((a,b) => a.nthHole - b.nthHole)[0].id}`)
         }
     }, [holeResult.state])
 
