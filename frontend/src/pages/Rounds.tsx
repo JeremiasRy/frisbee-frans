@@ -51,7 +51,7 @@ export default function Rounds() {
             }}>
                 {
                     state.entities.map(round => 
-                        <RoundCard key={round.id} round={round}/>
+                        <RoundCard key={round.id} round={round} localResults={null}/>
                     )
                 }
             </Box>

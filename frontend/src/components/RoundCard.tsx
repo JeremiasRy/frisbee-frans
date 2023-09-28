@@ -1,15 +1,24 @@
 import { Box, Paper, Typography } from "@mui/material";
-import { Round } from "../types/models";
+import { HoleResult, Round } from "../types/models";
 import  HoleResultCard from "./HoleResultCard";
 import { ScoreDictionary } from "../helper";
+import { HoleResultDto } from "../types/dtos";
 
 export interface RoundCardProps {
-    round: Round
+    round: Round,
+    localResults: HoleResult[] | null
 }
 
 export default function RoundCard(props:RoundCardProps) {
-    const { round } = {...props}
+    const { round, localResults } = {...props}
     const sortedResults = [...round.roundResults].sort((a, b) => a.nthHole - b.nthHole);
+
+    function returnResultsToRender():HoleResult[] {
+        if (localResults) {
+            return localResults
+        }
+        return sortedResults
+    }
 
     return (
         <Paper
@@ -19,6 +28,7 @@ export default function RoundCard(props:RoundCardProps) {
             flexDirection: "column",
             padding: "1em",
             columnGap: "0.5em",
+            width: "100%",
             flexShrink: 0
         }}>
             <Typography variant={"h4"}>{round.course.name}</Typography>
@@ -47,7 +57,7 @@ export default function RoundCard(props:RoundCardProps) {
                     width: "80%",
                     paddingLeft: "2em"
                 }}>
-                    {sortedResults.filter(result => result.throws > 0).map((result, idx) => <HoleResultCard key={result.id} result={result} isLast={idx === sortedResults.length - 1} />)}
+                    {returnResultsToRender().filter(result => result.throws > 0).map((result, idx) => <HoleResultCard key={result.id} result={result} isLast={idx === sortedResults.length - 1} />)}
                     <Box 
                     sx={{
                         width: "5em", 

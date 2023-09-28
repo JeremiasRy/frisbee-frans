@@ -1,12 +1,20 @@
-import { useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { useEffect } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { getRound } from "../redux/reducer/roundReducer";
+import RoundCard from "../components/RoundCard";
+import { Box, Button, Typography } from "@mui/material";
+import { ResultInput } from "../components/ResultInput";
+import { Hole } from "../types/models";
 
 export default function ScoreInput() {
-    const { id } = useParams();
+    const { id, nthHole } = useParams();
     const roundReducer = useAppSelector(state => state.round);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const [throws, setThrows] = useState(0);
+    const [penalties, setPenalties] = useState(0);
+    
 
     useEffect(() => {
         const controller = new AbortController();
@@ -26,8 +34,41 @@ export default function ScoreInput() {
     }
 
     const copyOfRound = [...roundReducer.entities[0].roundResults];
+    const round = roundReducer.entities[0];
+    const course = round.course;
+
+    const hole = nthHole 
+    ? course.holes.find(hole => hole.nthHole === parseInt(nthHole)) as Hole 
+    : undefined
 
     return (
-        <></>
+        <Box sx={{
+            display: "flex",
+            padding: "2em",
+            flexDirection: "column",
+            alignItems: "center",
+            rowGap: "5em",
+        }}>
+            <Typography variant="h4">Round at {course.name}</Typography>
+            {nthHole === undefined && <Button onClick={() => navigate("1")}>Go to first hole?</Button>}
+            {hole &&
+            <Box sx={{
+                width: "100%"
+            }}>
+                <Outlet />
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-around"
+                }}>
+                <Button>Previous</Button>
+                <ResultInput par={hole.par} throws={throws} setThrows={setThrows} penalties={penalties} setPenalties={setPenalties} />
+                <Button>Next</Button>
+                </Box>
+                
+            </Box>
+            }
+            <RoundCard round={roundReducer.entities[0]} localResults={copyOfRound} />
+        </Box>
     )
 }

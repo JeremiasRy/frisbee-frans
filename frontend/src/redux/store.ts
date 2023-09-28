@@ -4,6 +4,7 @@ import roundReducer from "./reducer/roundReducer";
 import loginReducer, { LoginReducerState } from "./reducer/loginReducer";
 import { LoggedIn } from "../types/models";
 import holeResultReducer from "./reducer/holeResultReducer";
+import holeReducer from "./reducer/holeReducer";
 
 let preLogin: LoggedIn | null = null
 const login = localStorage.getItem("login");
@@ -32,6 +33,7 @@ function saveState(state:RootState) {
 export const createStore = () => {
     return configureStore({
         reducer: {
+            hole: holeReducer,
             course: courseReducer,
             round: roundReducer,
             login: loginReducer,

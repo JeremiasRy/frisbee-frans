@@ -6,6 +6,7 @@ import Courses from "./pages/Courses";
 import Rounds from "./pages/Rounds";
 import { CreateRound } from "./pages/CreateRound";
 import ScoreInput from "./pages/ScoreInput";
+import HoleCard from "./components/HoleCard";
 
 function App() {
 
@@ -31,7 +32,11 @@ function App() {
         element: <CreateRound />
       }, {
         path: "rounds/:id/scoreinput",
-        element: <ScoreInput />
+        element: <ScoreInput />,
+        children: [{
+          path: ":nthHole",
+          element: <HoleCard />
+        }]
       }
     ]}
   ])
