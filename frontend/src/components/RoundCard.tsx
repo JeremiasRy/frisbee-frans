@@ -2,7 +2,6 @@ import { Box, Paper, Typography } from "@mui/material";
 import { HoleResult, Round } from "../types/models";
 import  HoleResultCard from "./HoleResultCard";
 import { ScoreDictionary } from "../helper";
-import { HoleResultDto } from "../types/dtos";
 
 export interface RoundCardProps {
     round: Round,
@@ -15,10 +14,11 @@ export default function RoundCard(props:RoundCardProps) {
 
     function returnResultsToRender():HoleResult[] {
         if (localResults) {
-            return localResults
+            return localResults.sort((a, b) => a.nthHole - b.nthHole);
         }
         return sortedResults
     }
+
 
     return (
         <Paper
@@ -66,10 +66,12 @@ export default function RoundCard(props:RoundCardProps) {
                         flexDirection: "column", 
                         alignItems: "center"
                     }}>
+                        {!localResults && 
                         <Box sx={{margin: "auto"}}>
                             <Typography>total: {round.roundTotal}</Typography>
                             <Typography>par: {round.course.coursePar}</Typography>
                         </Box>
+                        } 
                     </Box>
                 </Box>
                 <Box sx={{
@@ -78,7 +80,7 @@ export default function RoundCard(props:RoundCardProps) {
                     columnGap: "2em"
                 }}>                    
                     <Box>
-                        <Typography variant="h3" sx={{width: "5em"}}>Score: {sortedResults.filter(res => res.throws > 0).map(res => ScoreDictionary[res.scoreTag]).reduce((a, b) => a + b, 0)}</Typography>
+                        <Typography variant="h3" sx={{width: "5em"}}>Score: {returnResultsToRender().filter(res => res.throws > 0).map(res => res.throws + res.penalties - res.par).reduce((a, b) => a + b, 0)}</Typography>
                     </Box>
                 </Box>
             </Box>

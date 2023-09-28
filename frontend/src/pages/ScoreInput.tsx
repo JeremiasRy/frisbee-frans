@@ -5,7 +5,7 @@ import { getRound } from "../redux/reducer/roundReducer";
 import RoundCard from "../components/RoundCard";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import { ResultInput } from "../components/ResultInput";
-import { Hole } from "../types/models";
+import { Hole, HoleResult } from "../types/models";
 import RoundNthHoleIndicator from "../components/RoundNthHoleIndicator";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -13,10 +13,12 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 export default function ScoreInput() {
     const { id, nthHole } = useParams();
     const roundReducer = useAppSelector(state => state.round);
+    const pathArr = useLocation().pathname.split("/");
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [throws, setThrows] = useState(0);
     const [penalties, setPenalties] = useState(0);
+    const [localRoundResults, setLocalRoundResults] = useState<HoleResult[]>();
     type Direction = "Next" | "Previous";
 
     useEffect(() => {
@@ -35,8 +37,10 @@ export default function ScoreInput() {
     if (roundReducer.entities.length === 0) {
         return;
     }
-
-    const copyOfRound = [...roundReducer.entities[0].roundResults];
+    if (!localRoundResults) {
+        setLocalRoundResults(roundReducer.entities[0].roundResults.map(holeResult => holeResult))
+        return;
+    }
     const round = roundReducer.entities[0];
     const course = round.course;
 
@@ -45,6 +49,15 @@ export default function ScoreInput() {
     : undefined
 
     function HandleNavigationButtonChange(direction:Direction) {
+        setLocalRoundResults(prev => prev?.map(roundResult => roundResult.nthHole === parseInt(nthHole as string) ? { ...roundResult, throws: throws, penalties: penalties } : roundResult))
+        const nextHoleNth = direction === "Next" ? parseInt(nthHole as string) + 1 : parseInt(nthHole as string) - 1;
+        const nextHole = localRoundResults?.find(roundResult => roundResult.nthHole === nextHoleNth);
+        if (nextHole) {
+            setThrows(nextHole.throws);
+            setPenalties(nextHole.penalties);
+        }
+        pathArr[pathArr.length - 1] = nextHoleNth.toString();
+        navigate(pathArr.join("/"));
     }
 
     return (
@@ -71,13 +84,13 @@ export default function ScoreInput() {
                     flexDirection: "row",
                     justifyContent: "space-around"
                 }}>
-                    <IconButton size="large"><ArrowBackIosIcon/></IconButton>
+                    <IconButton size="large" onClick={() => HandleNavigationButtonChange("Previous")}><ArrowBackIosIcon/></IconButton>
                     <ResultInput par={hole.par} throws={throws} setThrows={setThrows} penalties={penalties} setPenalties={setPenalties} />
-                    <IconButton size="large"><ArrowForwardIosIcon/></IconButton>
+                    <IconButton size="large" onClick={() => HandleNavigationButtonChange("Next")}><ArrowForwardIosIcon/></IconButton>
                 </Box>
             </Box>
             }
-            <RoundCard round={roundReducer.entities[0]} localResults={copyOfRound} />
+            <RoundCard round={roundReducer.entities[0]} localResults={localRoundResults} />
         </Box>
     )
 }

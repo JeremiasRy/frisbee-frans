@@ -9,7 +9,7 @@ export interface HoleResultCardProps {
 
 export default function HoleResultCard(props:HoleResultCardProps) {
     const { result, isLast } = {...props};
-    const numberRepresentationOfScoreTag = ScoreDictionary[result.scoreTag];
+    const numberRepresentationOfScoreTag = result.throws + result.penalties - result.par
 
     const color = () => {
         if (numberRepresentationOfScoreTag === 0) {
