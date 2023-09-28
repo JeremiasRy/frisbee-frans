@@ -19,7 +19,6 @@ export default function RoundCard(props:RoundCardProps) {
         return sortedResults
     }
 
-
     return (
         <Paper
         elevation={2} 
