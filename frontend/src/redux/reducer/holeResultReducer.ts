@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { HoleResultDto } from "../../types/dtos";
+import { HoleResultDto, HoleResultWithIdDto } from "../../types/dtos";
 import { HoleResult } from "../../types/models";
 import { RequestBase } from "../../types/requests";
 import { CrudReducer } from "./crudReducer";
@@ -9,10 +9,10 @@ import axios from "axios";
 class HoleResultReducer extends CrudReducer<HoleResult, RequestBase<HoleResultDto>> {
 
     createMany: ReturnType<typeof createAsyncThunk<HoleResult[], RequestBase<HoleResultDto[]>>>;
+    updateMany: ReturnType<typeof createAsyncThunk<HoleResultWithIdDto[], RequestBase<HoleResultWithIdDto[]>>>
     returnAsyncThunks = () => {
-        return {getAll: this.getAll, get: this.get, create: this.create, createMany: this.createMany, update: this.update, remove: this.remove}
+        return {getAll: this.getAll, get: this.get, create: this.create, createMany: this.createMany, update: this.update, updateMany: this.updateMany, remove: this.remove}
     }
-
     
     constructor(endpoint:string, name:string) {
         super(endpoint, name)
@@ -76,11 +76,19 @@ class HoleResultReducer extends CrudReducer<HoleResult, RequestBase<HoleResultDt
                 return result.data;
             }
         )
+        this.updateMany = createAsyncThunk(
+            "createMany",
+            async (request, thunkAPI) => {
+                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                let result = await axios.post(`${this.url}/many`, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
+                return result.data;
+            }
+        )
     }
 }
 
 const holeResultReducer = new HoleResultReducer("holeResults", "holeResult");
 
 export default holeResultReducer.slice.reducer;
-export const {getAll: getAllHoleResults, get: getHoleResultById, create: createHoleResult, createMany: createManyHoleResults, update: updateHoleResult, remove: removeHoleResult} = {...holeResultReducer.returnAsyncThunks()}
+export const {getAll: getAllHoleResults, get: getHoleResultById, create: createHoleResult, createMany: createManyHoleResults, update: updateHoleResult, updateMany: updateManyHoleResults, remove: removeHoleResult} = {...holeResultReducer.returnAsyncThunks()}
 export const {setStateToIdle: setHoleResultReducerStateToIdle} = holeResultReducer.slice.actions;

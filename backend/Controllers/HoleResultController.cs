@@ -25,4 +25,9 @@ public class HoleResultController : CrudController<HoleResult, HoleResultDTO>
     {
         return await _holeResultService.CreateMany(request);
     }
+    [HttpPut("many")]
+    public async Task<List<HoleResult>> UpdateMany([FromBody] HoleResultWithIdDTO[] request)
+    {
+        return await _holeResultService.UpdateMany(request);
+    }
 }

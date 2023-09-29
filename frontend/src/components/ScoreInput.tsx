@@ -1,16 +1,20 @@
-import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { useAppSelector } from "../redux/hooks";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { useState } from "react";
-import RoundCard from "./RoundCard";
 import { Box, Button, Typography } from "@mui/material";
-import { Hole, HoleResult } from "../types/models";
+import { Hole } from "../types/models";
 import { Direction } from "../helper";
 import ScoreControl from "./ScoreControl";
 import { useLocalResults } from "../pages/Round";
+import { updateManyHoleResults } from "../redux/reducer/holeResultReducer";
+import { HoleResultWithIdDto, RoundDto } from "../types/dtos";
+import { updateRound } from "../redux/reducer/roundReducer";
+import { SignalCellular0Bar } from "@mui/icons-material";
 
 export default function ScoreInput() {
     const { nthHole } = useParams();
     const roundReducer = useAppSelector(state => state.round);
+    const dispatch = useAppDispatch();
     const pathArr = useLocation().pathname.split("/");
     const navigate = useNavigate();
     const [throws, setThrows] = useState(0);
@@ -30,7 +34,7 @@ export default function ScoreInput() {
     ? course.holes.find(hole => hole.nthHole === parseInt(nthHole)) as Hole 
     : undefined
 
-    function HandleNavigationButtonChange(direction:Direction) {
+    function handleNavigationButtonChange(direction:Direction) {
         setLocalRoundResults(prev => prev?.map(roundResult => roundResult.nthHole === parseInt(nthHole as string) ? { ...roundResult, throws: throws, penalties: penalties } : roundResult))
         const nextHoleNth = direction === "Next" ? parseInt(nthHole as string) + 1 : parseInt(nthHole as string) - 1;
         const nextHole = localRoundResults?.find(roundResult => roundResult.nthHole === nextHoleNth);
@@ -42,6 +46,38 @@ export default function ScoreInput() {
         navigate(pathArr.join("/"));
     }
 
+    function submitRound() {
+        const controller = new AbortController();
+        const requestData = createHoleResultDTOs();
+        dispatch(updateManyHoleResults({
+            signal: controller.signal,
+            params: {},
+            requestData
+        }))
+        const roundDto:RoundDto = {
+            userId: round.userId,
+            courseId: course.id,
+            status: "Completed"
+        }
+        dispatch(updateRound({
+            id: round.id,
+            signal: controller.signal,
+            params: {},
+            requestData: roundDto
+        }))
+    }
+
+    function createHoleResultDTOs():HoleResultWithIdDto[] {
+        return localRoundResults.map(holeResult => ({
+            id: holeResult.id, 
+            userId: holeResult.userId, 
+            holeId: holeResult.holeId, 
+            roundId: holeResult.roundId,
+            throws: holeResult.throws,
+            penalties: holeResult.penalties
+        }))
+    }
+
     return (
         <Box sx={{
             display: "flex",
@@ -51,8 +87,8 @@ export default function ScoreInput() {
             rowGap: "5em",
         }}>
             <Typography variant="h4">Round at {course.name}</Typography>
-            {hole && <ScoreControl courseLength={course.holes.length} throws={throws} penalties={penalties} setThrows={setThrows} setPenalties={setPenalties} hole={hole} handleNavigationChange={HandleNavigationButtonChange} />}
-            {enteredScoreOnAllHoles && <Button>Submit round?</Button>}
+            {hole && <ScoreControl courseLength={course.holes.length} throws={throws} penalties={penalties} setThrows={setThrows} setPenalties={setPenalties} hole={hole} handleNavigationChange={handleNavigationButtonChange} />}
+            {enteredScoreOnAllHoles && <Button onClick={submitRound}>Submit round?</Button>}
         </Box>
     )
 }

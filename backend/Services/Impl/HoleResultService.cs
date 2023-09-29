@@ -45,4 +45,14 @@ public class HoleResultService : CrudService<HoleResult, HoleResultDTO>, IHoleRe
         await _appDbContext.SaveChangesAsync();
         return await GetAllAsync(new IdFilter() { RoundId = holeResults.First().RoundId });
     }
+    public async Task<List<HoleResult>> UpdateMany(HoleResultWithIdDTO[] request)
+    {
+        foreach (var holeResultDTO in request)
+        {
+            var holeResult = await GetByIdAsync(holeResultDTO.Id);
+            holeResultDTO.UpdateModel(holeResult);
+        }
+        await _appDbContext.SaveChangesAsync();
+        return await GetAllAsync(new IdFilter() { RoundId =  request.First().RoundId });
+    }
 }

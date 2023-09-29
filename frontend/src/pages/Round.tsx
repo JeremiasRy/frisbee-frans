@@ -85,12 +85,15 @@ export default function Round() {
     if (round.status === "OnGoing") {
         !location.pathname.includes("scoreinput") && navigate("scoreinput/1");
     }
+    if (round.status === "Completed") {
+        location.pathname.includes("scoreinput") && navigate("");
+    }
 
     return (
         <Box>
             {round.status === "NotStarted" && <Button onClick={() => startRound()}>Start the round?</Button>}
             <Outlet context={[localRoundResults, setLocalRoundResults]}/>
-            <RoundCard round={roundReducer.entities[0]} localResults={localRoundResults as HoleResult[]} />
+            <RoundCard round={roundReducer.entities[0]} localResults={round.status === "OnGoing" ? localRoundResults as HoleResult[] : null} />
         </Box>
     )
 }

@@ -20,7 +20,7 @@ export default function RoundCard(props:RoundCardProps) {
             flexDirection: "column",
             padding: "1em",
             columnGap: "0.5em",
-            width: "100%",
+            width: "95%",
             flexShrink: 0
         }}>
             <Typography variant={"h4"}>{round.course.name}</Typography>

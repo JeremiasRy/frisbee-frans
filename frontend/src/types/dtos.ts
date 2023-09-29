@@ -9,6 +9,9 @@ export type HoleResultDto = {
     throws: number,
     penalties: number,
 }
+export interface HoleResultWithIdDto extends HoleResultDto {
+    id: number
+}
 
 export type RoundDto = {
     userId: number,
