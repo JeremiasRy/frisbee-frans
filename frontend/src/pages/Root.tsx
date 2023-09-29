@@ -16,13 +16,23 @@ export default function Root() {
 
     return (
         <Box sx={{
-            display: "flex"
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            overflow: "hidden",
+            padding: "2em",
+            gap: "10em"
         }}>
-            <Navigation />
-            <Box
+            <Box 
             sx={{
-            width: "calc(80% - 2em)",
-            padding: "1em",
+                width: "20%",
+                height: "94.5vh"
+            }}>
+                <Navigation />
+            </Box>
+            <Box 
+            sx={{
+                width: "80%"
             }}>
                 {login.loggedIn ? <Outlet /> : <LoginForm />}
             </Box>

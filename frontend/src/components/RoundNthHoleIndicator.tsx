@@ -14,7 +14,7 @@ export default function RoundNthHoleIndicator(props:RoundNthHoleIndicator) {
         <Box sx={{
             display:"flex",
             flexDirection: "row",
-            columnGap: "3em",
+            columnGap: "1em",
             justifyContent: "center"
         }}>
             {Array(count).fill(null).map((_, idx) => <HoleNumberIndicator key={Math.random() * 1000} number={idx + 1} selected={idx + 1 === parseInt(nthHole as string)} />)}

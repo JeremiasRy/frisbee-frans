@@ -9,7 +9,6 @@ import { useLocalResults } from "../pages/Round";
 import { updateManyHoleResults } from "../redux/reducer/holeResultReducer";
 import { HoleResultWithIdDto, RoundDto } from "../types/dtos";
 import { updateRound } from "../redux/reducer/roundReducer";
-import { SignalCellular0Bar } from "@mui/icons-material";
 
 export default function ScoreInput() {
     const { nthHole } = useParams();

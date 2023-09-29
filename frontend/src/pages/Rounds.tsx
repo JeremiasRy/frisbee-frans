@@ -31,12 +31,13 @@ export default function Rounds() {
         <Box sx={{
             display: "flex",
             flexDirection: "column",
-            rowGap: "1em"
+            rowGap: "1em",
+            width: "100%",
         }}>
             <Box sx={{
             display: "flex",
             flexDirection: "column",
-            rowGap: "1em"
+            rowGap: "1em",
             }}>
                 <Button variant="contained" onClick={() => navigate("new")}>Start a new round?</Button>
                 <Button variant="contained">Search for rounds</Button>
@@ -45,9 +46,8 @@ export default function Rounds() {
                 display: "flex",
                 flexDirection: "column",
                 rowGap: "1em",
-                height: "100%",
-                maxWidth: "80vw",
-                overflow: "auto"
+                maxHeight: "70vh",
+                overflowY: "auto"
             }}>
                 {
                     state.entities.map(round => 

@@ -6,54 +6,58 @@ export default function Navigation() {
     const navLocations = ["Courses", "Rounds", "Profile"]
     const navigate = useNavigate();
     return (
-        <Box
-        sx={{
+        <Box sx={{
             display: "flex",
             flexDirection: "column",
-            rowGap: "1em",
-            width: "calc(30% - 2em)",
-            maxHeight: "90vh",
-            padding: "1em"
+            justifyContent: "space-between",
+            height: "100%"
         }}>
-        <Box sx={{
-            marginBottom: "2em"
-        }}>
-            <Typography 
-                variant="h4"
-                onClick={() => navigate("/")}
-                sx={{
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    fontStyle: "italic",
-                    "&:hover": {
-                        cursor: "pointer"
-                    }
-                }}
-            >frisbee frans
-            </Typography>
-        </Box>
-          {
-            navLocations.map((location, idx) => 
-            <Button
-                variant="contained"
-                color="info"
-                key={location}
-                onClick={() => navigate(`/${location.toLocaleLowerCase()}`)}
-                sx={{
-                    marginLeft: "1em",
-                    width: `${20 - idx}vw`,
-                    textAlign: "left",
-                    justifyContent: "flex-start"
+            <Box sx={{
+                display: "flex",
+                flexDirection: "column",
+                rowGap: "1.5em"
+            }}>
+                <Box>
+                    <Typography 
+                        variant="h4"
+                        onClick={() => navigate("/")}
+                        sx={{
+                            letterSpacing: "0.2em",
+                            textTransform: "uppercase",
+                            fontStyle: "italic",
+                            "&:hover": {
+                                cursor: "pointer"
+                            }
+                        }}>
+                        frisbee frans
+                    </Typography>
+                </Box>
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    rowGap: "1em"
                 }}>
-            {location}
-            </Button>)
-          }
-          <Box sx={{
-            marginTop: "50%",
-            padding: "10em 10em 10em 0"
-          }}>
+                {
+                    navLocations.map((location, idx) => 
+                    <Button
+                        variant="contained"
+                        color="info"
+                        key={location}
+                        onClick={() => navigate(`/${location.toLocaleLowerCase()}`)}
+                        sx={{
+                            marginLeft: "1em",
+                            width: `${20 - idx}vw`,
+                            textAlign: "left",
+                            justifyContent: "flex-start"
+                        }}>
+                    {location}
+                    </Button>)
+                }
+                </Box>
+            </Box>
+        <Box>
             <Logo />
-          </Box>
+        </Box>
         </Box>
     )
 }

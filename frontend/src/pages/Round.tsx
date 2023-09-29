@@ -90,7 +90,9 @@ export default function Round() {
     }
 
     return (
-        <Box>
+        <Box sx={{
+            width: "90%"
+        }}>
             {round.status === "NotStarted" && <Button onClick={() => startRound()}>Start the round?</Button>}
             <Outlet context={[localRoundResults, setLocalRoundResults]}/>
             <RoundCard round={roundReducer.entities[0]} localResults={round.status === "OnGoing" ? localRoundResults as HoleResult[] : null} />

@@ -20,7 +20,7 @@ export default function RoundCard(props:RoundCardProps) {
             flexDirection: "column",
             padding: "1em",
             columnGap: "0.5em",
-            width: "95%",
+            width: "65vw",
             flexShrink: 0
         }}>
             <Typography variant={"h4"}>{round.course.name}</Typography>
@@ -46,7 +46,7 @@ export default function RoundCard(props:RoundCardProps) {
                 sx={{
                     display: "flex",
                     flexDirection: "row",
-                    width: "80%",
+                    width: "90%",
                     paddingLeft: "2em"
                 }}>
                     {resultsToRender.filter(result => result.throws > 0).map((result, idx) => <HoleResultCard key={result.id} result={result} isLast={idx === resultsToRender.length - 1} />)}
@@ -66,15 +66,7 @@ export default function RoundCard(props:RoundCardProps) {
                         } 
                     </Box>
                 </Box>
-                <Box sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    columnGap: "2em"
-                }}>                    
-                    <Box>
-                        <Typography variant="h3" sx={{width: "5em"}}>Score: {resultsToRender.filter(res => res.throws > 0).map(res => res.throws + res.penalties - res.par).reduce((a, b) => a + b, 0)}</Typography>
-                    </Box>
-                </Box>
+                <Typography variant="h3" textAlign="right"sx={{width: "5em"}}>Score: {resultsToRender.filter(res => res.throws > 0).map(res => res.throws + res.penalties - res.par).reduce((a, b) => a + b, 0)}</Typography>
             </Box>
         </Paper>
     )

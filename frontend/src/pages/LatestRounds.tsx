@@ -27,9 +27,9 @@ export default function LatestRounds() {
             display: "flex",
             flexDirection: "column",
             rowGap: "1em",
-            height: "100%",
+            maxHeight: "80vh",
             maxWidth: "80vw",
-            overflow: "auto"
+            overflowY: "auto"
         }}>
             {
                 state.entities.filter(round => round.status === "Completed").map(round => 
