@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import { HoleResult } from "../types/models";
-import { ScoreDictionary } from "../helper";
 
 export interface HoleResultCardProps {
     result: HoleResult;
@@ -9,15 +8,15 @@ export interface HoleResultCardProps {
 
 export default function HoleResultCard(props:HoleResultCardProps) {
     const { result, isLast } = {...props};
-    const numberRepresentationOfScoreTag = result.throws + result.penalties - result.par
+    const score = result.throws + result.penalties - result.par
 
     const color = () => {
-        if (numberRepresentationOfScoreTag === 0) {
+        if (score === 0) {
             return "white"
-        } else if (numberRepresentationOfScoreTag > 0) {
-            return `rgba(200,0,0, ${0.2 * numberRepresentationOfScoreTag})`
+        } else if (score > 0) {
+            return `rgba(200,0,0, ${0.2 * score})`
         } else {
-            return `rgba(0,200,0, ${0.2 * Math.abs(numberRepresentationOfScoreTag)})`
+            return `rgba(0,200,0, ${0.2 * Math.abs(score)})`
         }
     }
 

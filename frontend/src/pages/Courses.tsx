@@ -7,7 +7,7 @@ import CourseCardWrapper from "../components/CourseCardWrapper";
 
 export interface CoursesProps {
     onClickAction: OnClickAction
-    setCourse: React.Dispatch<React.SetStateAction<number>> | null
+    setCourse: React.Dispatch<React.SetStateAction<number>>
 }
 
 export default function Courses(props: CoursesProps) {

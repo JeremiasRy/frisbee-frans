@@ -5,7 +5,7 @@ import CourseCard, { OnClickAction } from "./CourseCard";
 export interface CourseCardWrapperProps {
     courses: Course[],
     onClickAction: OnClickAction,
-    setCourse: React.Dispatch<React.SetStateAction<number>> | null
+    setCourse: React.Dispatch<React.SetStateAction<number>>
 }
 
 export default function CourseCardWrapper(props:CourseCardWrapperProps) {

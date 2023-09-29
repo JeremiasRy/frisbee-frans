@@ -4,9 +4,10 @@ import Root from "./pages/Root";
 import LatestRounds from "./pages/LatestRounds";
 import Courses from "./pages/Courses";
 import Rounds from "./pages/Rounds";
-import { CreateRound } from "./pages/CreateRound";
-import ScoreInput from "./pages/ScoreInput";
+import {SelectRound } from "./pages/SelectRound"
+import ScoreInput from "./components/ScoreInput";
 import HoleCard from "./components/HoleCard";
+import Round from "./pages/Round";
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
         element: <LatestRounds />,
       }, {
         path: "courses",
-        element: <Courses onClickAction="Navigate" setCourse={null}/>
+        element: <Courses onClickAction="Navigate" setCourse={() => {}}/>
       }, {
         path: "courses/:id",
         element: <></>
@@ -29,15 +30,23 @@ function App() {
         element: <Rounds />
       }, {
         path: "rounds/new",
-        element: <CreateRound />
-      }, {
-        path: "rounds/:id/scoreinput",
-        element: <ScoreInput />,
-        children: [{
-          path: ":nthHole",
-          element: <HoleCard />
-        }]
-      }
+        element: <SelectRound />
+      },
+      {
+        path: "rounds/:id",
+        element: <Round />,
+        children: [
+          {
+            path: "scoreinput",
+            element: <ScoreInput />,
+            children: [{
+              path: ":nthHole",
+              element: <HoleCard />
+            }]
+          }
+        ]
+      },
+      
     ]}
   ])
   return (

@@ -33,7 +33,7 @@ export default function LatestRounds() {
         }}>
             {
                 state.entities.filter(round => round.status === "Completed").map(round => 
-                    <RoundCard key={round.id} round={round}/>
+                    <RoundCard key={round.id} round={round} localResults={null}/>
                 )
             }
         </Box>

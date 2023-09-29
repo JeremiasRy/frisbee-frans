@@ -1,7 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { HoleResult, Round } from "../types/models";
 import  HoleResultCard from "./HoleResultCard";
-import { ScoreDictionary } from "../helper";
 
 export interface RoundCardProps {
     round: Round,
@@ -11,14 +10,8 @@ export interface RoundCardProps {
 export default function RoundCard(props:RoundCardProps) {
     const { round, localResults } = {...props}
     const sortedResults = [...round.roundResults].sort((a, b) => a.nthHole - b.nthHole);
-
-    function returnResultsToRender():HoleResult[] {
-        if (localResults) {
-            return localResults.sort((a, b) => a.nthHole - b.nthHole);
-        }
-        return sortedResults
-    }
-
+    const resultsToRender = localResults ? localResults.sort((a, b) => a.nthHole - b.nthHole).filter(result => result.throws > 0) : sortedResults
+  
     return (
         <Paper
         elevation={2} 
@@ -56,7 +49,7 @@ export default function RoundCard(props:RoundCardProps) {
                     width: "80%",
                     paddingLeft: "2em"
                 }}>
-                    {returnResultsToRender().filter(result => result.throws > 0).map((result, idx) => <HoleResultCard key={result.id} result={result} isLast={idx === sortedResults.length - 1} />)}
+                    {resultsToRender.filter(result => result.throws > 0).map((result, idx) => <HoleResultCard key={result.id} result={result} isLast={idx === resultsToRender.length - 1} />)}
                     <Box 
                     sx={{
                         width: "5em", 
@@ -79,7 +72,7 @@ export default function RoundCard(props:RoundCardProps) {
                     columnGap: "2em"
                 }}>                    
                     <Box>
-                        <Typography variant="h3" sx={{width: "5em"}}>Score: {returnResultsToRender().filter(res => res.throws > 0).map(res => res.throws + res.penalties - res.par).reduce((a, b) => a + b, 0)}</Typography>
+                        <Typography variant="h3" sx={{width: "5em"}}>Score: {resultsToRender.filter(res => res.throws > 0).map(res => res.throws + res.penalties - res.par).reduce((a, b) => a + b, 0)}</Typography>
                     </Box>
                 </Box>
             </Box>

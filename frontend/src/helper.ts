@@ -1,3 +1,7 @@
+export type CreateStep = "SelectCourse" | "CourseSelected" | "CourseCreated" | "CreateEmptyResults" | "EmptyResultsCreated" | "Done"
+
+export type Direction = "Next" | "Previous";
+
 export type ScoreTag = "Par" | "Bogey" | "DoubleBogey" | "TripleBogey" | "QuadrupleBogey" | "QuintupleBogey" | "SextupleBogey" | "SeptupleBogey" | "OctupleBogey" | "Birdie" | "Eagle" | "Albatross" | "HoleInOne";
 
 export const ScoreDictionary = new Map<string, number>([
