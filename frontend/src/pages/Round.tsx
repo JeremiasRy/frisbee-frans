@@ -29,11 +29,11 @@ export default function Round() {
         return () => {
             controller.abort()
         }
-    }, [id])
+    }, [id, location.pathname])
 
     useEffect(() => {
         const controller = new AbortController();
-        if (roundReducer.state === "succeeded" && roundReducer.entities[0].roundResults.length === 0) {
+        if (roundReducer.state === "succeeded" && roundReducer.entities[0].roundResults.length === 0 && roundReducer.entities[0].status === "NotStarted") {
             dispatch(createManyHoleResults({
                 signal: controller.signal,
                 params: {},

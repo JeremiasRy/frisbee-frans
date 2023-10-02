@@ -44,8 +44,15 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
                 setStateToIdle: this.setStateToIdle
             },
             extraReducers: builder => {
-                builder.addCase(this.getAll.fulfilled, (_, action) => {
-                    return {entities: action.payload, state: "succeeded"}
+                builder.addCase(this.getAll.fulfilled, (state, action) => {
+                    let oldEntities = [...state.entities as TModel[]]
+                    let newEntities = [...action.payload]
+
+                    if ("page" in action.meta.arg.params && action.meta.arg.params.page as number > 1) {
+                        return {entities: [...oldEntities, ...newEntities], state: "succeeded"}
+                    }
+                    
+                    return {entities: [...newEntities], state: "succeeded"}
                 })
                 .addCase(this.get.fulfilled, (_, action) => {
                     return {entities: [action.payload], state: "succeeded"}

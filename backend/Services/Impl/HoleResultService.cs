@@ -51,6 +51,7 @@ public class HoleResultService : CrudService<HoleResult, HoleResultDTO>, IHoleRe
         {
             var holeResult = await GetByIdAsync(holeResultDTO.Id);
             holeResultDTO.UpdateModel(holeResult);
+            _appDbContext.Update(holeResult);
         }
         await _appDbContext.SaveChangesAsync();
         return await GetAllAsync(new IdFilter() { RoundId =  request.First().RoundId });

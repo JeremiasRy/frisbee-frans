@@ -1,13 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import Root from "./pages/Root";
-import LatestRounds from "./pages/LatestRounds";
 import Courses from "./pages/Courses";
 import Rounds from "./pages/Rounds";
 import {SelectRound } from "./pages/SelectRound"
 import ScoreInput from "./components/ScoreInput";
 import HoleCard from "./components/HoleCard";
 import Round from "./pages/Round";
+import Welcome from "./pages/Welcome";
 
 function App() {
 
@@ -17,7 +17,7 @@ function App() {
       element: <Root />,
       children: [{
         path: "/",
-        element: <LatestRounds />,
+        element: <Welcome />,
       }, {
         path: "courses",
         element: <Courses onClickAction="Navigate" setCourse={() => {}}/>

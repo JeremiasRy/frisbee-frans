@@ -8,7 +8,6 @@ namespace backend.Controllers.Abstraction;
 [Produces(MediaTypeNames.Application.Json)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Route("[controller]s")]
-[Authorize]
 public abstract class ApiControllerBase : ControllerBase
 {
 }
