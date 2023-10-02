@@ -54,10 +54,11 @@ export default function Rounds() {
         <>
         <Typography variant="h2" sx={{textAlign: "center" }}>Rounds</Typography>
         <Box sx={{
+            boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
             rowGap: "1em",
-            width: "99%",
+            width: "100%",
             borderTop: "2px grey solid",
             borderRadius: "1em",
             padding: "1em"

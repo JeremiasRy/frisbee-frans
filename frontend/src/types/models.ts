@@ -20,7 +20,7 @@ export interface UserStats {
     breakdownOfHoleResults: {
         count: number,
         identifier: ScoreTag
-    }
+    }[]
 }
 
 export interface HoleStats {
@@ -28,7 +28,7 @@ export interface HoleStats {
     breakdownOfHoleResults: {
         count: number,
         identifier: ScoreTag
-    }
+    }[]
 }
 
 export interface Hole extends BaseModel {

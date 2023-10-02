@@ -9,6 +9,7 @@ import Round from "./pages/Round";
 import Welcome from "./pages/Welcome";
 import Course from "./pages/Course";
 import HoleCardHorizontal from "./components/HoleCardHorizontal";
+import Profile from "./pages/Profile";
 
 function App() {
 
@@ -47,6 +48,10 @@ function App() {
           }
         ]
       },
+      {
+        path: "profile",
+        element: <Profile />
+      }
       
     ]}
   ])
