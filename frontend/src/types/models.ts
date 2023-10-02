@@ -7,6 +7,30 @@ export interface Course extends BaseModel {
     coursePar: number
 }
 
+export interface CourseStats {
+    averageScore: number,
+    bestScore: number,
+    roundsPlayed: number
+}
+
+export interface UserStats {
+    totalHolesPlayed: number,
+    averageScore: number,
+    totalThrows: number,
+    breakdownOfHoleResults: {
+        count: number,
+        identifier: ScoreTag
+    }
+}
+
+export interface HoleStats {
+    averageScore: number,
+    breakdownOfHoleResults: {
+        count: number,
+        identifier: ScoreTag
+    }
+}
+
 export interface Hole extends BaseModel {
     par: number,
     length: number,

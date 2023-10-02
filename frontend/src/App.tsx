@@ -5,9 +5,10 @@ import Courses from "./pages/Courses";
 import Rounds from "./pages/Rounds";
 import {SelectRound } from "./pages/SelectRound"
 import ScoreInput from "./components/ScoreInput";
-import HoleCard from "./components/HoleCard";
 import Round from "./pages/Round";
 import Welcome from "./pages/Welcome";
+import Course from "./pages/Course";
+import HoleCardHorizontal from "./components/HoleCardHorizontal";
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
         element: <Courses onClickAction="Navigate" setCourse={() => {}}/>
       }, {
         path: "courses/:id",
-        element: <></>
+        element: <Course />
       },
       {
         path: "rounds",
@@ -41,7 +42,7 @@ function App() {
             element: <ScoreInput />,
             children: [{
               path: ":nthHole",
-              element: <HoleCard />
+              element: <HoleCardHorizontal />
             }]
           }
         ]

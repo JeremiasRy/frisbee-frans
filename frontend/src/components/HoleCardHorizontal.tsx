@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getHole } from "../redux/reducer/holeReducer";
 
-export default function HoleCard() {
+export default function HoleCardHorizontal() {
     const {nthHole} = useParams();
     const dispatch = useAppDispatch();
     const round = useAppSelector(state => state.round);

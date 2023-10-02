@@ -5,6 +5,7 @@ import loginReducer, { LoginReducerState } from "./reducer/loginReducer";
 import { LoggedIn } from "../types/models";
 import holeResultReducer from "./reducer/holeResultReducer";
 import holeReducer from "./reducer/holeReducer";
+import statisticsReducer from "./reducer/statisticsReducer";
 
 let preLogin: LoggedIn | null = null
 const login = localStorage.getItem("login");
@@ -37,7 +38,8 @@ export const createStore = () => {
             course: courseReducer,
             round: roundReducer,
             login: loginReducer,
-            holeResult: holeResultReducer
+            holeResult: holeResultReducer,
+            statistics: statisticsReducer
         },
         preloadedState: preLoadedState
     })

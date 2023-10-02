@@ -71,14 +71,13 @@ export default function Rounds() {
                     flexDirection: "row",
                     gap: "1em",
                 }}>
-                <TextField label="Search by username" value={username} onChange={handleUsernameChange}/>
-                <TextField label="Search by course name" value={course} onChange={handleCourseNameChange}/>
+                <TextField label="Search by username" value={username} onChange={handleUsernameChange} autoComplete="false"/>
+                <TextField label="Search by course name" value={course} onChange={handleCourseNameChange} autoComplete="false"/>
                 </Box>
             </Box>
             <ScrollableBox height={65} rounds={roundReducer.entities} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage} />
             {atBottom && roundReducer.state === "pending" && <LinearProgress />}
         </Box>
-        
         </>
     )
 }

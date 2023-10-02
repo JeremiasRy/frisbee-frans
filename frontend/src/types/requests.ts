@@ -7,3 +7,8 @@ export type RequestBase<TDto> = {
 export interface RequestWithId<TDto> extends RequestBase<TDto>  {
     id: number
 } 
+
+export type StatisticsRequest = {
+    id: number,
+    signal: AbortSignal
+}
