@@ -19,7 +19,8 @@ builder.Services
     .AddScoped<IHoleResultService, HoleResultService>()
     .AddScoped<ICrudService<Hole, HoleDTO>, HoleService>()
     .AddScoped<ICrudService<Round, RoundDTO>, RoundService>()
-    .AddScoped<IJwtService, JwtTokenService>();
+    .AddScoped<IJwtService, JwtTokenService>()
+    .AddScoped<IStatisticsService, StatisticsService>();
 
 builder.Services
     .AddIdentity<User, IdentityRole<int>>(options =>
