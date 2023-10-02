@@ -17,7 +17,7 @@ public class HoleResultController : CrudController<HoleResult, HoleResultDTO>
     }
     public async override Task<List<HoleResult>> GetAll()
     {
-        var filter = Request.QueryString.ParseParams<IdFilter>() ?? new BaseQuery();
+        var filter = Request.QueryString.ParseParams<CommonFilter>() ?? new BaseQuery();
         return await _service.GetAllAsync(filter);
     }
     [HttpPost("many")]

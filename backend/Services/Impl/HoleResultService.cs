@@ -14,7 +14,7 @@ public class HoleResultService : CrudService<HoleResult, HoleResultDTO>, IHoleRe
     }
     public override async Task<List<HoleResult>> GetAllAsync(IFilterOptions request)
     {
-        if (request is IdFilter filter)
+        if (request is CommonFilter filter)
         {
             var query = _appDbContext.Set<HoleResult>().Where(c => true);
             if (filter.UserId > 0)
@@ -43,7 +43,7 @@ public class HoleResultService : CrudService<HoleResult, HoleResultDTO>, IHoleRe
         });
         _appDbContext.Set<HoleResult>().AddRange(holeResults);
         await _appDbContext.SaveChangesAsync();
-        return await GetAllAsync(new IdFilter() { RoundId = holeResults.First().RoundId });
+        return await GetAllAsync(new CommonFilter() { RoundId = holeResults.First().RoundId });
     }
     public async Task<List<HoleResult>> UpdateMany(HoleResultWithIdDTO[] request)
     {
@@ -54,6 +54,6 @@ public class HoleResultService : CrudService<HoleResult, HoleResultDTO>, IHoleRe
             _appDbContext.Update(holeResult);
         }
         await _appDbContext.SaveChangesAsync();
-        return await GetAllAsync(new IdFilter() { RoundId =  request.First().RoundId });
+        return await GetAllAsync(new CommonFilter() { RoundId =  request.First().RoundId });
     }
 }

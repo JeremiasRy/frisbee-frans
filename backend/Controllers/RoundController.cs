@@ -15,7 +15,7 @@ public class RoundController : CrudController<Round, RoundDTO>
     }
     public override async Task<List<Round>> GetAll()
     {
-        var filter = Request.QueryString.ParseParams<IdFilter>();
+        var filter = Request.QueryString.ParseParams<CommonFilter>();
         if (filter == null)
         {
             return await base.GetAll();

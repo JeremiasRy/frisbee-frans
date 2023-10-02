@@ -1,6 +1,9 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { HoleResult, Round } from "../types/models";
 import  HoleResultCard from "./HoleResultCard";
+import StopCircleIcon from '@mui/icons-material/StopCircle';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import CheckIcon from '@mui/icons-material/Check';
 
 export interface RoundCardProps {
     round: Round,
@@ -11,6 +14,14 @@ export default function RoundCard(props:RoundCardProps) {
     const { round, localResults } = {...props}
     const sortedResults = [...round.roundResults].sort((a, b) => a.nthHole - b.nthHole);
     const resultsToRender = localResults ? localResults.sort((a, b) => a.nthHole - b.nthHole).filter(result => result.throws > 0) : sortedResults
+
+    function returnRoundStatusIcon() {
+        switch (round.status) {
+            case "NotStarted": return <StopCircleIcon />
+            case "OnGoing": return <PlayCircleOutlineIcon />
+            case "Completed": return <CheckIcon />
+        }
+    }
   
     return (
         <Paper
@@ -24,6 +35,7 @@ export default function RoundCard(props:RoundCardProps) {
             flexShrink: 0
         }}>
             <Typography variant={"h4"}>{round.course.name}</Typography>
+            {returnRoundStatusIcon()}
             <Typography 
             variant={"subtitle1"} 
             sx={{
