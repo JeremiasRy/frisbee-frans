@@ -52,30 +52,43 @@ export default function Rounds() {
 
     return (
         <>
-        <Typography variant="h2" sx={{textAlign: "center", marginBottom: "1em"}}>Rounds</Typography>
+        <Typography variant="h2" sx={{textAlign: "center" }}>Rounds</Typography>
         <Box sx={{
             display: "flex",
             flexDirection: "column",
             rowGap: "1em",
-            width: "100%",
+            width: "99%",
+            borderTop: "2px grey solid",
+            borderRadius: "1em",
+            padding: "1em"
         }}>
             <Box sx={{
             display: "flex",
             flexDirection: "column",
             rowGap: "1em",
             }}>
-                <Button variant="contained" onClick={() => navigate("new")}>Start a new round?</Button>
-                <Typography variant="h4">Filter rounds</Typography>
                 <Box sx={{
                     display: "flex",
                     flexDirection: "row",
+                    justifyContent: "space-around",
                     gap: "1em",
                 }}>
-                <TextField label="Search by username" value={username} onChange={handleUsernameChange} autoComplete="false"/>
-                <TextField label="Search by course name" value={course} onChange={handleCourseNameChange} autoComplete="false"/>
+                    <Box sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    gap: "1em",
+                    }}>
+                        <Typography variant="h4">Filter:</Typography>
+                        <TextField label="Search by username" value={username} onChange={handleUsernameChange} autoComplete="false"/>
+                        <TextField label="Search by course name" value={course} onChange={handleCourseNameChange} autoComplete="false"/>
+                    </Box>
+                    <Box>
+                        <Button variant="contained" onClick={() => navigate("new")}>Start a new round?</Button>
+                    </Box>
                 </Box>
             </Box>
-            <ScrollableBox height={65} rounds={roundReducer.entities} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage} />
+            <ScrollableBox height={70} rounds={roundReducer.entities} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage} />
             {atBottom && roundReducer.state === "pending" && <LinearProgress />}
         </Box>
         </>

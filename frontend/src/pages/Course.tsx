@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getCourseById } from "../redux/reducer/courseReducer";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getCourseStats } from "../redux/reducer/statisticsReducer";
 import { Box, LinearProgress, Typography } from "@mui/material";
 import HoleCardBox from "../components/HoleCardBox";
@@ -50,7 +50,7 @@ export default function Course() {
         <Typography variant="h1">{course.name}</Typography>
         <Typography variant="h4">Rounds played: {roundsPlayed}</Typography>
         <Typography variant="h5">Average: {Math.floor(averageScore * 100) / 100} {averageScore < 0 ? "under par" : "Over par"}</Typography>
-        <Typography variant="h5">Best round: {bestScore}</Typography>
+        <Typography variant="h5">Course record: {bestScore}</Typography>
         <Box sx={{
             display: "flex",
             flexDirection: "row",
