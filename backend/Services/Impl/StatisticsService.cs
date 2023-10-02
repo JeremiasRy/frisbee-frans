@@ -17,6 +17,7 @@ public class StatisticsService : IStatisticsService
     {
         List<Round> query = await _appDbContext
             .Set<Round>()
+            .AsSplitQuery()
             .Where(round => round.CourseId == courseId && round.Status == Round.RoundStatus.Completed)
             .ToListAsync();
 
@@ -26,6 +27,7 @@ public class StatisticsService : IStatisticsService
     {
         List<HoleResult> query = await _appDbContext
             .Set<HoleResult>()
+            .AsSplitQuery()
             .Where(result => result.HoleId == holeId)
             .ToListAsync();
 
@@ -35,6 +37,7 @@ public class StatisticsService : IStatisticsService
     {
         List<HoleResult> query = await _appDbContext
             .Set<HoleResult>()
+            .AsSplitQuery()
             .Where(result => result.UserId == userId)
             .ToListAsync();
 

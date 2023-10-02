@@ -15,7 +15,7 @@ public class CourseService : CrudService<Course, CourseDTO>
     }
     public async override Task<List<Course>> GetAllAsync(IFilterOptions request)
     {
-        if (request is NameFilter filter)
+        if (request is NameFilter filter && filter.Name is not null)
         {
             return await _appDbContext
                 .Set<Course>()
