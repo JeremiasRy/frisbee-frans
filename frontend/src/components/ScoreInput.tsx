@@ -3,16 +3,17 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { Hole } from "../types/models";
-import { Direction } from "../helper";
+import { Direction, createRequest, createRequestWithId } from "../helper";
 import ScoreControl from "./ScoreControl";
 import { useLocalResults } from "../pages/Round";
 import { updateManyHoleResults } from "../redux/reducer/holeResultReducer";
-import { HoleResultWithIdDto, RoundDto } from "../types/dtos";
+import { HoleResultDto, HoleResultWithIdDto, RoundDto } from "../types/dtos";
 import { updateRound } from "../redux/reducer/roundReducer";
 
 export default function ScoreInput() {
     const { nthHole } = useParams();
     const roundReducer = useAppSelector(state => state.round);
+    const holeResultReducer = useAppSelector(state => state.holeResult);
     const dispatch = useAppDispatch();
     const pathArr = useLocation().pathname.split("/");
     const navigate = useNavigate();
@@ -54,22 +55,15 @@ export default function ScoreInput() {
     function submitRound() {
         const controller = new AbortController();
         const requestData = createHoleResultDTOs();
-        dispatch(updateManyHoleResults({
-            signal: controller.signal,
-            params: {},
-            requestData
-        }))
+        const request = createRequest<HoleResultDto[]>(controller.signal, {}, requestData);
+        dispatch(updateManyHoleResults({...request}))
         const roundDto:RoundDto = {
             userId: round.userId,
             courseId: course.id,
             status: "Completed"
         }
-        dispatch(updateRound({
-            id: round.id,
-            signal: controller.signal,
-            params: {},
-            requestData: roundDto
-        }))
+        const roundRequest = createRequestWithId<RoundDto>(round.id, controller.signal, {}, roundDto)
+        dispatch(updateRound({...roundRequest}))
     }
 
     function createHoleResultDTOs():HoleResultWithIdDto[] {
@@ -83,6 +77,8 @@ export default function ScoreInput() {
         }))
     }
 
+    console.log(localRoundResults)
+
     return (
         <Box sx={{
             display: "flex",
@@ -93,7 +89,7 @@ export default function ScoreInput() {
         }}>
             <Typography variant="h4">Round at {course.name}</Typography>
             {hole && <ScoreControl courseLength={course.holes.length} throws={throws} penalties={penalties} setThrows={setThrows} setPenalties={setPenalties} hole={hole} handleNavigationChange={handleNavigationButtonChange} />}
-            {enteredScoreOnAllHoles && <Button onClick={submitRound}>Submit round?</Button>}
+            {enteredScoreOnAllHoles && <Button disabled={roundReducer.state === "pending" || holeResultReducer.state === "pending"} onClick={submitRound}>Submit round?</Button>}
         </Box>
     )
 }

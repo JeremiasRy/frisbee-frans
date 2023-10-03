@@ -5,6 +5,7 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CheckIcon from '@mui/icons-material/Check';
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export interface RoundCardProps {
     round: Round,
@@ -12,6 +13,7 @@ export interface RoundCardProps {
 }
 
 export default function RoundCard(props:RoundCardProps) {
+    const [elevation, setElevation] = useState(2);
     const { round, localResults } = {...props}
     const sortedResults = [...round.roundResults].sort((a, b) => a.nthHole - b.nthHole);
     const resultsToRender = localResults ? localResults.sort((a, b) => a.nthHole - b.nthHole).filter(result => result.throws > 0) : sortedResults
@@ -28,7 +30,9 @@ export default function RoundCard(props:RoundCardProps) {
     return (
         <Paper
         onClick={() => navigate(`/rounds/${round.id}`)}
-        elevation={2} 
+        elevation={elevation} 
+        onMouseEnter={() => setElevation(4)}
+        onMouseLeave={() => setElevation(2)}
         sx={{
             display: "flex",
             flexDirection: "column",
@@ -36,6 +40,9 @@ export default function RoundCard(props:RoundCardProps) {
             columnGap: "0.5em",
             width: "65vw",
             flexShrink: 0,
+            "&:hover": {
+                cursor: "pointer"
+            }
         }}>
             <Typography variant={"h4"}>{round.course.name}</Typography>
             {returnRoundStatusIcon()}
