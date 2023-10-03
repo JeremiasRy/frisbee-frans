@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getUserStats } from "../redux/reducer/statisticsReducer";
 import { Box, LinearProgress, Typography } from "@mui/material";
+import { ScoreDictionary, getTagByValue } from "../helper";
 
 export default function Profile() {
     const user = useAppSelector(state => state.login);
@@ -22,15 +23,20 @@ export default function Profile() {
         }
     }, [])
 
-    if (!statistics.userStats) {
+    if (statistics.pending) {
         return <LinearProgress/>
+    }
+    if (!statistics.userStats) {
+        return (
+            <Typography>No statistics to show</Typography>
+        )
     }
     const {averageScore, breakdownOfHoleResults, totalHolesPlayed, totalThrows} = {...statistics.userStats}
 
     return (
         <Box>
             <Typography variant="h4">Statistics</Typography>
-            <Typography>Average score on a hole: {Math.floor(averageScore * 100) / 100} </Typography>
+            <Typography>Average result: {Math.floor(averageScore * 100) / 100} {getTagByValue(Math.floor(averageScore))} </Typography>
             <Typography>Total throws tracked: {totalThrows}</Typography>
             {
                 breakdownOfHoleResults.map(identifier => <Typography key={identifier.identifier + identifier.count}>{identifier.identifier}s: {identifier.count}</Typography>)

@@ -11,7 +11,9 @@ import { RoundDto } from "../types/dtos";
 export default function Rounds() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const roundReducer = useAppSelector(state => state.round);
+    const roundReducer = useAppSelector(state => state.round)
+    const loginReducer = useAppSelector(state => state.login)
+    const [userId, setUserId] = useState(0);
     const [username, setUsername] = useState("");
     const [course, setCourse] = useState("");
     const [page, setPage] = useState(1);
@@ -20,7 +22,7 @@ export default function Rounds() {
 
     useEffect(() => {
         const controller = new AbortController();
-        const request = createRequest<RoundDto>(controller.signal, {page, pageSize: 5, username, courseName: course})
+        const request = createRequest<RoundDto>(controller.signal, {page, pageSize: 5, username, courseName: course, userId})
         timeout = setTimeout(() => {
             dispatch(getAllRounds({...request}));
         }, 200)
@@ -30,7 +32,7 @@ export default function Rounds() {
             }
             controller.abort();
         }
-    }, [page, username, course])
+    }, [page, username, course, userId])
 
     function handleUsernameChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         setPage(1);
@@ -74,10 +76,16 @@ export default function Rounds() {
                     gap: "1em",
                     }}>
                         <Typography variant="h4">Filter:</Typography>
-                        <TextField label="Search by username" value={username} onChange={handleUsernameChange} autoComplete="false"/>
-                        <TextField label="Search by course name" value={course} onChange={handleCourseNameChange} autoComplete="false"/>
+                        <TextField disabled={userId > 0} label="Search by username" value={username} onChange={handleUsernameChange} autoComplete="false"/>
+                        <TextField disabled={userId > 0} label="Search by course name" value={course} onChange={handleCourseNameChange} autoComplete="false"/>
                     </Box>
-                    <Box>
+                    <Box sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    gap: "1em",
+                    }}>
+                        <Button onClick={() => setUserId(prev => prev > 0 ? 0 : loginReducer.loggedIn?.id as number)}>{userId > 0 ? "Show all rounds" : "Show rounds only by me"}</Button>
                         <Button variant="contained" onClick={() => navigate("new")}>Start a new round?</Button>
                     </Box>
                 </Box>

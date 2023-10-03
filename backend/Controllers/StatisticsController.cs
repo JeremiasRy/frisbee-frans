@@ -13,17 +13,17 @@ public class StatisticController : ApiControllerBase
         _service = service;
     }
     [HttpGet("course/{courseId:int}")]
-    public async Task<CourseStatisticsDTO> GetCourseStatistics([FromRoute] int courseId)
+    public async Task<CourseStatisticsDTO?> GetCourseStatistics([FromRoute] int courseId)
     {
         return await _service.GetCourseStats(courseId);
     }
     [HttpGet("user/{userId:int}")]
-    public async Task<UserStatisticsDTO> GetUserStatistics([FromRoute] int userId)
+    public async Task<UserStatisticsDTO?> GetUserStatistics([FromRoute] int userId)
     {
         return await _service.GetUserStats(userId);
     }
     [HttpGet("hole/{holeId:int}")]
-    public async Task<HoleStatisticsDTO> GetHoleStatistics([FromRoute] int holeId)
+    public async Task<HoleStatisticsDTO?> GetHoleStatistics([FromRoute] int holeId)
     {
         return await _service.GetHoleStats(holeId);
     }

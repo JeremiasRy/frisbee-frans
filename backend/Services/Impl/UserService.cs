@@ -14,7 +14,7 @@ public class UserService : IUserService
         _userManager = userManager;
         _jwtService = jwtService;
     }
-    public async Task<PublicUserInfoDTO?> CreateUserAsync(RegisterDTO request)
+    public async Task<bool> CreateUserAsync(RegisterDTO request)
     {
         var user = new User()
         {
@@ -22,11 +22,7 @@ public class UserService : IUserService
         };
         var result = await _userManager.CreateAsync(user, request.Password);
 
-        if (result.Succeeded)
-        {
-            return PublicUserInfoDTO.FromUser(user);
-        }
-        return null;
+        return result.Succeeded;
     }
     public async Task<List<PublicUserInfoDTO>> GetUsersAsync(string name)
     {
@@ -42,6 +38,9 @@ public class UserService : IUserService
         {
             return null;
         }
+
+        user.LoginCount += 1;
+        await _userManager.UpdateAsync(user);
 
         return _jwtService.CreateToken(user);
     }

@@ -35,7 +35,7 @@ export interface Hole extends BaseModel {
     par: number,
     length: number,
     nthHole: number,
-    courseId: number
+    courseName: string
 }
 
 export interface HoleResult extends BaseModel {
@@ -67,6 +67,7 @@ export interface User {
 }
 
 export interface LoggedIn {
-    token:string,
-    id:number
+    token: string,
+    id: number,
+    loginCount: number
 }

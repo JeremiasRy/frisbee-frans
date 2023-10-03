@@ -53,6 +53,10 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
             .Navigation(round => round.Course)
             .AutoInclude();
 
+        builder.Entity<Hole>()
+            .Navigation(hole => hole.Course)
+            .AutoInclude();
+
         base.OnModelCreating(builder);
     }
 }

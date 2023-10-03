@@ -21,6 +21,14 @@ export const ScoreDictionary = new Map<string, number>([
         ["Albatross", -3],
         ["HoleInOne", -99],
 ])
+
+export function getTagByValue(number:number) {
+        for (let [key, value] of ScoreDictionary.entries()) {
+                if (value === number) {
+                        return key
+                }
+        }
+}
 export function createRequest<TDto>(signal:AbortSignal):RequestBase<TDto>
 export function createRequest<TDto>(signal:AbortSignal, params: {}):RequestBase<TDto>;
 export function createRequest<TDto>(signal:AbortSignal, requestData: TDto):RequestBase<TDto>;

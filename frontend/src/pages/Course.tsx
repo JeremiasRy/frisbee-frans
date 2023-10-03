@@ -47,7 +47,7 @@ export default function Course() {
         <>
         <Typography variant="h1">{course.name}</Typography>
         <Typography variant="h4">Rounds played: {roundsPlayed}</Typography>
-        <Typography variant="h5">Average: {Math.floor(averageScore * 100) / 100} {averageScore < 0 ? "under par" : "Over par"}</Typography>
+        <Typography variant="h5">Average: {Math.floor(averageScore * 100) / 100} {averageScore < 0 ? "under par" : "over par"}</Typography>
         <Typography variant="h5">Course record: {bestScore}</Typography>
         <Box sx={{
             display: "flex",
@@ -56,7 +56,7 @@ export default function Course() {
             gap: "1em"
         }}>
         {course.holes.map(hole => 
-            <HoleCardBox hole={hole}/>
+            <HoleCardBox key={hole.id} hole={hole}/>
         )}
         </Box>
         

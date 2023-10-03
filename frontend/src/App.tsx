@@ -21,6 +21,10 @@ function App() {
       children: [{
         path: "/",
         element: <Welcome />,
+        children: [{
+          path:"profile",
+          element: <Profile />
+        }]
       }, {
         path: "courses",
         element: <Courses onClickAction="Navigate" setCourse={() => {}}/>
@@ -48,10 +52,6 @@ function App() {
             }]
           }
         ]
-      },
-      {
-        path: "profile",
-        element: <Profile />
       },
       {
         path: "holes/:id",

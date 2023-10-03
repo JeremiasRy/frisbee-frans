@@ -1,7 +1,7 @@
 import { Outlet, useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Hole, HoleResult } from "../types/models";
-import { CourseDto, HoleResultDto, RoundDto } from "../types/dtos";
+import { HoleResultDto, RoundDto } from "../types/dtos";
 import { useEffect, useState } from "react";
 import { getRound, updateRound } from "../redux/reducer/roundReducer";
 import { Box, Button } from "@mui/material";

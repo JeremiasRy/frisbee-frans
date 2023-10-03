@@ -15,7 +15,7 @@ public class UserController : ApiControllerBase
     }
     [HttpPost("signup")]
     [AllowAnonymous]
-    public async Task<PublicUserInfoDTO?> CreateOne([FromBody] RegisterDTO request)
+    public async Task<bool> CreateOne([FromBody] RegisterDTO request)
     {
         return await _service.CreateUserAsync(request);
     }

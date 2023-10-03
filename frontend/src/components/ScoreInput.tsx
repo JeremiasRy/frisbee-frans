@@ -77,8 +77,6 @@ export default function ScoreInput() {
         }))
     }
 
-    console.log(localRoundResults)
-
     return (
         <Box sx={{
             display: "flex",

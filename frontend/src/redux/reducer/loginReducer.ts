@@ -5,12 +5,12 @@ import axios from "axios";
 import { RootState } from "../store";
 
 export type LoginReducerState = {
-    state: "fullfilled" | "pending" | "rejected" | "idle",
+    state: "LoggingIn" | "Registering" | "Rejected" | "Fullfilled" | "Idle" | "LoginFailedTyingToRegister",
     loggedIn: LoggedIn | null
 }
 
 const initialState: LoginReducerState = {
-    state: "idle",
+    state: "Idle",
     loggedIn: null
 };
 
@@ -23,22 +23,45 @@ const loginReducer = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(login.fulfilled, (_,action) => {
-            action.payload
+        builder.addCase(login.fulfilled, (state, action) => {
             return {
-                state: "idle",
+                state: "Idle",
                 loggedIn: action.payload
+            }
+        })
+        .addCase(login.pending, (state) => {
+            return {
+                ...state,
+                state: "LoggingIn"
+            }
+        })
+        .addCase(register.pending, (state) => {
+            return {
+                ...state,
+                state: "Registering"
             }
         })
         .addCase(register.fulfilled, () => {
             return {
-                state: "fullfilled",
+                state: "Fullfilled",
                 loggedIn: null
+            }
+        })
+        .addCase(register.rejected, (state) => {
+            return {
+                ...state,
+                state: "Rejected"
+            }
+        })
+        .addCase(login.rejected, (state) => {
+            return {
+                ...state,
+                state: "Rejected"
             }
         })
         .addCase(checkToken.rejected, () => {
             return {
-                state: "idle",
+                state: "Idle",
                 loggedIn: null
             }
         })
@@ -62,8 +85,14 @@ export const login = createAsyncThunk(
 export const register = createAsyncThunk(
     "register",
     async (request: LoginDto, thunkAPI) => {
-        await axios.post<LoggedIn>(`${import.meta.env.VITE_BACKEND_URL}/users/signup`, request);
-        thunkAPI.dispatch(login(request))
+        let result = await axios.post<boolean>(`${import.meta.env.VITE_BACKEND_URL}/users/signup`, request);
+        console.log(result.data)
+        if (result.data) {
+            thunkAPI.dispatch(login(request))
+        } else {
+            thunkAPI.rejectWithValue("")
+        }
+
     } 
 )
 
