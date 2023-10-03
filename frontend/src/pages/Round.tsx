@@ -13,7 +13,8 @@ type ContextType = [HoleResult[], React.Dispatch<React.SetStateAction<HoleResult
 
 export default function Round() {
     const { id } = useParams();
-    const roundReducer = useAppSelector(state => state.round)
+    const roundReducer = useAppSelector(state => state.round);
+    const loginReducer = useAppSelector(state => state.login);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
@@ -32,13 +33,27 @@ export default function Round() {
         const controller = new AbortController();
         if (roundReducer.state === "succeeded" && roundReducer.entities[0].roundResults.length === 0 && roundReducer.entities[0].status === "NotStarted") {
             const request = createRequest<HoleResultDto[]>(controller.signal, {}, createEmptyHoleresultDTOs())
-            console.log(request)
             dispatch(createManyHoleResults({...request}));
         }
         return () => {
             controller.abort();
         }
     }, [roundReducer.state])
+
+    useEffect(() => {
+        const round = roundReducer.entities[0];
+        if (!round) {
+            return;
+        }
+        if (round.status === "OnGoing" && loginReducer.loggedIn?.id === round.userId) {
+            !location.pathname.includes("scoreinput") && navigate("scoreinput/1");
+            return;
+        }
+        if (round.status === "Completed") {
+            location.pathname.includes("scoreinput") && navigate("");
+            return;
+        }
+    }, [roundReducer.entities[0], loginReducer])
     
     function createEmptyHoleresultDTOs() {
         return roundReducer.entities[0].course.holes.map(hole => createHoleResultDTOfromHole(hole))
@@ -65,7 +80,6 @@ export default function Round() {
             status: "OnGoing"
         }
         const request = createRequestWithId<RoundDto>(id, controller.signal, {}, dto)
-        console.log(request);
         dispatch(updateRound({...request}))
     }
 
@@ -75,18 +89,11 @@ export default function Round() {
 
     const round = roundReducer.entities[0];
 
-    if (round.status === "OnGoing") {
-        !location.pathname.includes("scoreinput") && navigate("scoreinput/1");
-    }
-    if (round.status === "Completed") {
-        location.pathname.includes("scoreinput") && navigate("");
-    }
-
     return (
         <Box sx={{
             width: "90%"
         }}>
-            {round.status === "NotStarted" && <Button disabled={roundReducer.state === "pending"} onClick={() => startRound()}>Start the round?</Button>}
+            {round.status === "NotStarted" && loginReducer.loggedIn?.id === round.userId && <Button disabled={roundReducer.state === "pending"} onClick={() => startRound()}>Start the round?</Button>}
             <Outlet context={[localRoundResults, setLocalRoundResults]}/>
             <RoundCard round={roundReducer.entities[0]} localResults={round.status === "OnGoing" ? localRoundResults as HoleResult[] : null} />
         </Box>

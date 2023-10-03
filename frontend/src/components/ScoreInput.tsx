@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { Hole } from "../types/models";
 import { Direction } from "../helper";
@@ -20,8 +20,14 @@ export default function ScoreInput() {
     const [penalties, setPenalties] = useState(0);
     const [localRoundResults, setLocalRoundResults] = useLocalResults();
 
-    if (!localRoundResults || localRoundResults?.length === 0) {
-        setLocalRoundResults(roundReducer.entities[0].roundResults.map(holeResult => holeResult))
+    useEffect(() => {
+        if (!localRoundResults || localRoundResults?.length === 0) {
+            setLocalRoundResults(roundReducer.entities[0].roundResults.map(holeResult => holeResult))
+            return;
+        }
+    }, [])
+
+    if (!localRoundResults) {
         return;
     }
     

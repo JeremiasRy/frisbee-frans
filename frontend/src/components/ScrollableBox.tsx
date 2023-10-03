@@ -24,7 +24,7 @@ export default function ScrollableBox(props:ScrollableBoxProps) {
     function checkIfAtBottom() {
         if (ref.current) {
             const top = ref.current.getBoundingClientRect().top;
-            setAtBottom(window.innerHeight > top)
+            setAtBottom(window.innerHeight > top);
         }
     }
 

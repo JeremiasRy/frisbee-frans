@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getHole } from "../redux/reducer/holeReducer";
 import { useEffect } from "react";
-import { createRequest, createRequestWithId } from "../helper";
+import { createRequestWithId } from "../helper";
 import { HoleDto } from "../types/dtos";
 
 export default function Hole() {
