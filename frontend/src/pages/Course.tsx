@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { getCourseStats } from "../redux/reducer/statisticsReducer";
 import { Box, LinearProgress, Typography } from "@mui/material";
 import HoleCardBox from "../components/HoleCardBox";
+import { createRequestWithId } from "../helper";
+import { CourseDto } from "../types/dtos";
 
 export default function Course() {
     const { id } = useParams();
@@ -14,12 +16,8 @@ export default function Course() {
 
     useEffect(() => {
         const controller = new AbortController();
-        dispatch(getCourseById({
-            id: parseInt(id as string),
-            signal: controller.signal,
-            params: {},
-            requestData: {}
-        }))
+        const request = createRequestWithId<CourseDto>(id, controller.signal)
+        dispatch(getCourseById({...request}))
         return () => {
             controller.abort();
         }

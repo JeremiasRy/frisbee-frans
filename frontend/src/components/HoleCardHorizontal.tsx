@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getHole } from "../redux/reducer/holeReducer";
+import { createRequestWithId } from "../helper";
+import { HoleDto } from "../types/dtos";
 
 export default function HoleCardHorizontal() {
     const {nthHole} = useParams();
@@ -19,12 +21,8 @@ export default function HoleCardHorizontal() {
         if (!hole) {
             return;
         }
-        dispatch(getHole({
-            id: hole.id,
-            signal: controller.signal,
-            params: {},
-            requestData: {}
-        }))
+        const request = createRequestWithId<HoleDto>(hole.id, controller.signal)
+        dispatch(getHole({...request}))
         return () => {
             controller.abort();
         }

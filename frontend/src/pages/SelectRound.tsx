@@ -4,6 +4,7 @@ import Courses from "./Courses";
 import { createRound, setRoundReducerStateToIdle} from "../redux/reducer/roundReducer";
 import { RoundDto } from "../types/dtos";
 import { useNavigate } from "react-router-dom";
+import { createRequest } from "../helper";
 
 
 export function SelectRound() {
@@ -36,11 +37,8 @@ export function SelectRound() {
             courseId: course,
             status: "NotStarted"
         }
-        dispatch(createRound({
-            requestData: roundDto, 
-            signal, 
-            params: {}
-        }));
+        const request = createRequest<RoundDto>(signal, {}, roundDto)
+        dispatch(createRound({...request}));
     }
 
     function navigateToRound() {

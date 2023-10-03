@@ -1,3 +1,5 @@
+import { RequestBase, RequestWithId } from "./types/requests";
+
 export type CreateStep = "SelectCourse" | "CourseSelected" | "CourseCreated" | "CreateEmptyResults" | "EmptyResultsCreated" | "Done"
 
 export type Direction = "Next" | "Previous";
@@ -19,6 +21,53 @@ export const ScoreDictionary = new Map<string, number>([
         ["Albatross", -3],
         ["HoleInOne", -99],
 ])
+export function createRequest<TDto>(signal:AbortSignal):RequestBase<TDto>
+export function createRequest<TDto>(signal:AbortSignal, params: {}):RequestBase<TDto>;
+export function createRequest<TDto>(signal:AbortSignal, requestData: TDto):RequestBase<TDto>;
+export function createRequest<TDto>(signal:AbortSignal, params: {}, requestData: TDto):RequestBase<TDto>;
+export function createRequest<TDto>(signal:AbortSignal, params?: {}, requestData?: TDto | {}):RequestBase<TDto> {
+        if (params === undefined) {
+                params = {}
+        }
+        if (requestData === undefined) {
+                requestData = {}
+        }
+        return {
+                signal,
+                params,
+                requestData
+        }
+}
+export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal):RequestWithId<TDto>
+export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, params: {}):RequestWithId<TDto>
+export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, requestData: TDto):RequestWithId<TDto>
+export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, params: {}, requestData: TDto):RequestWithId<TDto>
+export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, params?: {}, requestData?: TDto | {}):RequestWithId<TDto> {
+        if (id === undefined) {
+                throw new Error("Id was undefined??")
+        }
+
+        if (typeof id === "string") {
+                try {
+                        id = parseInt(id as string)
+                } catch {
+                        throw new Error(`Can't convert ${id} to integer`)
+                }
+        }
+        if (params === undefined) {
+                params = {};
+        }
+        if (requestData === undefined) {
+                requestData = {}
+        }
+
+        return {
+                id,
+                signal,
+                params,
+                requestData
+        }
+}
         
 
 

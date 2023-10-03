@@ -4,6 +4,8 @@ import { getAllCourses } from "../redux/reducer/courseReducer";
 import { Box, TextField, Typography } from "@mui/material";
 import { OnClickAction } from "../components/CourseCard";
 import CourseCardWrapper from "../components/CourseCardWrapper";
+import { createRequest } from "../helper";
+import { CourseDto } from "../types/dtos";
 
 export interface CoursesProps {
     onClickAction: OnClickAction
@@ -19,11 +21,9 @@ export default function Courses(props: CoursesProps) {
 
     useEffect(() => {
         const controller = new AbortController()
+        const request = createRequest<CourseDto>(controller.signal, {name: filter})
         timeout = setTimeout(() => {
-            dispatch(getAllCourses({
-                signal: controller.signal, 
-                params: {name: filter}, 
-                requestData: {}}));
+            dispatch(getAllCourses({...request}));
         }, 500)
 
         return () => {

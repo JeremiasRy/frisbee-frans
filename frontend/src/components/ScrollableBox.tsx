@@ -40,7 +40,7 @@ export default function ScrollableBox(props:ScrollableBoxProps) {
         }}
         onScroll={checkIfAtBottom}>
             {
-                rounds.filter(round => round.status === "Completed").map(round => 
+                rounds.map(round => 
                     <RoundCard key={round.id} round={round} localResults={null}/>
                 )
             }

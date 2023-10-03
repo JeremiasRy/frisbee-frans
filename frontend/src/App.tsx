@@ -10,6 +10,7 @@ import Welcome from "./pages/Welcome";
 import Course from "./pages/Course";
 import HoleCardHorizontal from "./components/HoleCardHorizontal";
 import Profile from "./pages/Profile";
+import Hole from "./pages/Hole";
 
 function App() {
 
@@ -51,6 +52,10 @@ function App() {
       {
         path: "profile",
         element: <Profile />
+      },
+      {
+        path: "holes/:id",
+        element: <Hole />
       }
       
     ]}

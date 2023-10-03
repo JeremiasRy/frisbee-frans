@@ -1,12 +1,13 @@
 import { Outlet, useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Hole, HoleResult } from "../types/models";
-import { HoleResultDto } from "../types/dtos";
+import { CourseDto, HoleResultDto, RoundDto } from "../types/dtos";
 import { useEffect, useState } from "react";
 import { getRound, updateRound } from "../redux/reducer/roundReducer";
 import { Box, Button } from "@mui/material";
 import { createManyHoleResults } from "../redux/reducer/holeResultReducer";
 import RoundCard from "../components/RoundCard";
+import { createRequest, createRequestWithId } from "../helper";
 
 type ContextType = [HoleResult[], React.Dispatch<React.SetStateAction<HoleResult[]>>] 
 
@@ -20,12 +21,8 @@ export default function Round() {
     
     useEffect(() => {
         const controller = new AbortController();
-        dispatch(getRound({
-            id: parseInt(id as string),
-            signal: controller.signal,
-            params: {},
-            requestData: {}
-        }))
+        const request = createRequestWithId<RoundDto>(id, controller.signal)
+        dispatch(getRound({...request}))
         return () => {
             controller.abort()
         }
@@ -34,11 +31,9 @@ export default function Round() {
     useEffect(() => {
         const controller = new AbortController();
         if (roundReducer.state === "succeeded" && roundReducer.entities[0].roundResults.length === 0 && roundReducer.entities[0].status === "NotStarted") {
-            dispatch(createManyHoleResults({
-                signal: controller.signal,
-                params: {},
-                requestData: createEmptyHoleresultDTOs()
-            }));
+            const request = createRequest<HoleResultDto[]>(controller.signal, {}, createEmptyHoleresultDTOs())
+            console.log(request)
+            dispatch(createManyHoleResults({...request}));
         }
         return () => {
             controller.abort();
@@ -64,16 +59,14 @@ export default function Round() {
     function startRound() {
         const controller = new AbortController();
         const {userId, courseId} = {...round}
-        dispatch(updateRound({
-            id: parseInt(id as string),
-            signal: controller.signal,
-            params: {},
-            requestData: {
-                userId,
-                courseId,
-                status: "OnGoing" 
-            }
-        }))
+        const dto:RoundDto = {
+            userId,
+            courseId,
+            status: "OnGoing"
+        }
+        const request = createRequestWithId<RoundDto>(id, controller.signal, {}, dto)
+        console.log(request);
+        dispatch(updateRound({...request}))
     }
 
     if (roundReducer.entities.length === 0) {
@@ -93,7 +86,7 @@ export default function Round() {
         <Box sx={{
             width: "90%"
         }}>
-            {round.status === "NotStarted" && <Button onClick={() => startRound()}>Start the round?</Button>}
+            {round.status === "NotStarted" && <Button disabled={roundReducer.state === "pending"} onClick={() => startRound()}>Start the round?</Button>}
             <Outlet context={[localRoundResults, setLocalRoundResults]}/>
             <RoundCard round={roundReducer.entities[0]} localResults={round.status === "OnGoing" ? localRoundResults as HoleResult[] : null} />
         </Box>

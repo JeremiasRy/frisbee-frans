@@ -5,12 +5,13 @@ import { useEffect, useState } from "react";
 import { getAllRounds } from "../redux/reducer/roundReducer";
 import { useNavigate } from "react-router-dom";
 import ScrollableBox from "../components/ScrollableBox";
+import { createRequest } from "../helper";
+import { RoundDto } from "../types/dtos";
 
 export default function Rounds() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const roundReducer = useAppSelector(state => state.round);
-    //filter params to implement
     const [username, setUsername] = useState("");
     const [course, setCourse] = useState("");
     const [page, setPage] = useState(1);
@@ -19,17 +20,9 @@ export default function Rounds() {
 
     useEffect(() => {
         const controller = new AbortController();
+        const request = createRequest<RoundDto>(controller.signal, {page, pageSize: 5, username, courseName: course})
         timeout = setTimeout(() => {
-            dispatch(getAllRounds({
-                signal: controller.signal,
-                params: {
-                    page,
-                    pageSize: 5,
-                    username,
-                    courseName: course
-                },
-                requestData: {}
-            }));
+            dispatch(getAllRounds({...request}));
         }, 200)
         return () => {
             if (timeout) {
@@ -90,7 +83,7 @@ export default function Rounds() {
                 </Box>
             </Box>
             <ScrollableBox height={70} rounds={roundReducer.entities} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage} />
-            {atBottom && roundReducer.state === "pending" && <LinearProgress />}
+            {atBottom && roundReducer.state === "pending" && <Box sx={{marginBottom: "5em"}}><LinearProgress /></Box>}
         </Box>
         </>
     )

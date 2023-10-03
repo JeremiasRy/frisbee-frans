@@ -43,7 +43,7 @@ export default function HoleCardBox(props:HoleCardBoxProps) {
     }
 
     function handleClick(): void {
-        throw new Error("Function not implemented.");
+        navigate(`/holes/${hole.id}`)
     }
 
     return (
