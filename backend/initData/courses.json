@@ -1,0 +1,87 @@
+[
+    {
+      "Name": "Tali Disc Golf Park",
+      "Address": "Liusketie 15, 00350 Helsinki",
+      "Grade": "AA"
+    },
+    {
+      "Name": "Meilahti DiscGolfPark",
+      "Address": "Meilahti, 00250 Helsinki",
+      "Grade": "A"
+    },
+    {
+      "Name": "Kivikko Disc Golf Park",
+      "Address": "Kivikkokangas, 00940 Helsinki",
+      "Grade": "A"
+    },
+    {
+      "Name": "Haukkalampi DiscGolfPark",
+      "Address": "Kattilantie 6, 02970 Espoo",
+      "Grade": "B"
+    },
+    {
+      "Name": "Oittaa DiscGolfPark",
+      "Address": "Oittaa Recreation Center, Oittaantie 1, 02740 Espoo",
+      "Grade": "A"
+    },
+    {
+      "Name": "Leppävaara DiscGolfPark",
+      "Address": "Komentajankatu 1, 02600 Espoo",
+      "Grade": "B"
+    },
+    {
+      "Name": "Nokia DiscGolfPark",
+      "Address": "Jokikatu 27, 37100 Nokia",
+      "Grade": "B"
+    },
+    {
+      "Name": "Hermanni DiscGolfPark",
+      "Address": "Tiedonkaari, 01300 Vantaa",
+      "Grade": "A"
+    },
+    {
+        "Name": "Munkkiniemi",
+        "Address": "Nuottapolku 12, 00330 Helsinki",
+        "Grade": "B"
+    },
+    {
+        "Name": "Puolarmaari frisbeegolf",
+        "Address": "Puolarmaari 12, 02210 Espoo",
+        "Grade": "A"
+    },
+    {
+        "Name": "Äijänpelto frisbeegolf",
+        "Address": "Äijäntie, 02660 Espoo",
+        "Grade": "AAA"
+    },
+    {
+        "Name": "Lauste DiscGolfPark",
+        "Address": "Härkämäentie 23, 20780 Kaarina",
+        "Grade": "B"
+      },
+      {
+        "Name": "Kaarina DiscGolfPark",
+        "Address": "Kunnantie 8, 20780 Kaarina",
+        "Grade": "A"
+      },
+      {
+        "Name": "Mälikkälä DiscGolfPark",
+        "Address": "Mälikkäläntie 18, 20960 Turku",
+        "Grade": "C"
+      },
+      {
+        "Name": "Ruissalo DiscGolfPark",
+        "Address": "Ruissalon puistotie 640, 20100 Turku",
+        "Grade": "A"
+      },
+      {
+        "Name": "Kuhankuonon DiscGolfPark",
+        "Address": "Tammistonraitti 189, 21260 Raisio",
+        "Grade": "B"
+      },
+      {
+        "Name": "Luolavuoraen frisbeegolfrata",
+        "Address": "Luolavuorentie 51, 20720 Turku",
+        "Grade": "AA"
+      }
+  ]
