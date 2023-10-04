@@ -8,6 +8,9 @@ public class Parser
 {
     readonly HtmlDocument _doc;
     readonly Regex _newLineTab = new(@"[\n\t]+");
+    readonly Regex _numberAfterString = new(@"\w+\s(\d*)");
+    readonly Regex _holeLength = new(@"Pituus\s(\d*)");
+    readonly Regex _holePar = new(@"Par\s(\d*)");
 
     public void ReadCourseInfo()
     {
@@ -28,7 +31,17 @@ public class Parser
 
     public void ReadCourseHoles()
     {
+        var holeDescriptionsDiv = _doc.GetElementbyId("rata-vaylakuvaukset").Descendants("div").Where(node => node.GetClasses().Any(cssClass => cssClass.Contains("tab-1"))).First();
+        var holeDescriptions = holeDescriptionsDiv
+            .Descendants("span")
+            .Select(node => new 
+            { 
+                NthHole = _numberAfterString.Match(node.Descendants("h4").First().InnerText).Groups[^1].Value, 
+                Length = _holeLength.Match(node.Descendants("p").First().InnerHtml).Groups[^1].Value, 
+                Par = _holePar.Match(node.Descendants("p").First().InnerHtml).Groups[^1].Value 
+            });
 
+        Console.WriteLine("");
     }
     public string CleanUp(string htmlInnerText, bool whiteSpace)
     {

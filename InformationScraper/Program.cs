@@ -5,3 +5,4 @@ Parser parser = new (await requestHandler.GetHttpResponse("https://frisbeegolfra
 
 parser.ReadCourseName();
 parser.ReadCourseInfo();
+parser.ReadCourseHoles();   
