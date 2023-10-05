@@ -52,8 +52,10 @@ function Parse-Data {
     $batchCount = 0;
     Write-Host "Parsing courses"
     while ($itemsParsed -lt $itemCountToUpload) {
+        # Append to the VALUES portion of insert SQL statement
         $courseValues += Parse-CourseValueString -course $initialData[$itemsParsed]
         foreach ($hole in $initialData[$itemsParsed].Holes) {
+            # Prepare holes for inserting; append to the VALUES portion of sql statement
             $holeValues += Parse-HoleValueString -hole $hole -courseId $idCount
         }
         $idCount++

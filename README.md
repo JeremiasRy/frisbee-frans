@@ -1,7 +1,5 @@
 # Things to do:
-
-- When app is fetching disable buttons and indicate it with some cool circular progress
-- Design a nice layout for login page
+- Course scrolling and filtering
 - Admin actions
     - crud hole
     - crud course
