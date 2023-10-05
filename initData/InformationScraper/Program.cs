@@ -1,7 +1,7 @@
 ﻿using HtmlParser;
 using System;
 
-int clientCount = 10;
+int clientCount = 25;
 List<RequestHandler> handlers = new();
 for (int i = 0; i < clientCount; i++)
 {
@@ -18,7 +18,7 @@ var watch = new System.Diagnostics.Stopwatch();
 while (count < urls.Count)
 {
     watch.Start();
-    Task<string>[] tasks = new Task<string>[clientCount];
+    Task<string>[] tasks = new Task<string>[urls.Count - count < clientCount ? urls.Count - count : clientCount];
     for (int i = 0; i < tasks.Length; i++)
     {
         tasks[i] = handlers[i].GetHttpResponse(urls[count++]);
@@ -32,7 +32,7 @@ while (count < urls.Count)
 }
     
 var json = System.Text.Json.JsonSerializer.Serialize(courses);
-using (var fw = new StreamWriter("../../../../backend/initData/courses.json"))
+using (var fw = new StreamWriter("../../courses.json"))
 {
     fw.Write(json);
 }
