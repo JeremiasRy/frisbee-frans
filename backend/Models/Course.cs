@@ -5,6 +5,7 @@ namespace backend.Models;
 
 public class Course : BaseModel
 {
+    public string Address { get; set; } = null!;
     public string Name { get; set; } = null!;
     [JsonIgnore]
     public string NameNormalized { get; set; } = null!;
