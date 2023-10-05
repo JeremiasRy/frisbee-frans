@@ -1,9 +1,13 @@
 ﻿using HtmlParser;
 using System;
-using static System.Net.WebRequestMethods;
 
-RequestHandler requestHandler = new();
-LinkParser linkParser = new (await requestHandler.GetHttpResponse("https://frisbeegolfradat.fi/radat/"));
+int clientCount = 10;
+List<RequestHandler> handlers = new();
+for (int i = 0; i < clientCount; i++)
+{
+    handlers.Add(new RequestHandler());
+}
+LinkParser linkParser = new (await handlers.First().GetHttpResponse("https://frisbeegolfradat.fi/radat/"));
 
 var urls = linkParser.UrlsToParse();
 var courses = new List<Course>();
@@ -11,19 +15,34 @@ int count = 0;
 
 var watch = new System.Diagnostics.Stopwatch();
 
-foreach (var url in urls)
+while (count < urls.Count)
 {
     watch.Start();
-    var data = await requestHandler.GetHttpResponse(url);
-    var httpMs = watch.ElapsedMilliseconds;
-    var parser = new CourseParser(data);
-    courses.Add(parser.ReturnCourse());
-    Console.WriteLine("Added course {0}, {1} out of {2} imported, total time taken {3}ms, of which HTTP request was {4}ms", courses[^1].Name, urls.Count, ++count, watch.ElapsedMilliseconds, httpMs);
+    Task<string>[] tasks = new Task<string>[clientCount];
+    for (int i = 0; i < tasks.Length; i++)
+    {
+        tasks[i] = handlers[i].GetHttpResponse(urls[count++]);
+    }
+    Task.WaitAll(tasks);
+    var coursesParsed = tasks.Select(t => new CourseParser(t.Result).ReturnCourse());
+    courses.AddRange(coursesParsed);
+    PrintResult(coursesParsed, urls.Count, watch.ElapsedMilliseconds);
     watch.Restart();
+    Console.WriteLine("{0} out of {1} parsed", count, urls.Count);
 }
-
+    
 var json = System.Text.Json.JsonSerializer.Serialize(courses);
 using (var fw = new StreamWriter("../../../../backend/initData/courses.json"))
 {
     fw.Write(json);
+}
+
+static void PrintResult(IEnumerable<Course> result, int urlCount, long totalElapsed)
+{
+    Console.WriteLine("{0} Courses parsed:", result.Count());
+    foreach (var course in result)
+    {
+        Console.WriteLine("{0}", course.Name);
+    }
+    Console.WriteLine("Total time elapsed {0}ms", totalElapsed);
 }

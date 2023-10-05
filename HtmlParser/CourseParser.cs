@@ -19,10 +19,23 @@ public class CourseParser
         ReadCourseHoles(course);
         ReadCourseInfo(course);
         ReadCourseName(course);
+        ReadCourseGrade(course);
         return course;
     }
 
-    public void ReadCourseInfo(Course course)
+    void ReadCourseGrade(Course course)
+    {
+        var imgNode = _doc.DocumentNode.Descendants("img").Where(node => node.GetClasses().Any(cssClass => cssClass.Contains("rating_image"))).FirstOrDefault();
+        if (imgNode is null)
+        {
+            Console.WriteLine("Did not find grade");
+            return;
+        }
+        string grade = imgNode.Attributes.Where(attr => attr.Name == "src").First().DeEntitizeValue.Split("/")[^1].Replace(".png", "");
+        course.Grade = grade;
+    }
+
+    void ReadCourseInfo(Course course)
     {
         var courseInfoSection = _doc.DocumentNode.Descendants("ul").Where(node => node.HasClass("course_info"));
         var infoNodes = courseInfoSection.First().Descendants().Where(node => node.GetClasses().Any(cssClass => cssClass.Contains("course_info")));
@@ -31,12 +44,12 @@ public class CourseParser
 
         course.Address = keyValuePairs.First(kv => kv.Key == "Osoite").Value;
     }
-    public void ReadCourseName(Course course)
+    void ReadCourseName(Course course)
     {
         course.Name = CleanUp(_doc.DocumentNode.Descendants("h1").First().InnerText, true);
     }
 
-    public void ReadCourseHoles(Course course)
+    void ReadCourseHoles(Course course)
     {
         var holeDescriptionsDiv = _doc.GetElementbyId("rata-vaylakuvaukset").Descendants("div").Where(node => node.GetClasses().Any(cssClass => cssClass.Contains("tab-1"))).First();
         var holeDescriptions = holeDescriptionsDiv.Descendants("div").Where(node => node.HasClass("fairway"));
@@ -55,7 +68,7 @@ public class CourseParser
         };
         course.Holes = holes;
     }
-    public string CleanUp(string htmlInnerText, bool whiteSpace)
+    string CleanUp(string htmlInnerText, bool whiteSpace)
     {
         return _newLineTab.Replace(htmlInnerText, match =>
         {

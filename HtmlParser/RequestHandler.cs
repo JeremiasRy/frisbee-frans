@@ -18,13 +18,16 @@ public class RequestHandler
     /// <returns>string</returns>
     public async Task<string> GetHttpResponse(string url)
     {
+        System.Diagnostics.Stopwatch sw = new();
+        sw.Start();
         var response = await _client.GetAsync(url);
         if (response.IsSuccessStatusCode)
         {
+            Console.WriteLine("Fetched {0} in {1}ms", url, sw.ElapsedMilliseconds);
             return await response.Content.ReadAsStringAsync();
         } else
         {
-            Console.WriteLine("Fetch from {} failed", url);
+            Console.WriteLine("Fetch from {0} failed", url);
             return "";
         }
     }
