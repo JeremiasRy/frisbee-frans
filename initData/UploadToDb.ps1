@@ -24,7 +24,8 @@ function Parse-CourseValueString {
     $name = $course.Name.Trim()
     $nameNormalized = $name.ToUpperInvariant()
     $address = $course.Address.Trim()
-    $result = "('$name', '$nameNormalized', '$address', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),"
+    $addressNormalized = $address.ToUpperInvariant()
+    $result = "('$name', '$nameNormalized', '$address', (SELECT id FROM city WHERE position(name_normalized in '$addressNormalized') > 0 LIMIT 1), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),"
     return $result
 }
 function Parse-HoleValueString {
@@ -40,10 +41,25 @@ function Parse-HoleValueString {
     return $result
 }
 
+function Parse-Cities {
+    Write-Host "Parsing cities"
+    $citiesData = Get-Content -Path "./cities.json" -Encoding UTF8 -Raw | ConvertFrom-Json
+    $cityInsertSql = "INSERT INTO city (name, name_normalized, created_at, updated_at) VALUES "
+    $cityValues = "";
+    foreach ($city in $citiesData) {
+        $nameNormalized = $city.ToUpperInvariant()
+        $cityvalues += "('$city', '$nameNormalized', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),"
+    }
+    $cityValues = $cityValues.TrimEnd(",")
+    Insert-ValuesToDb -insert $cityInsertSql -values $cityValues
+}
+
 function Parse-Data {
-    $initialData = Get-Content -Path "./courses.json" -Raw | ConvertFrom-Json
+    Parse-Cities
+
+    $initialData = Get-Content -Path "./courses.json" -Encoding UTF8 -Raw | ConvertFrom-Json
     $itemCountToUpload = $initialData.Length
-    $courseInsertSql = "INSERT INTO course (name, name_normalized, address, created_at, updated_at) VALUES"
+    $courseInsertSql = "INSERT INTO course (name, name_normalized, address, city_id, created_at, updated_at) VALUES"
     $holeInsertSql = "INSERT INTO hole (nth_hole, length, par, course_id, created_at, updated_at) VALUES"
     $courseValues = ""
     $holeValues = ""
@@ -61,7 +77,7 @@ function Parse-Data {
         $idCount++
         $itemsParsed++
         $batchCount++
-        if ($batchCount -eq 200) {
+        if ($batchCount -eq 100) {
             Insert-ValuesToDb -insert $courseInsertSql -values $courseValues.TrimEnd(',')
             $batchCount = 0;
             $courseValues = ""

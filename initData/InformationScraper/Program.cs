@@ -1,7 +1,9 @@
 ﻿using HtmlParser;
-using System;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 
-int clientCount = 25;
+int clientCount = 5;
 List<RequestHandler> handlers = new();
 for (int i = 0; i < clientCount; i++)
 {
@@ -10,6 +12,18 @@ for (int i = 0; i < clientCount; i++)
 LinkParser linkParser = new (await handlers.First().GetHttpResponse("https://frisbeegolfradat.fi/radat/"));
 
 var urls = linkParser.UrlsToParse();
+var cities = linkParser.CitiesFromIndex();
+
+JsonSerializerOptions options = new()
+{
+    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+};
+
+using (var sw = new StreamWriter("../../../../cities.json"))
+{
+    var citiesJson = JsonSerializer.Serialize(cities, options);
+    sw.Write(citiesJson);
+}
 var courses = new List<Course>();
 int count = 0;
 
@@ -28,12 +42,12 @@ while (count < urls.Count)
     courses.AddRange(coursesParsed);
     PrintResult(coursesParsed, urls.Count, watch.ElapsedMilliseconds);
     watch.Restart();
-    Console.WriteLine("{0} out of {1} parsed", count, urls.Count);
+    Console.WriteLine("{0} out of {1} parsed", count + 1, urls.Count);
 }
     
-var json = System.Text.Json.JsonSerializer.Serialize(courses);
-using (var fw = new StreamWriter("../../courses.json"))
+using (var fw = new StreamWriter("../../../../courses.json"))
 {
+    var json = JsonSerializer.Serialize(courses, options);
     fw.Write(json);
 }
 

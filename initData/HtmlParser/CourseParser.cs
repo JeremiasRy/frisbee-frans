@@ -1,7 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace HtmlParser;
 
@@ -15,7 +14,7 @@ public class CourseParser
 
     public Course ReturnCourse()
     {
-        Course course = new Course();
+        Course course = new ();
         ReadCourseHoles(course);
         ReadCourseInfo(course);
         ReadCourseName(course);
@@ -42,11 +41,11 @@ public class CourseParser
         var nodesWithTitle = infoNodes.Where(element => element.ChildNodes.Where(child => child.Name == "b").Any());
         var keyValuePairs = nodesWithTitle.Select(node => new { Key = CleanUp(node.Descendants("b").First().InnerText, false), Value = CleanUp(node.Descendants("p").First().InnerText, true) });
 
-        course.Address = keyValuePairs.First(kv => kv.Key == "Osoite").Value;
+        course.Address = keyValuePairs.First(kv => kv.Key == "Osoite").Value.Trim();
     }
     void ReadCourseName(Course course)
     {
-        course.Name = CleanUp(_doc.DocumentNode.Descendants("h1").First().InnerText, true);
+        course.Name = CleanUp(_doc.DocumentNode.Descendants("h1").First().InnerText, true).Trim();
     }
 
     void ReadCourseHoles(Course course)
@@ -54,7 +53,7 @@ public class CourseParser
         var holeDescriptionsDiv = _doc.GetElementbyId("rata-vaylakuvaukset").Descendants("div").Where(node => node.GetClasses().Any(cssClass => cssClass.Contains("tab-1"))).First();
         var holeDescriptions = holeDescriptionsDiv.Descendants("div").Where(node => node.HasClass("fairway"));
 
-        List<Hole> holes = new List<Hole>();
+        List<Hole> holes = new();
         foreach (var node in holeDescriptions)
         {
             var nthHole = _numberAfterString.Match(node.Descendants("h4").First().InnerText).Groups[1].Value;
