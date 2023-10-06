@@ -8,4 +8,6 @@ public class CommonFilter : BaseQuery
     public int HoleId { get; set; } = 0;
     public string Username { get; set; } = null!;
     public string CourseName { get; set; } = null!;
+    public string City { get; set; } = null!;
+
 }

@@ -3,6 +3,9 @@ import { BaseModel } from "./base";
 
 export interface Course extends BaseModel {
     name: string,
+    cityName: string,
+    address: string,
+    gradeValue: string,
     holes: Hole[],
     coursePar: number
 }

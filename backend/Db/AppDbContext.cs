@@ -37,6 +37,10 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
             .Navigation(course => course.City)
             .AutoInclude();
 
+        builder.Entity<Course>()
+            .Navigation(course => course.Grade)
+            .AutoInclude();
+
         builder.Entity<City>()
             .HasIndex(city => city.Name)
             .IsUnique();

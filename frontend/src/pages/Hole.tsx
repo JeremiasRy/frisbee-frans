@@ -34,19 +34,16 @@ export default function Hole() {
         }
     }, [id])
 
-    if (!holeReducer.entities[0] || !statisticsReducer.holeStats) {
+    if (!holeReducer.entities[0]) {
         return;
     }
     
     const hole = holeReducer.entities[0];
-    const {averageScore, breakdownOfHoleResults} = statisticsReducer.holeStats
-
-    console.log(breakdownOfHoleResults)
-    console.log(averageScore)
 
     return (
         <Box>
             <Typography variant="h1">Hole {hole.nthHole} at {hole.courseName}</Typography>
+            {!statisticsReducer.holeStats ? <>No statistics for this hole yet</> : <>stats...</>}
         </Box>
     )
 }

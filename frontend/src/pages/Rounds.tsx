@@ -4,7 +4,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useEffect, useState } from "react";
 import { getAllRounds } from "../redux/reducer/roundReducer";
 import { useNavigate } from "react-router-dom";
-import ScrollableBox from "../components/ScrollableBox";
+import RoundCardWrapper from "../components/RoundCardWrapper";
 import { createRequest } from "../helper";
 import { RoundDto } from "../types/dtos";
 
@@ -90,7 +90,7 @@ export default function Rounds() {
                     </Box>
                 </Box>
             </Box>
-            <ScrollableBox height={70} rounds={roundReducer.entities} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage} />
+            <RoundCardWrapper height={70} rounds={roundReducer.entities} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage} />
             {atBottom && roundReducer.state === "pending" && <Box sx={{marginBottom: "5em"}}><LinearProgress /></Box>}
         </Box>
         </>

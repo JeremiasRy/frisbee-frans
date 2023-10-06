@@ -11,7 +11,7 @@ export interface ScrollableBoxProps {
     setAtBottom: React.Dispatch<React.SetStateAction<boolean>>,
     setPage: React.Dispatch<React.SetStateAction<number>>
 }
-export default function ScrollableBox(props:ScrollableBoxProps) {
+export default function RoundCardWrapper(props:ScrollableBoxProps) {
     const {height, rounds, atBottom, setAtBottom, page, setPage} = {...props};
     const ref = useRef<HTMLDivElement>(null)
 

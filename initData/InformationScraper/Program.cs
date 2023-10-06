@@ -44,7 +44,17 @@ while (count < urls.Count)
     watch.Restart();
     Console.WriteLine("{0} out of {1} parsed", count + 1, urls.Count);
 }
-    
+// Code used to extract grades from courses.json
+/*
+using (var sw = new StreamWriter("../../../../grades.json")) 
+using(var sr = new StreamReader("../../../../courses.json"))
+{
+    var courses = JsonSerializer.Deserialize<List<Course>>(sr.ReadToEnd()) ?? throw new Exception("things exploded");
+    var grades = courses.Select(course => course.Grade).Distinct().ToList();
+    var gradesJson = JsonSerializer.Serialize(grades);
+    sw.Write(gradesJson);
+}
+*/
 using (var fw = new StreamWriter("../../../../courses.json"))
 {
     var json = JsonSerializer.Serialize(courses, options);
@@ -60,3 +70,4 @@ static void PrintResult(IEnumerable<Course> result, int urlCount, long totalElap
     }
     Console.WriteLine("Total time elapsed {0}ms", totalElapsed);
 }
+

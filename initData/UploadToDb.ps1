@@ -21,11 +21,12 @@ function Parse-CourseValueString {
     param (
         $course
     )
-    $name = $course.Name.Trim()
+    $name = $course.Name.Trim() -replace "\u0026#8211;" -replace "\u0026#8221;"
     $nameNormalized = $name.ToUpperInvariant()
     $address = $course.Address.Trim()
     $addressNormalized = $address.ToUpperInvariant()
-    $result = "('$name', '$nameNormalized', '$address', (SELECT id FROM city WHERE position(name_normalized in '$addressNormalized') > 0 LIMIT 1), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),"
+    $grade = $course.Grade
+    $result = "('$name', '$nameNormalized', '$address', (SELECT id FROM city WHERE position(name_normalized in '$addressNormalized') > 0 LIMIT 1), (SELECT id FROM grade WHERE value = '$grade'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),"
     return $result
 }
 function Parse-HoleValueString {
@@ -54,12 +55,24 @@ function Parse-Cities {
     Insert-ValuesToDb -insert $cityInsertSql -values $cityValues
 }
 
+function Parse-Grades {
+    Write-Host "Parsing grades"
+    $grades = Get-Content -Path "./grades.json" -Encoding UTF8 -Raw | ConvertFrom-Json
+    $gradeInsertSql = "INSERT INTO grade (value, created_at, updated_at) VALUES "
+    $gradeValues = "";
+    foreach ($grade in $grades) {
+        $gradeValues += "('$grade', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),"
+    }
+    $gradeValues = $gradeValues.TrimEnd(",")
+    Insert-ValuesToDb -insert $gradeInsertSql -values $gradeValues
+}
+
 function Parse-Data {
     Parse-Cities
-
+    Parse-Grades
     $initialData = Get-Content -Path "./courses.json" -Encoding UTF8 -Raw | ConvertFrom-Json
     $itemCountToUpload = $initialData.Length
-    $courseInsertSql = "INSERT INTO course (name, name_normalized, address, city_id, created_at, updated_at) VALUES"
+    $courseInsertSql = "INSERT INTO course (name, name_normalized, address, city_id, grade_id, created_at, updated_at) VALUES"
     $holeInsertSql = "INSERT INTO hole (nth_hole, length, par, course_id, created_at, updated_at) VALUES"
     $courseValues = ""
     $holeValues = ""

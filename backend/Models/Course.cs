@@ -5,8 +5,13 @@ namespace backend.Models;
 
 public class Course : BaseModel
 {
+    [JsonIgnore]
     public City City { get; set; } = null!;
+    public string CityName => City.Name;
     public string Address { get; set; } = null!;
+    [JsonIgnore]
+    public Grade Grade { get; set; } = null!;
+    public string GradeValue => Grade.Value;
     public string Name { get; set; } = null!;
     [JsonIgnore]
     public string NameNormalized { get; set; } = null!;

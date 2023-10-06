@@ -1,10 +1,8 @@
 # Things to do:
-- Course scrolling and filtering
+- Course scrolling and filtering (by city, grade, rounds played)
 - Admin actions
     - crud hole
     - crud course
-
-- Course ranking (AA-1, BB-2, AAA-1)
 - Comments on hole
 - Comments on rounds
-- Description for course (optional)
+- Rating system that compares your results to all the other results available(Not going to be valid but something fun)

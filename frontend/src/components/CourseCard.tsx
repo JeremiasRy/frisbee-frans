@@ -73,6 +73,7 @@ export default function CourseCard(props:CourseCardProps) {
         }}>
             <Typography variant="h4" sx={{textAlign: "center"}}>{course.name}</Typography>
             <Typography>Holes: {course.holes.length}<br/> Par: {course.coursePar} </Typography>
+            <Typography>Grade: {course.gradeValue}</Typography>
         </Paper>
     )
 }

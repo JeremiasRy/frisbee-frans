@@ -15,11 +15,18 @@ public class CourseService : CrudService<Course, CourseDTO>
     }
     public async override Task<List<Course>> GetAllAsync(IFilterOptions request)
     {
-        if (request is NameFilter filter && filter.Name is not null)
+        if (request is CommonFilter filter)
         {
-            return await _appDbContext
-                .Set<Course>()
-                .Where(course => course.NameNormalized.Contains(filter.Name.ToUpperInvariant()))
+            var query = _appDbContext.Set<Course>().AsSplitQuery().Where(c => true);
+            if (filter.City != "")
+            {
+                query = query.Where(course => course.City.NameNormalized.Contains(filter.City.ToUpper()));
+            }
+            if (filter.CourseName != "")
+            {
+                query = query.Where(course => course.NameNormalized.Contains(filter.CourseName.ToUpper()));
+            }
+            return await query
                 .Skip(filter.PageSize * (filter.Page - 1))
                 .Take(filter.PageSize)
                 .ToListAsync();
