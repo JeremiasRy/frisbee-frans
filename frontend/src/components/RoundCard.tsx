@@ -88,7 +88,7 @@ export default function RoundCard(props:RoundCardProps) {
                         } 
                     </Box>
                 </Box>
-                <Typography variant="h3" textAlign="right"sx={{width: "5em"}}>Score: {resultsToRender.filter(res => res.throws > 0).map(res => res.throws + res.penalties - res.par).reduce((a, b) => a + b, 0)}</Typography>
+                <Typography variant="h3" textAlign="right"sx={{width: "5em"}}>{resultsToRender.filter(res => res.throws > 0).map(res => res.throws + res.penalties - res.par).reduce((a, b) => a + b, 0)}</Typography>
             </Box>
         </Paper>
     )

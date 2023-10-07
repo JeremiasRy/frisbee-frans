@@ -3,7 +3,7 @@ import RoundCard from "./RoundCard";
 import React, { useEffect, useRef, } from "react";
 import { Round } from "../types/models";
 
-export interface ScrollableBoxProps {
+export interface RoundCardWrapperProps {
     height: number,
     rounds: Round[],
     atBottom: boolean,
@@ -11,7 +11,7 @@ export interface ScrollableBoxProps {
     setAtBottom: React.Dispatch<React.SetStateAction<boolean>>,
     setPage: React.Dispatch<React.SetStateAction<number>>
 }
-export default function RoundCardWrapper(props:ScrollableBoxProps) {
+export default function RoundCardWrapper(props:RoundCardWrapperProps) {
     const {height, rounds, atBottom, setAtBottom, page, setPage} = {...props};
     const ref = useRef<HTMLDivElement>(null)
 

@@ -20,7 +20,7 @@ export default function Root() {
             flexDirection: "row",
             justifyContent: "space-between",
             overflow: "hidden",
-            padding: "2em",
+            padding: "1em",
             gap: "10em"
         }}>
             <Box 

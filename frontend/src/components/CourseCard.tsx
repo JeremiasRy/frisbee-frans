@@ -1,7 +1,8 @@
-import { Paper, Typography } from "@mui/material"
+import { Box, Paper, Typography } from "@mui/material"
 import { Course } from "../types/models"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GradeBox } from "./GradeBox";
 
 export type OnClickAction = "Navigate" | "Select"
 
@@ -67,13 +68,32 @@ export default function CourseCard(props:CourseCardProps) {
             boxShadow: "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
             transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) ${scale ? "scale3d(1.02, 1.02, 1.02)" : "" }`,
             backgroundImage: `radial-gradient(circle at ${circleX}px ${circleY}px, #ffffff55, #0000000f)`,
+            overflow: "hidden",
             "&:hover": {
                 cursor: "pointer"
             }
         }}>
-            <Typography variant="h4" sx={{textAlign: "center"}}>{course.name}</Typography>
-            <Typography>Holes: {course.holes.length}<br/> Par: {course.coursePar} </Typography>
-            <Typography>Grade: {course.gradeValue}</Typography>
+            <Box sx={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column"
+            }}>
+                <Box sx= {{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between"
+                }}>
+                    <Box sx={{
+                        width: "70%"
+                    }}>
+                        <Typography variant="h4">{course.name}</Typography>
+                    </Box>
+                    <Box>
+                        <GradeBox grade={course.gradeValue}/>
+                    </Box>
+                </Box>
+            </Box>
         </Paper>
     )
 }

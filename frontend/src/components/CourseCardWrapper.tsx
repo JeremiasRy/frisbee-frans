@@ -34,6 +34,7 @@ export default function CourseCardWrapper(props:CourseCardWrapperProps) {
             display: "flex",
             flexDirection: "row",
             flexWrap: "wrap",
+            justifyContent: "center",
             gap: "1em",
             maxHeight: `70vh`,
             maxWidth: "80vw",
