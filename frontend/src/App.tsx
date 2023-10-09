@@ -20,11 +20,10 @@ function App() {
       element: <Root />,
       children: [{
         path: "/",
-        element: <Welcome />,
-        children: [{
-          path:"profile",
-          element: <Profile />
-        }]
+        element: <Welcome />
+      }, {
+        path:"profile",
+        element: <Profile />
       }, {
         path: "courses",
         element: <Courses onClickAction="Navigate" setCourse={() => {}}/>
