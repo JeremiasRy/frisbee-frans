@@ -5,7 +5,7 @@ export interface Course extends BaseModel {
     name: string,
     cityName: string,
     address: string,
-    gradeValue: string,
+    courseGrade: string,
     holes: Hole[],
     coursePar: number
 }

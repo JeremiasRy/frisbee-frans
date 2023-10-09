@@ -9,4 +9,5 @@ public class CommonFilter : BaseQuery
     public int RoundId { get; set; } = 0;
     public int HoleId { get; set; } = 0;
     public string Username { get; set; } = null!;
+    public string CourseName { get; set; } = null!;
 }

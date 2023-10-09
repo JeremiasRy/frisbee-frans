@@ -54,6 +54,7 @@ export default function CourseCard(props:CourseCardProps) {
             setCourse(course.id);
         }
     }
+    console.log(course)
 
     return (
         <Paper
@@ -90,7 +91,7 @@ export default function CourseCard(props:CourseCardProps) {
                         <Typography variant="h4">{course.name}</Typography>
                     </Box>
                     <Box>
-                        <GradeBox grade={course.gradeValue}/>
+                        <GradeBox grade={course.courseGrade}/>
                     </Box>
                 </Box>
             </Box>

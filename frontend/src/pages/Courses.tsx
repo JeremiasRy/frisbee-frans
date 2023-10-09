@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getAllCourses } from "../redux/reducer/courseReducer";
 import { Box, TextField, Typography } from "@mui/material";
