@@ -41,15 +41,16 @@ export default function Course() {
     }
 
     const course = courseReducer.entities[0];
-    console.log(course)
     const {roundsPlayed, averageScore, bestScore} = {...statisticsReducer.courseStats}
     
     return (
         <>
         <Typography variant="h1">{course.name}</Typography>
-        <Typography variant="h4">Rounds played: {roundsPlayed}</Typography>
-        <Typography variant="h5">Average: {Math.floor(averageScore * 100) / 100} {averageScore < 0 ? "under par" : "over par"}</Typography>
-        <Typography variant="h5">Course record: {bestScore}</Typography>
+        {roundsPlayed && averageScore && bestScore && <>
+            <Typography variant="h4">Rounds played: {roundsPlayed}</Typography>
+            <Typography variant="h5">Average: {Math.floor(averageScore * 100) / 100} {averageScore < 0 ? "under par" : "over par"}</Typography>
+            <Typography variant="h5">Course record: {bestScore}</Typography></>
+        }
         <Box sx={{
             display: "flex",
             flexDirection: "row",

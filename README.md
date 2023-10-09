@@ -1,5 +1,6 @@
 # Things to do:
 - Course scrolling and filtering (by city, grade, rounds played)
+- Expand on the filtering capabilities
 - Admin actions
     - crud hole
     - crud course

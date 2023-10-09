@@ -54,7 +54,6 @@ export default function CourseCard(props:CourseCardProps) {
             setCourse(course.id);
         }
     }
-    console.log(course)
 
     return (
         <Paper

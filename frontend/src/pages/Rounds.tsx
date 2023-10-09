@@ -44,7 +44,6 @@ export default function Rounds() {
         setCourse(e.currentTarget.value)
     }
 
-
     return (
         <>
         <Typography variant="h2" sx={{textAlign: "center" }}>Rounds</Typography>
