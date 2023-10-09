@@ -28,7 +28,7 @@ export function GradeBox(props:GradeBoxProps) {
             alignItems: "center",
             fontFamily: "monospace"
         }}>
-            <Typography variant="h6">{grade}</Typography>
+            <Typography variant="h6">{grade === "NoGrade" ? "" : grade}</Typography>
         </Box>
     )
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getAllCourses } from "../redux/reducer/courseReducer";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { OnClickAction } from "../components/CourseCard";
 import CourseCardWrapper from "../components/CourseCardWrapper";
 import { createRequest } from "../helper";
@@ -16,8 +16,9 @@ export default function Courses(props: CoursesProps) {
     const { onClickAction, setCourse } = {...props};
     const [name, setName] = useState("");
     const [city, setCity] = useState("");
-    const [atBottom, setAtBottom] = useState<boolean>(false);
+    const [atBottom, setAtBottom] = useState(false);
     const [page, setPage] = useState(1);
+    const [sortByDifficulty, setSortByDifficulty] = useState(false)
     const state = useAppSelector(state => state.course);
     const dispatch = useAppDispatch();
     let timeout:ReturnType<typeof setTimeout>;
@@ -44,7 +45,7 @@ export default function Courses(props: CoursesProps) {
         setPage(1);
         setCity(e.currentTarget.value)
     }
-
+    
     return (
         <Box sx={{
             display: "flex",
