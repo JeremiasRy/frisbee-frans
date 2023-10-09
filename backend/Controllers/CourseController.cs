@@ -15,7 +15,7 @@ public class CourseController : CrudController<Course, CourseDTO>
     }
     public async override Task<List<Course>> GetAll()
     {
-        var filter = Request.QueryString.ParseParams<CommonFilter>();
+        var filter = Request.QueryString.ParseParams<CourseFilter>();
         if (filter is null)
         {
             return await base.GetAll();

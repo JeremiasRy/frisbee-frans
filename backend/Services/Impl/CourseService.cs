@@ -15,7 +15,7 @@ public class CourseService : CrudService<Course, CourseDTO>
     }
     public async override Task<List<Course>> GetAllAsync(IFilterOptions request)
     {
-        if (request is CommonFilter filter)
+        if (request is CourseFilter filter)
         {
             var query = _appDbContext.Set<Course>().AsSplitQuery().Where(c => true);
             if (filter.City != "")
@@ -25,6 +25,16 @@ public class CourseService : CrudService<Course, CourseDTO>
             if (filter.CourseName != "")
             {
                 query = query.Where(course => course.NameNormalized.Contains(filter.CourseName.ToUpper()));
+            }
+            if (filter.Grade is not null)
+            {
+                query = query.Where(course => course.CourseGrade == filter.Grade);
+            }
+            if (filter.SortProperty == CourseFilter.CourseSortProperty.Grade && filter.Sort is not null)
+            {
+                query = filter.Sort == CourseFilter.SortDirection.ASCENDING 
+                    ? query.OrderBy(course => (int)course.CourseGrade) 
+                    : query.OrderByDescending(course => (int)course.CourseGrade);
             }
             return await query
                 .Skip(filter.PageSize * (filter.Page - 1))
