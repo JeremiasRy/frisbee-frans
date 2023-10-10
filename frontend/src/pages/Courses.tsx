@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getAllCourses } from "../redux/reducer/courseReducer";
-import { Box, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import { OnClickAction } from "../components/CourseCard";
 import CourseCardWrapper from "../components/CourseCardWrapper";
 import { Grades, createRequest } from "../helper";
 import { CourseDto } from "../types/dtos";
 import { SortDirection } from "../types/models";
+import GradeFilter from "../components/GradeFilter";
+import CourseSortFilter from "../components/CourseSortFilter";
 
 export interface CoursesProps {
     onClickAction: OnClickAction
@@ -33,7 +35,8 @@ export default function Courses(props: CoursesProps) {
 
     useEffect(() => {
         const controller = new AbortController()
-        const request = createRequest<CourseDto>(controller.signal, {courseName: name, page, pageSize: 20, city, grade, sort: sortBy.direction, SortProperty: sortBy.column})
+        const sort = sortBy.column !== "NONE" && sortBy.direction !== "NONE" ? {sort: sortBy.direction, SortProperty: sortBy.column} : {}
+        const request = createRequest<CourseDto>(controller.signal, {courseName: name, page, pageSize: 20, city, grade, ...sort})
         timeout = setTimeout(() => {
             dispatch(getAllCourses({...request}));
         }, 200)
@@ -43,7 +46,7 @@ export default function Courses(props: CoursesProps) {
                 clearTimeout(timeout);
             }
         }
-    }, [name, page, city, grade, sortBy?.column, sortBy?.direction])
+    }, [name, page, city, grade, sortBy.column, sortBy.direction])
 
     function handleNameFilterChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         setPage(1);
@@ -58,11 +61,16 @@ export default function Courses(props: CoursesProps) {
         setGrade(e.target.value);
     }
     function handleSortByChange(_: any, value:string) {
+        setPage(1);
         setSortBy(prev => ({...prev, column: value as SortColumn}))
     }
     function handleDirectionChange(_: any, value:string) {
         setPage(1);
         setSortBy(prev => ({...prev, direction: value as SortDirection}))
+    }
+    function handleClear() {
+        setPage(1);
+        setSortBy({column: "NONE", direction: "NONE"})
     }
 
     return (
@@ -74,52 +82,8 @@ export default function Courses(props: CoursesProps) {
             <Typography variant="h2" sx={{textAlign: "center"}}>{onClickAction === "Navigate" ? "Courses" : "Select a course"}</Typography>
             <TextField label="Find by name" onChange={handleNameFilterChange}/>
             <TextField label="Find by city" onChange={handleCityFilterChange}/>
-            <Box>
-                <FormControl fullWidth>
-                    <InputLabel id="grade-filter-label">Grade</InputLabel>
-                    <Select
-                    labelId="grade-filter-label"
-                    id="grade-filter-select"
-                    value={grade}
-                    label="Grade"
-                    onChange={handleGradeFilterChange}
-                    >
-                    <MenuItem value="NONE">No filter</MenuItem>
-                    {
-                        Grades.map(grade => <MenuItem key={grade} value={grade}>{grade}</MenuItem>)
-                    }
-                    
-                </Select>
-                </FormControl>
-            </Box>
-            <Box>
-                <FormControl>
-                    <FormLabel id="sort-column-label">Sort By</FormLabel>
-                    <RadioGroup
-                    row
-                    aria-labelledby="sort-column-label"
-                    name="sort-by-radio-buttons"
-                    onChange={handleSortByChange}
-                    >
-                        <FormControlLabel value="RoundsPlayed" control={<Radio />} label="Rounds played" />
-                        <FormControlLabel value="Grade" control={<Radio />} label="Grade" />
-                    </RadioGroup>
-                </FormControl>
-            </Box>
-            {sortBy.column !== "NONE" &&
-            <FormControl>
-                <FormLabel id="sort-direction-label">Direction</FormLabel>
-                <RadioGroup
-                row
-                aria-labelledby="sort-direction-label"
-                name="sort-direction-radio-buttons"
-                onChange={handleDirectionChange}
-                >
-                    <FormControlLabel value="ASCENDING" control={<Radio />} label="Ascending" />
-                    <FormControlLabel value="DESCENDING" control={<Radio />} label="Descending" />
-                </RadioGroup>
-            </FormControl>
-            }
+            <GradeFilter grade={grade} handleGradeFilterChange={handleGradeFilterChange} />
+            <CourseSortFilter handleSortByChange={handleSortByChange} handleDirectionChange={handleDirectionChange} setSortBy={setSortBy} sortBy={sortBy} handleClear={handleClear}/>
             <CourseCardWrapper courses={state.entities} onClickAction={onClickAction} setCourse={setCourse} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage}/>
         </Box>
     )

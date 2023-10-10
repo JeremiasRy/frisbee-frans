@@ -47,7 +47,7 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
                 builder.addCase(this.getAll.fulfilled, (state, action) => {
                     let oldEntities = [...state.entities as TModel[]]
                     let newEntities = [...action.payload]
-
+                    
                     if ("page" in action.meta.arg.params && action.meta.arg.params.page as number > 1) {
                         return {entities: [...oldEntities, ...newEntities], state: "succeeded"}
                     }
