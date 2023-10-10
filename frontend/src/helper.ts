@@ -6,6 +6,29 @@ export type Direction = "Next" | "Previous";
 
 export type ScoreTag = "Par" | "Bogey" | "DoubleBogey" | "TripleBogey" | "QuadrupleBogey" | "QuintupleBogey" | "SextupleBogey" | "SeptupleBogey" | "OctupleBogey" | "Birdie" | "Eagle" | "Albatross" | "HoleInOne";
 
+export const Grades = [
+        "NoGrade",
+        "d3",
+        "d2",
+        "d1",
+        "c3",
+        "c2",
+        "c1",
+        "b3",
+        "b2",
+        "b1",
+        "bb1",
+        "bb2",
+        "bb3",
+        "a3",
+        "a2",
+        "a1",
+        "aa3",
+        "aa2",
+        "aa1",
+        "aaa1",
+    ]
+
 export const ScoreDictionary = new Map<string, number>([
         ["Par", 0],
         ["Bogey", 1],

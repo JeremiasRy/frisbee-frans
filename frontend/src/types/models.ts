@@ -74,3 +74,5 @@ export interface LoggedIn {
     id: number,
     loginCount: number
 }
+
+export type SortDirection = "ASCENDING" | "DESCENDING" | "NONE"

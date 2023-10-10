@@ -26,15 +26,21 @@ public class CourseService : CrudService<Course, CourseDTO>
             {
                 query = query.Where(course => course.NameNormalized.Contains(filter.CourseName.ToUpper()));
             }
-            if (filter.Grade is not null)
+            if (filter.Grade != Course.Grade.NONE)
             {
                 query = query.Where(course => course.CourseGrade == filter.Grade);
             }
-            if (filter.SortProperty == CourseFilter.CourseSortProperty.Grade && filter.Sort is not null)
+            if (filter.SortProperty == CourseFilter.CourseSortProperty.Grade && filter.Sort != CourseFilter.SortDirection.NONE && filter.Grade == Course.Grade.NONE)
             {
                 query = filter.Sort == CourseFilter.SortDirection.ASCENDING 
                     ? query.OrderBy(course => (int)course.CourseGrade) 
                     : query.OrderByDescending(course => (int)course.CourseGrade);
+            }
+            if (filter.SortProperty == CourseFilter.CourseSortProperty.RoundsPlayed && filter.Sort != CourseFilter.SortDirection.NONE)
+            {
+                query = filter.Sort == CourseFilter.SortDirection.ASCENDING
+                    ? query.OrderBy(course => course.RoundsPlayed)
+                    : query.OrderByDescending(course => course.RoundsPlayed);
             }
             return await query
                 .Skip(filter.PageSize * (filter.Page - 1))

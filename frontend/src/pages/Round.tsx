@@ -91,9 +91,12 @@ export default function Round() {
 
     return (
         <Box sx={{
-            width: "90%"
+            width: "90%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1em"
         }}>
-            {round.status === "NotStarted" && loginReducer.loggedIn?.id === round.userId && <Button disabled={roundReducer.state === "pending"} onClick={() => startRound()}>Start the round?</Button>}
+            {round.status === "NotStarted" && loginReducer.loggedIn?.id === round.userId && <Button disabled={roundReducer.state === "pending"} onClick={() => startRound()} variant="contained" sx={{margin: "auto"}}>Start the round?</Button>}
             <Outlet context={[localRoundResults, setLocalRoundResults]}/>
             <RoundCard round={roundReducer.entities[0]} localResults={round.status === "OnGoing" ? localRoundResults as HoleResult[] : null} />
         </Box>

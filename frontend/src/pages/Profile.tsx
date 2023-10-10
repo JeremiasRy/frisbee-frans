@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getUserStats } from "../redux/reducer/statisticsReducer";
 import { Box, LinearProgress, Typography } from "@mui/material";
-import { ScoreDictionary, getTagByValue } from "../helper";
+import { getTagByValue } from "../helper";
 import { PieChart } from "@mui/x-charts";
 
 export default function Profile() {

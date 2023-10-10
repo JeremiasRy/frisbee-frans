@@ -10,6 +10,7 @@ public class Course : BaseModel
     public string CityName => City.Name;
     public string Address { get; set; } = null!;
     public Grade CourseGrade { get; set; } 
+    public int RoundsPlayed { get; set; }
     public string Name { get; set; } = null!;
     [JsonIgnore]
     public string NameNormalized { get; set; } = null!;
@@ -23,6 +24,7 @@ public class Course : BaseModel
     }
     public enum Grade
     {
+        NONE = -2,
         NoGrade = -1,
         d3 = 0,
         d2 = 1,

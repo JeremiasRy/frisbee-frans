@@ -44,6 +44,11 @@ export default function Rounds() {
         setCourse(e.currentTarget.value)
     }
 
+    function handleShowRoundsByMeChange() {
+        setUserId(prev => prev > 0 ? 0 : loginReducer.loggedIn?.id as number);
+        setPage(1);
+    }
+
     return (
         <>
         <Typography variant="h2" sx={{textAlign: "center" }}>Rounds</Typography>
@@ -84,7 +89,7 @@ export default function Rounds() {
                     justifyContent: "space-around",
                     gap: "1em",
                     }}>
-                        <Button onClick={() => setUserId(prev => prev > 0 ? 0 : loginReducer.loggedIn?.id as number)}>{userId > 0 ? "Show all rounds" : "Show rounds only by me"}</Button>
+                        <Button onClick={handleShowRoundsByMeChange}>{userId > 0 ? "Show all rounds" : "Show rounds only by me"}</Button>
                         <Button variant="contained" onClick={() => navigate("new")}>Start a new round?</Button>
                     </Box>
                 </Box>
