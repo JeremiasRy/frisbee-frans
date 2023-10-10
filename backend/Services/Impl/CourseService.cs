@@ -17,7 +17,7 @@ public class CourseService : CrudService<Course, CourseDTO>
     {
         if (request is CourseFilter filter)
         {
-            var query = _appDbContext.Set<Course>().AsSplitQuery().Where(c => true);
+            var query = _appDbContext.Set<Course>().AsSplitQuery().OrderBy(c => c.Id).Where(c => true);
             if (filter.City != "")
             {
                 query = query.Where(course => course.City.NameNormalized.Contains(filter.City.ToUpper()));

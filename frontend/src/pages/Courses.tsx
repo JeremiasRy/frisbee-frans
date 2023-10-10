@@ -1,10 +1,10 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getAllCourses } from "../redux/reducer/courseReducer";
-import { Box, Button, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Box, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import { OnClickAction } from "../components/CourseCard";
 import CourseCardWrapper from "../components/CourseCardWrapper";
-import { Grades, createRequest } from "../helper";
+import { createRequest } from "../helper";
 import { CourseDto } from "../types/dtos";
 import { SortDirection } from "../types/models";
 import GradeFilter from "../components/GradeFilter";
@@ -35,8 +35,8 @@ export default function Courses(props: CoursesProps) {
 
     useEffect(() => {
         const controller = new AbortController()
-        const sort = sortBy.column !== "NONE" && sortBy.direction !== "NONE" ? {sort: sortBy.direction, SortProperty: sortBy.column} : {}
-        const request = createRequest<CourseDto>(controller.signal, {courseName: name, page, pageSize: 20, city, grade, ...sort})
+        const sort = sortBy.column !== "NONE" && sortBy.direction !== "NONE" ? {sort: sortBy.direction, SortProperty: sortBy.column} : {sort: "NONE", SortProperty: "NONE"}
+        const request = createRequest<CourseDto>(controller.signal, {courseName: name, page, pageSize: 10, city, grade, ...sort})
         timeout = setTimeout(() => {
             dispatch(getAllCourses({...request}));
         }, 200)
@@ -60,13 +60,13 @@ export default function Courses(props: CoursesProps) {
         setPage(1);
         setGrade(e.target.value);
     }
-    function handleSortByChange(_: any, value:string) {
+    function handleSortByChange(e: SelectChangeEvent) {
         setPage(1);
-        setSortBy(prev => ({...prev, column: value as SortColumn}))
+        setSortBy(prev => ({...prev, column: e.target.value as SortColumn}))
     }
-    function handleDirectionChange(_: any, value:string) {
+    function handleDirectionChange(e: SelectChangeEvent) {
         setPage(1);
-        setSortBy(prev => ({...prev, direction: value as SortDirection}))
+        setSortBy(prev => ({...prev, direction: e.target.value as SortDirection}))
     }
     function handleClear() {
         setPage(1);
@@ -83,7 +83,7 @@ export default function Courses(props: CoursesProps) {
             <TextField label="Find by name" onChange={handleNameFilterChange}/>
             <TextField label="Find by city" onChange={handleCityFilterChange}/>
             <GradeFilter grade={grade} handleGradeFilterChange={handleGradeFilterChange} />
-            <CourseSortFilter handleSortByChange={handleSortByChange} handleDirectionChange={handleDirectionChange} setSortBy={setSortBy} sortBy={sortBy} handleClear={handleClear}/>
+            {grade === "NONE" && <CourseSortFilter handleSortByChange={handleSortByChange} handleDirectionChange={handleDirectionChange} setSortBy={setSortBy} sortBy={sortBy} handleClear={handleClear}/>}
             <CourseCardWrapper courses={state.entities} onClickAction={onClickAction} setCourse={setCourse} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage}/>
         </Box>
     )

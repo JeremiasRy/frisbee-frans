@@ -49,6 +49,7 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
                     let newEntities = [...action.payload]
                     
                     if ("page" in action.meta.arg.params && action.meta.arg.params.page as number > 1) {
+                        console.log(action.meta.arg.params.page)
                         return {entities: [...oldEntities, ...newEntities], state: "succeeded"}
                     }
                     
