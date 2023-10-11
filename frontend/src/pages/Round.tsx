@@ -61,7 +61,7 @@ export default function Round() {
 
     function createHoleResultDTOfromHole(hole:Hole) {
         const {userId, id: roundId} = {...roundReducer.entities[0]};
-        let holeResultDto:HoleResultDto = {
+        const holeResultDto:HoleResultDto = {
             userId,
             roundId,
             holeId: hole.id,
@@ -92,6 +92,7 @@ export default function Round() {
     return (
         <Box sx={{
             width: "90%",
+            minHeight: "50%",
             display: "flex",
             flexDirection: "column",
             gap: "1em"

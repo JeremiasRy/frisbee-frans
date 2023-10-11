@@ -23,7 +23,7 @@ const loginReducer = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(login.fulfilled, (state, action) => {
+        builder.addCase(login.fulfilled, (_, action) => {
             return {
                 state: "Idle",
                 loggedIn: action.payload
@@ -74,7 +74,7 @@ export const { logout } = loginReducer.actions;
 export const login = createAsyncThunk(
     "login",
     async (request: LoginDto, thunkAPI) => {
-        let result = await axios.post<LoggedIn>(`${import.meta.env.VITE_BACKEND_URL}/users/login`, request);
+        const result = await axios.post<LoggedIn>(`${import.meta.env.VITE_BACKEND_URL}/users/login`, request);
         if (!result.data) {
             thunkAPI.dispatch(register(request));
         }
@@ -85,7 +85,7 @@ export const login = createAsyncThunk(
 export const register = createAsyncThunk(
     "register",
     async (request: LoginDto, thunkAPI) => {
-        let result = await axios.post<boolean>(`${import.meta.env.VITE_BACKEND_URL}/users/signup`, request);
+        const result = await axios.post<boolean>(`${import.meta.env.VITE_BACKEND_URL}/users/signup`, request);
         console.log(result.data)
         if (result.data) {
             thunkAPI.dispatch(login(request))

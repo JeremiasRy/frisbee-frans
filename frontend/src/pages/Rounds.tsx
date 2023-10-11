@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import LinearProgress from '@mui/material/LinearProgress';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAllRounds } from "../redux/reducer/roundReducer";
 import { useNavigate } from "react-router-dom";
 import RoundCardWrapper from "../components/RoundCardWrapper";
@@ -18,17 +18,17 @@ export default function Rounds() {
     const [course, setCourse] = useState("");
     const [page, setPage] = useState(1);
     const [atBottom, setAtBottom] = useState<boolean>(false)
-    let timeout:ReturnType<typeof setTimeout>;
+    const timeout = useRef<ReturnType<typeof setTimeout>>();
 
     useEffect(() => {
         const controller = new AbortController();
         const request = createRequest<RoundDto>(controller.signal, {page, pageSize: 5, username, courseName: course, userId})
-        timeout = setTimeout(() => {
+        timeout.current = setTimeout(() => {
             dispatch(getAllRounds({...request}));
         }, 200)
         return () => {
-            if (timeout) {
-                clearTimeout(timeout)
+            if (timeout.current) {
+                clearTimeout(timeout.current)
             }
             controller.abort();
         }

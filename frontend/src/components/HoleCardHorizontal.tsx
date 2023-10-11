@@ -26,7 +26,7 @@ export default function HoleCardHorizontal() {
         return () => {
             controller.abort();
         }
-    }, [nthHole])
+    }, [nthHole, dispatch, round.entities])
 
     if (!holeReducer.entities[0]) {
         return;

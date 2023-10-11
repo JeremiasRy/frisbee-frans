@@ -46,17 +46,17 @@ export const ScoreDictionary = new Map<string, number>([
 ])
 
 export function getTagByValue(number:number) {
-        for (let [key, value] of ScoreDictionary.entries()) {
+        for (const [key, value] of ScoreDictionary.entries()) {
                 if (value === number) {
                         return key
                 }
         }
 }
 export function createRequest<TDto>(signal:AbortSignal):RequestBase<TDto>
-export function createRequest<TDto>(signal:AbortSignal, params: {}):RequestBase<TDto>;
+export function createRequest<TDto>(signal:AbortSignal, params: object):RequestBase<TDto>;
 export function createRequest<TDto>(signal:AbortSignal, requestData: TDto):RequestBase<TDto>;
-export function createRequest<TDto>(signal:AbortSignal, params: {}, requestData: TDto):RequestBase<TDto>;
-export function createRequest<TDto>(signal:AbortSignal, params?: {}, requestData?: TDto | {}):RequestBase<TDto> {
+export function createRequest<TDto>(signal:AbortSignal, params: object, requestData: TDto):RequestBase<TDto>;
+export function createRequest<TDto>(signal:AbortSignal, params?: object, requestData?: TDto | object):RequestBase<TDto> {
         if (params === undefined) {
                 params = {}
         }
@@ -70,10 +70,10 @@ export function createRequest<TDto>(signal:AbortSignal, params?: {}, requestData
         }
 }
 export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal):RequestWithId<TDto>
-export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, params: {}):RequestWithId<TDto>
+export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, params: object):RequestWithId<TDto>
 export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, requestData: TDto):RequestWithId<TDto>
-export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, params: {}, requestData: TDto):RequestWithId<TDto>
-export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, params?: {}, requestData?: TDto | {}):RequestWithId<TDto> {
+export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, params: object, requestData: TDto):RequestWithId<TDto>
+export function createRequestWithId<TDto>(id:number | string | undefined, signal: AbortSignal, params?: object, requestData?: TDto | object):RequestWithId<TDto> {
         if (id === undefined) {
                 throw new Error("Id was undefined??")
         }
@@ -99,6 +99,3 @@ export function createRequestWithId<TDto>(id:number | string | undefined, signal
                 requestData
         }
 }
-        
-
-

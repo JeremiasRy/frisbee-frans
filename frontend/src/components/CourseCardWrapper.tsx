@@ -21,7 +21,7 @@ export default function CourseCardWrapper(props:CourseCardWrapperProps) {
         if (atBottom && courses.length / 20 === page) {
             setPage(prev => prev + 1)
         }
-    }, [atBottom])
+    }, [atBottom, courses.length, page, setPage])
 
     function checkIfAtBottom() {
         if (ref.current) {

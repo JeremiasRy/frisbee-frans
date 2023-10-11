@@ -71,16 +71,16 @@ class HoleResultReducer extends CrudReducer<HoleResult, RequestBase<HoleResultDt
         this.createMany = createAsyncThunk(
             "createMany",
             async (request, thunkAPI) => {
-                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
-                let result = await axios.post(`${this.url}/many`, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
+                const token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                const result = await axios.post(`${this.url}/many`, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )
         this.updateMany = createAsyncThunk(
             "createMany",
             async (request, thunkAPI) => {
-                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
-                let result = await axios.put(`${this.url}/many`, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
+                const token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                const result = await axios.put(`${this.url}/many`, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )

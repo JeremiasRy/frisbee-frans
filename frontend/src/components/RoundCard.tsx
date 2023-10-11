@@ -68,10 +68,12 @@ export default function RoundCard(props:RoundCardProps) {
                 sx={{
                     display: "flex",
                     flexDirection: "row",
-                    width: "90%",
-                    paddingLeft: "2em"
+                    flexWrap: "wrap",
+                    width: "100%",
+                    paddingLeft: "2em",
+                    rowGap: "1em"
                 }}>
-                    {resultsToRender.filter(result => result.throws > 0).map((result, idx) => <HoleResultCard key={result.id} result={result} isLast={idx === resultsToRender.length - 1} />)}
+                    {resultsToRender.filter(result => result.throws > 0).map((result, idx) => <HoleResultCard key={result.id} score={result.throws + result.penalties - result.par} count={result.throws + result.penalties} isLast={idx === resultsToRender.length - 1} />)}
                     <Box 
                     sx={{
                         width: "5em", 

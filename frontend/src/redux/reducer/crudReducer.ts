@@ -20,7 +20,7 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
     update: ReturnType<typeof createAsyncThunk<TModel, RequestWithId<TDto>>>;
     remove: ReturnType<typeof createAsyncThunk<TModel, RequestWithId<TDto>>>;
 
-    setStateToIdle: CaseReducer<SliceState<TModel>, any>;
+    setStateToIdle: CaseReducer<SliceState<TModel>>;
 
     returnAsyncThunks = () => {
         return {getAll: this.getAll, get: this.get, create: this.create, update: this.update, remove: this.remove}
@@ -45,8 +45,8 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
             },
             extraReducers: builder => {
                 builder.addCase(this.getAll.fulfilled, (state, action) => {
-                    let oldEntities = [...state.entities as TModel[]]
-                    let newEntities = [...action.payload]
+                    const oldEntities = [...state.entities as TModel[]]
+                    const newEntities = [...action.payload]
                     
                     if ("page" in action.meta.arg.params && action.meta.arg.params.page as number > 1) {
                         console.log(action.meta.arg.params.page)
@@ -94,8 +94,8 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
         this.getAll = createAsyncThunk(
             "getAll" + this.name,
             async (request, thunkAPI) => {
-                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
-                let result = await axios.get<TModel[]>(this.url, {params: {...request.params}, headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
+                const token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                const result = await axios.get<TModel[]>(this.url, {params: {...request.params}, headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )
@@ -103,8 +103,8 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
         this.get = createAsyncThunk(
             "get" + this.name,
             async (request, thunkAPI) => {
-                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
-                let result = await axios.get<TModel>(`${this.url}/${request.id}`, {params: {...request.params}, headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
+                const token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                const result = await axios.get<TModel>(`${this.url}/${request.id}`, {params: {...request.params}, headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )
@@ -112,8 +112,8 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
         this.create = createAsyncThunk(
             "create" + this.name,
             async (request, thunkAPI) => {
-                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
-                let result = await axios.post(this.url, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
+                const token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                const result = await axios.post(this.url, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )
@@ -121,8 +121,8 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
         this.update = createAsyncThunk(
             "update" + this.name,
             async (request, thunkAPI) => {
-                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
-                let result = await axios.put(`${this.url}/${request.id}`, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
+                const token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                const result = await axios.put(`${this.url}/${request.id}`, request.requestData, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )
@@ -130,8 +130,8 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
         this.remove = createAsyncThunk(
             "remove" + this.name,
             async (request, thunkAPI) => {
-                let token = (thunkAPI.getState() as RootState).login.loggedIn?.token
-                let result = await axios.delete(`${this.url}/${request.id}`, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
+                const token = (thunkAPI.getState() as RootState).login.loggedIn?.token
+                const result = await axios.delete(`${this.url}/${request.id}`, {headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
                 return result.data;
             }
         )

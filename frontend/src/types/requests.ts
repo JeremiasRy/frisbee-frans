@@ -1,7 +1,7 @@
 export type RequestBase<TDto> = {
     signal: AbortSignal
-    params: {},
-    requestData: TDto | {}
+    params: object,
+    requestData: TDto | object
 }
 
 export interface RequestWithId<TDto> extends RequestBase<TDto>  {

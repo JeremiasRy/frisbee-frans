@@ -24,10 +24,10 @@ const preLoadedState = {
 
 function saveState(state:RootState) {
     try {
-        let login = JSON.stringify(state.login.loggedIn);
+        const login = JSON.stringify(state.login.loggedIn);
         localStorage.setItem("login", login);
-    } catch(e:any) {
-        console.log(e)
+    } catch {
+        console.log("Things exploded")
     }
 }
 

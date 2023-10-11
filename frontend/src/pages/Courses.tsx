@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getAllCourses } from "../redux/reducer/courseReducer";
 import { Box, SelectChangeEvent, TextField, Typography } from "@mui/material";
@@ -31,19 +31,19 @@ export default function Courses(props: CoursesProps) {
     const [sortBy, setSortBy] = useState<SortBy>({direction: "NONE", column: "NONE"});
     const state = useAppSelector(state => state.course);
     const dispatch = useAppDispatch();
-    let timeout:ReturnType<typeof setTimeout>;
+    const timeout = useRef<ReturnType<typeof setTimeout>>();
 
     useEffect(() => {
         const controller = new AbortController()
         const sort = sortBy.column !== "NONE" && sortBy.direction !== "NONE" ? {sort: sortBy.direction, SortProperty: sortBy.column} : {sort: "NONE", SortProperty: "NONE"}
         const request = createRequest<CourseDto>(controller.signal, {courseName: name, page, pageSize: 20, city, grade, ...sort})
-        timeout = setTimeout(() => {
+        timeout.current = setTimeout(() => {
             dispatch(getAllCourses({...request}));
         }, 200)
         return () => {
             controller.abort();
-            if (timeout) {
-                clearTimeout(timeout);
+            if (timeout.current) {
+                clearTimeout(timeout.current);
             }
         }
     }, [name, page, city, grade, sortBy.column, sortBy.direction])

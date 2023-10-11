@@ -19,16 +19,16 @@ export function LoginForm() {
             case "Rejected": return "Something went wrong... Try again?";
             case "LoggingIn": return "Logging you in...";
             case "Registering": return "Registering new account...";
-            case "Fullfilled": if (!loginReducer.loggedIn) { return "Duplicate username" }; break;
+            case "Fullfilled": if (!loginReducer.loggedIn) { return "Duplicate username" } break;
         }
         return ""
     }
 
     return (
         <Box sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
             }}
             textAlign="center"
             gap={2}>

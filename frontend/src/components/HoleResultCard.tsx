@@ -1,14 +1,13 @@
 import { Box, Typography } from "@mui/material";
-import { HoleResult } from "../types/models";
 
 export interface HoleResultCardProps {
-    result: HoleResult;
+    score: number
+    count: number
     isLast: boolean
 }
 
 export default function HoleResultCard(props:HoleResultCardProps) {
-    const { result, isLast } = {...props};
-    const score = result.throws + result.penalties - result.par
+    const { score, count, isLast } = {...props};
 
     const color = () => {
         if (score === 0) {
@@ -26,12 +25,13 @@ export default function HoleResultCard(props:HoleResultCardProps) {
                 display: "flex",
                 alignItems: "center",
                 height: "5em",
-                width: "3em",
+                minWidth: "3em",
+                maxWidth: "5em",
                 borderLeft: "1px solid black",
                 borderRight: isLast ? "1px solid Black" : "",
                 backgroundColor: color(),
             }}>
-                <Typography variant="h5" sx={{margin: "auto"}}>{result.throws + result.penalties}</Typography>
+                <Typography variant="h5" sx={{margin: "auto"}}>{count}</Typography>
         </Box>
     )
 }

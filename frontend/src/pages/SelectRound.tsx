@@ -29,7 +29,7 @@ export function SelectRound() {
             dispatch(setRoundReducerStateToIdle(""))
             navigateToRound()
         }
-    }, [roundReducer.state])
+    }, [roundReducer.state, dispatch])
 
     function createRoundAction(signal:AbortSignal) {
         const roundDto:RoundDto = {

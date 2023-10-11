@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import { useAppSelector } from "../redux/hooks"
-import { Outlet } from "react-router-dom";
 
 export default function Welcome() {
     const login = useAppSelector(state => state.login);
@@ -10,10 +9,8 @@ export default function Welcome() {
 
     return (
         <Box>
-            <Typography variant="h1">Welcome!</Typography>
-            {login.loggedIn.loginCount === 1 && <Typography>We have created an account for you based on the credentials you just inputted</Typography>}
-            <Outlet />
+            <Typography variant="h1">Welcome {login.loggedIn.name}!</Typography>
+            <Typography>You have logged in {login.loggedIn.loginCount} times</Typography>
         </Box>
-        
     )
 }

@@ -73,7 +73,8 @@ export interface User {
 export interface LoggedIn {
     token: string,
     id: number,
-    loginCount: number
+    loginCount: number,
+    name: string
 }
 
 export type SortDirection = "ASCENDING" | "DESCENDING" | "NONE"
