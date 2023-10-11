@@ -7,7 +7,8 @@ export interface Course extends BaseModel {
     address: string,
     courseGrade: string,
     holes: Hole[],
-    coursePar: number
+    coursePar: number,
+    roundsPlayed: number
 }
 
 export interface CourseStats {

@@ -19,7 +19,7 @@ if (preLogin === null) {
 }
 
 const preLoadedState = {
-    login: {state: "idle", loggedIn: preLogin} as LoginReducerState
+    login: {state: "Idle", loggedIn: preLogin} as LoginReducerState
 };
 
 function saveState(state:RootState) {

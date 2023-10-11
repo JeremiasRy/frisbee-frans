@@ -12,22 +12,27 @@ export interface CourseSortFilterProps {
 export default function CourseSortFilter(props:CourseSortFilterProps) {
     const { handleSortByChange, handleDirectionChange, handleClear, sortBy} = {...props}
     return (
-        <Box>
-      <FormControl variant="outlined" >
-        <InputLabel id="sort-column-label">Sort By</InputLabel>
-        <Select
-          labelId="sort-column-label"
-          id="sort-column-select"
-          value={sortBy.column}
-          onChange={handleSortByChange}
-          label="Sort By"
-        >
-          <MenuItem value="NONE">None</MenuItem>
-          <MenuItem value="RoundsPlayed">Rounds played</MenuItem>
-          <MenuItem value="Grade">Grade</MenuItem>
-        </Select>
-      </FormControl>
-
+      <Box sx={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        columnGap: "1em",
+        width: "100%"
+      }}>
+        <FormControl variant="outlined" >
+          <InputLabel id="sort-column-label">Sort By</InputLabel>
+          <Select
+            labelId="sort-column-label"
+            id="sort-column-select"
+            value={sortBy.column}
+            onChange={handleSortByChange}
+            label="Sort By"
+          >
+            <MenuItem value="NONE">None</MenuItem>
+            <MenuItem value="RoundsPlayed">Rounds played</MenuItem>
+            <MenuItem value="Grade">Grade</MenuItem>
+          </Select>
+        </FormControl>
       {sortBy.column !== 'NONE' && (
         <>
           <FormControl variant="outlined">
@@ -39,7 +44,7 @@ export default function CourseSortFilter(props:CourseSortFilterProps) {
               onChange={handleDirectionChange}
               label="Direction"
             >
-                <MenuItem value="NONE">None</MenuItem>
+              <MenuItem value="NONE">None</MenuItem>
               <MenuItem value="ASCENDING">Ascending</MenuItem>
               <MenuItem value="DESCENDING">Descending</MenuItem>
             </Select>

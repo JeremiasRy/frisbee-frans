@@ -17,7 +17,7 @@ export default function HoleCardHorizontal() {
         if (!round.entities[0]) {
             return;
         }
-        const hole = round.entities[0].course.holes.find(hole => hole.nthHole === parseInt(nthHole as string));
+        const hole = round.entities[0].course.holes[parseInt(nthHole as string) - 1];
         if (!hole) {
             return;
         }

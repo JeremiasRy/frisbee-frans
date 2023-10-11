@@ -18,7 +18,7 @@ export default function CourseCardWrapper(props:CourseCardWrapperProps) {
     const ref = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (atBottom && courses.length / 10 === page) {
+        if (atBottom && courses.length / 20 === page) {
             setPage(prev => prev + 1)
         }
     }, [atBottom])

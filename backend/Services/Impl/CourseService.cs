@@ -17,7 +17,7 @@ public class CourseService : CrudService<Course, CourseDTO>
     {
         if (request is CourseFilter filter)
         {
-            var query = _appDbContext.Set<Course>().AsSplitQuery().OrderBy(c => c.Id).Where(c => true);
+            var query = _appDbContext.Set<Course>().AsSplitQuery().Where(c => true);
             if (filter.City != "")
             {
                 query = query.Where(course => course.City.NameNormalized.Contains(filter.City.ToUpper()));
@@ -33,14 +33,14 @@ public class CourseService : CrudService<Course, CourseDTO>
             if (filter.SortProperty == CourseFilter.CourseSortProperty.Grade && filter.Sort != CourseFilter.SortDirection.NONE && filter.Grade == Course.Grade.NONE)
             {
                 query = filter.Sort == CourseFilter.SortDirection.ASCENDING 
-                    ? query.OrderBy(course => (int)course.CourseGrade) 
-                    : query.OrderByDescending(course => (int)course.CourseGrade);
+                    ? query.OrderBy(course => (int)course.CourseGrade).ThenBy(course => course.Id) 
+                    : query.OrderByDescending(course => (int)course.CourseGrade).ThenBy(course => course.Id);
             }
             if (filter.SortProperty == CourseFilter.CourseSortProperty.RoundsPlayed && filter.Sort != CourseFilter.SortDirection.NONE)
             {
                 query = filter.Sort == CourseFilter.SortDirection.ASCENDING
-                    ? query.OrderBy(course => course.RoundsPlayed)
-                    : query.OrderByDescending(course => course.RoundsPlayed);
+                    ? query.OrderBy(course => course.RoundsPlayed).ThenBy(course => course.Id)
+                    : query.OrderByDescending(course => course.RoundsPlayed).ThenBy(course => course.Id);
             }
             return await query
                 .Skip(filter.PageSize * (filter.Page - 1))

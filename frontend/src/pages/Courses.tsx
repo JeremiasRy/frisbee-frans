@@ -36,7 +36,7 @@ export default function Courses(props: CoursesProps) {
     useEffect(() => {
         const controller = new AbortController()
         const sort = sortBy.column !== "NONE" && sortBy.direction !== "NONE" ? {sort: sortBy.direction, SortProperty: sortBy.column} : {sort: "NONE", SortProperty: "NONE"}
-        const request = createRequest<CourseDto>(controller.signal, {courseName: name, page, pageSize: 10, city, grade, ...sort})
+        const request = createRequest<CourseDto>(controller.signal, {courseName: name, page, pageSize: 20, city, grade, ...sort})
         timeout = setTimeout(() => {
             dispatch(getAllCourses({...request}));
         }, 200)
@@ -62,6 +62,10 @@ export default function Courses(props: CoursesProps) {
     }
     function handleSortByChange(e: SelectChangeEvent) {
         setPage(1);
+        if (e.target.value === "NONE") {
+            setSortBy({column: "NONE", direction: "NONE"});
+            return;
+        }
         setSortBy(prev => ({...prev, column: e.target.value as SortColumn}))
     }
     function handleDirectionChange(e: SelectChangeEvent) {
@@ -80,11 +84,33 @@ export default function Courses(props: CoursesProps) {
             gap: "1em"
         }}>
             <Typography variant="h2" sx={{textAlign: "center"}}>{onClickAction === "Navigate" ? "Courses" : "Select a course"}</Typography>
-            <TextField label="Find by name" onChange={handleNameFilterChange}/>
-            <TextField label="Find by city" onChange={handleCityFilterChange}/>
-            <GradeFilter grade={grade} handleGradeFilterChange={handleGradeFilterChange} />
-            {grade === "NONE" && <CourseSortFilter handleSortByChange={handleSortByChange} handleDirectionChange={handleDirectionChange} setSortBy={setSortBy} sortBy={sortBy} handleClear={handleClear}/>}
-            <CourseCardWrapper courses={state.entities} onClickAction={onClickAction} setCourse={setCourse} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage}/>
+            <Box sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly"
+            }}>
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: "40%",
+                    gap: "1em",
+                }}>
+                    <TextField label="Find by name" onChange={handleNameFilterChange}/>
+                    <TextField label="Find by city" onChange={handleCityFilterChange}/>
+                </Box>
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    gap: "1em",
+                    width: "40%"
+                }}>
+                    {sortBy.column === "NONE" && sortBy.direction === "NONE" && <GradeFilter grade={grade} handleGradeFilterChange={handleGradeFilterChange} />}
+                    {grade === "NONE" && <CourseSortFilter handleSortByChange={handleSortByChange} handleDirectionChange={handleDirectionChange} setSortBy={setSortBy} sortBy={sortBy} handleClear={handleClear}/>}
+                </Box>
+            </Box>
+                <CourseCardWrapper courses={state.entities} onClickAction={onClickAction} setCourse={setCourse} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage}/>
         </Box>
     )
 }

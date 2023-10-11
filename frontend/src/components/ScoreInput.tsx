@@ -37,13 +37,14 @@ export default function ScoreInput() {
     const enteredScoreOnAllHoles = localRoundResults.every(holeResult => holeResult.throws > 0);
 
     const hole = nthHole 
-    ? course.holes.find(hole => hole.nthHole === parseInt(nthHole)) as Hole 
+    ? course.holes[parseInt(nthHole) - 1] as Hole 
     : undefined
 
     function handleNavigationButtonChange(direction:Direction) {
-        setLocalRoundResults(prev => prev?.map(roundResult => roundResult.nthHole === parseInt(nthHole as string) ? { ...roundResult, throws: throws, penalties: penalties } : roundResult))
+        setLocalRoundResults(prev => prev?.map((holeResult, idx) => idx + 1 === parseInt(nthHole as string) ? { ...holeResult, throws: throws, penalties: penalties } : holeResult))
         const nextHoleNth = direction === "Next" ? parseInt(nthHole as string) + 1 : parseInt(nthHole as string) - 1;
-        const nextHole = localRoundResults?.find(roundResult => roundResult.nthHole === nextHoleNth);
+        const nextHole = localRoundResults[nextHoleNth - 1]
+
         if (nextHole) {
             setThrows(nextHole.throws);
             setPenalties(nextHole.penalties);

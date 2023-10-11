@@ -88,6 +88,7 @@ export default function CourseCard(props:CourseCardProps) {
                         width: "70%"
                     }}>
                         <Typography variant="h4">{course.name}</Typography>
+                        <Typography>Rounds played: {course.roundsPlayed}</Typography>
                     </Box>
                     <Box>
                         <GradeBox grade={course.courseGrade}/>
