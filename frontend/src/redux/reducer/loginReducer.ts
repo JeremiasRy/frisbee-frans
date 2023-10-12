@@ -5,7 +5,7 @@ import axios from "axios";
 import { RootState } from "../store";
 
 export type LoginReducerState = {
-    state: "LoggingIn" | "Registering" | "Rejected" | "Fullfilled" | "Idle" | "LoginFailedTyingToRegister",
+    state: "LoggingIn" | "Registering" | "Registered" | "Rejected" | "Fullfilled" | "Idle" | "LoginFailedTryToRegister",
     loggedIn: LoggedIn | null
 }
 
@@ -24,6 +24,12 @@ const loginReducer = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (_, action) => {
+            if (!action.payload) {
+                return {
+                    state: "LoginFailedTryToRegister",
+                    loggedIn: null
+                }
+            }
             return {
                 state: "Idle",
                 loggedIn: action.payload
@@ -43,7 +49,7 @@ const loginReducer = createSlice({
         })
         .addCase(register.fulfilled, () => {
             return {
-                state: "Fullfilled",
+                state: "Registered",
                 loggedIn: null
             }
         })
@@ -74,25 +80,16 @@ export const { logout } = loginReducer.actions;
 export const login = createAsyncThunk(
     "login",
     async (request: LoginDto, thunkAPI) => {
-        const result = await axios.post<LoggedIn>(`${import.meta.env.VITE_BACKEND_URL}/users/login`, request);
-        if (!result.data) {
-            thunkAPI.dispatch(register(request));
-        }
+        const result = await axios.post<LoggedIn | null>(`${import.meta.env.VITE_BACKEND_URL}/users/login`, request);
         return result.data
     }
 )
 
 export const register = createAsyncThunk(
     "register",
-    async (request: LoginDto, thunkAPI) => {
+    async (request: LoginDto) => {
         const result = await axios.post<boolean>(`${import.meta.env.VITE_BACKEND_URL}/users/signup`, request);
-        console.log(result.data)
-        if (result.data) {
-            thunkAPI.dispatch(login(request))
-        } else {
-            thunkAPI.rejectWithValue("")
-        }
-
+        return result.data;
     } 
 )
 

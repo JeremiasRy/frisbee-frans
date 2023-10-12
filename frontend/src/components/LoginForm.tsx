@@ -1,8 +1,8 @@
 import { Box, TextField, Typography } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { login } from "../redux/reducer/loginReducer";
+import { login, register } from "../redux/reducer/loginReducer";
 
 export function LoginForm() {
     const loginReducer = useAppSelector(state => state.login);
@@ -14,6 +14,13 @@ export function LoginForm() {
         dispatch(login({name, password}))
     }
 
+    useEffect(() => {
+        switch (loginReducer.state) {
+            case "LoginFailedTryToRegister": dispatch(register({name, password})); break;
+            case "Registered":  dispatch(login({name, password})); break;
+        }
+    }, [loginReducer.state])
+
     function statusText():string {
         switch (loginReducer.state) {
             case "Rejected": return "Something went wrong... Try again?";
@@ -23,6 +30,8 @@ export function LoginForm() {
         }
         return ""
     }
+
+    console.log(loginReducer.state)
 
     return (
         <Box sx={{
