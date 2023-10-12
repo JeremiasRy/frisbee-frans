@@ -43,6 +43,8 @@ export default function Course() {
 
     const course = courseReducer.entities[0];
     const {roundsPlayed, averageScore, bestScore} = {...statisticsReducer.courseStats}
+
+    console.log(course)
     
     return (
         <>

@@ -9,7 +9,7 @@ public class Course : BaseModel
     public City City { get; set; } = null!;
     public string CityName => City.Name;
     public string Address { get; set; } = null!;
-    public List<HoleComment>? Comments { get; set; }
+    public List<CourseComment>? Comments { get; set; }
     public Grade CourseGrade { get; set; } 
     public int RoundsPlayed { get; set; }
     public string Name { get; set; } = null!;

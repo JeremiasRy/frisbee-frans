@@ -5,6 +5,7 @@ export interface Course extends BaseModel {
     name: string,
     cityName: string,
     address: string,
+    comments: Comment[],
     courseGrade: string,
     holes: Hole[],
     coursePar: number,
@@ -39,6 +40,7 @@ export interface Hole extends BaseModel {
     par: number,
     length: number,
     nthHole: number,
+    comments: Comment[],
     courseName: string
 }
 
@@ -57,6 +59,7 @@ export interface Round extends BaseModel {
     userId: number,
     courseId: number,
     course: Course,
+    comments: Comment[],
     roundResults: HoleResult[],
     roundTotal: number,
     roundResult: number,
@@ -78,3 +81,8 @@ export interface LoggedIn {
 }
 
 export type SortDirection = "ASCENDING" | "DESCENDING" | "NONE"
+
+export interface Comment {
+    text: string,
+    username: string
+}

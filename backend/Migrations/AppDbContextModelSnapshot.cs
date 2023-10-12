@@ -116,6 +116,48 @@ namespace backend.Migrations
                     b.ToTable("course", (string)null);
                 });
 
+            modelBuilder.Entity("backend.Models.CourseComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("integer")
+                        .HasColumnName("course_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_course_comment");
+
+                    b.HasIndex("CourseId")
+                        .HasDatabaseName("ix_course_comment_course_id");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_course_comment_user_id");
+
+                    b.ToTable("course_comment", (string)null);
+                });
+
             modelBuilder.Entity("backend.Models.Hole", b =>
                 {
                     b.Property<int>("Id")
@@ -167,10 +209,6 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("integer")
-                        .HasColumnName("course_id");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
@@ -194,9 +232,6 @@ namespace backend.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_hole_comment");
-
-                    b.HasIndex("CourseId")
-                        .HasDatabaseName("ix_hole_comment_course_id");
 
                     b.HasIndex("HoleId")
                         .HasDatabaseName("ix_hole_comment_hole_id");
@@ -605,6 +640,25 @@ namespace backend.Migrations
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("backend.Models.CourseComment", b =>
+                {
+                    b.HasOne("backend.Models.Course", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_course_comment_course_course_id");
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_course_comment_users_user_id");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("backend.Models.Hole", b =>
                 {
                     b.HasOne("backend.Models.Course", "Course")
@@ -619,11 +673,6 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.HoleComment", b =>
                 {
-                    b.HasOne("backend.Models.Course", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("CourseId")
-                        .HasConstraintName("fk_hole_comment_course_course_id");
-
                     b.HasOne("backend.Models.Hole", null)
                         .WithMany("Comments")
                         .HasForeignKey("HoleId")
