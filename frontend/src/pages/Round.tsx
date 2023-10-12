@@ -4,7 +4,7 @@ import { Hole, HoleResult } from "../types/models";
 import { HoleResultDto, RoundDto } from "../types/dtos";
 import { useEffect, useState } from "react";
 import { getRound, updateRound } from "../redux/reducer/roundReducer";
-import { Box, Button } from "@mui/material";
+import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import { createManyHoleResults } from "../redux/reducer/holeResultReducer";
 import RoundCard from "../components/RoundCard";
 import { createRequest, createRequestWithId } from "../helper";
@@ -83,8 +83,8 @@ export default function Round() {
         dispatch(updateRound({...request}))
     }
 
-    if (roundReducer.entities.length === 0) {
-        return;
+    if (roundReducer.state === "pending" || roundReducer.entities.length === 0) {
+        return <LinearProgress />;
     }
 
     const round = roundReducer.entities[0];
@@ -97,7 +97,8 @@ export default function Round() {
             flexDirection: "column",
             gap: "1em"
         }}>
-            {round.status === "NotStarted" && loginReducer.loggedIn?.id === round.userId && <Button disabled={roundReducer.state === "pending"} onClick={() => startRound()} variant="contained" sx={{margin: "auto"}}>Start the round?</Button>}
+            <Typography variant="h4">Round at {round.course.name}</Typography>
+            {round.status === "NotStarted" && loginReducer.loggedIn?.id === round.userId && <Button onClick={() => startRound()} variant="contained" sx={{margin: "auto"}}>Start the round?</Button>}
             <Outlet context={[localRoundResults, setLocalRoundResults]}/>
             <RoundCard round={roundReducer.entities[0]} localResults={round.status === "OnGoing" ? localRoundResults as HoleResult[] : null} />
         </Box>

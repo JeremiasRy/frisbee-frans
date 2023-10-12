@@ -86,7 +86,6 @@ export default function ScoreInput() {
             alignItems: "center",
             rowGap: "5em",
         }}>
-            <Typography variant="h4">Round at {course.name}</Typography>
             {hole && <ScoreControl courseLength={course.holes.length} throws={throws} penalties={penalties} setThrows={setThrows} setPenalties={setPenalties} hole={hole} handleNavigationChange={handleNavigationButtonChange} />}
             {enteredScoreOnAllHoles && <Button disabled={roundReducer.state === "pending" || holeResultReducer.state === "pending"} onClick={submitRound}>Submit round?</Button>}
         </Box>

@@ -20,7 +20,10 @@ builder.Services
     .AddScoped<ICrudService<Hole, HoleDTO>, HoleService>()
     .AddScoped<ICrudService<Round, RoundDTO>, RoundService>()
     .AddScoped<IJwtService, JwtTokenService>()
-    .AddScoped<IStatisticsService, StatisticsService>();
+    .AddScoped<IStatisticsService, StatisticsService>()
+    .AddScoped<ICrudService<RoundComment, RoundCommentDTO>, RoundCommentService>()
+    .AddScoped<ICrudService<HoleComment, HoleCommentDTO>, HoleCommentService>()
+    .AddScoped<ICrudService<CourseComment, CourseCommentDTO>, CourseCommentService>();
 
 builder.Services
     .AddIdentity<User, IdentityRole<int>>(options =>

@@ -37,6 +37,10 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
             .Navigation(course => course.City)
             .AutoInclude();
 
+        builder.Entity<Course>()
+            .Navigation(course => course.Comments)
+            .AutoInclude();
+
         builder.Entity<City>()
             .HasIndex(city => city.Name)
             .IsUnique();
@@ -61,8 +65,16 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
             .Navigation(round => round.Course)
             .AutoInclude();
 
+        builder.Entity<Round>()
+            .Navigation(round => round.Comments)
+            .AutoInclude();
+
         builder.Entity<Hole>()
             .Navigation(hole => hole.Course)
+            .AutoInclude();
+
+        builder.Entity<Hole>()
+            .Navigation(hole => hole.Comments)
             .AutoInclude();
 
         base.OnModelCreating(builder);

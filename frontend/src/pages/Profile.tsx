@@ -37,7 +37,7 @@ export default function Profile() {
     const formattedAverageScore = Math.floor(averageScore * 100) / 100;
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', paddingTop: "5em" }}>
       <Typography variant="h2">Statistics</Typography>
       <Typography>Average result: </Typography>
       <Box sx={{
