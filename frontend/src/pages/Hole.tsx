@@ -52,30 +52,42 @@ export default function Hole() {
             <Typography variant="h1">Hole {hole.nthHole} at {hole.courseName}</Typography>
             <Typography variant="h4" textAlign={"center"}>Par {hole.par} | {hole.length}m</Typography>
             {breakdownOfHoleResults !== undefined && averageScore !== undefined &&
-            <Box sx={{
-                width: "100%",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-start"
-            }}>
                 <Box sx={{
+                    width: "100%",
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "center"
+                    justifyContent: "center"
                 }}>
-                    <Typography>Average result:</Typography> 
-                    <HoleResultCard score={Math.floor(averageScore * 100) / 100} count={Math.floor(averageScore * 100) / 100} isLast={true}/> 
-                    <Typography><b>{getTagByValue(Math.floor(averageScore))}</b></Typography>
+                    <Typography variant="h2" textAlign={"center"}>Statistics</Typography>
+                    <Box sx={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        gap: 2, 
+                        alignItems: 'center', 
+                        paddingTop: "5em" 
+                        }}>
+                            <Typography>Average result: </Typography>
+                        <Box sx={{
+                            width: "5em"
+                        }}>
+                            <HoleResultCard score={averageScore} count={hole.par + averageScore} isLast={true}/> 
+                            <Typography textAlign={"center"}><b>{getTagByValue(Math.floor(averageScore))}</b></Typography>
+                        </Box>
+                        <Typography>Total throws tracked: {breakdownOfHoleResults.reduce((a, b) => { return a + b.count}, 0)}</Typography>
+                        <Box sx={{ marginTop: 4, textAlign: 'center' }}>
+                            
+                            <Typography variant="h4">Result breakdown</Typography>
+                            <PieChart 
+                                series={[
+                                {
+                                    data: breakdownOfHoleResults.map((res, idx) => ({id: idx, value: res.count, label: res.identifier}))
+                                }
+                            ]} 
+                            height={300} 
+                            width={600}/>
+                        </Box>
+                    </Box>
                 </Box>
-            <PieChart 
-            series={[
-                {
-                    data: breakdownOfHoleResults.map((res, idx) => ({id: idx, value: res.count, label: res.identifier}))
-                }
-            ]} 
-            height={300} 
-            width={600}/>
-            </Box>
             }
         </Box>
     )

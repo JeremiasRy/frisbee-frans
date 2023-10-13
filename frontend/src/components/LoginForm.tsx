@@ -1,5 +1,4 @@
 import { Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
-import LoadingButton from '@mui/lab/LoadingButton';
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { login, register } from "../redux/reducer/loginReducer";

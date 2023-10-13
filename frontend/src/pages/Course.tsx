@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getCourseById } from "../redux/reducer/courseReducer";
 import { useEffect } from "react";
 import { getCourseStats } from "../redux/reducer/statisticsReducer";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, LinearProgress, Paper, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, LinearProgress, Typography } from "@mui/material";
 import HoleCardBox from "../components/HoleCardBox";
 import { createRequest, createRequestWithId } from "../helper";
 import { CourseCommentDTO, CourseDto } from "../types/dtos";

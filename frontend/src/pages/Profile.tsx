@@ -38,27 +38,27 @@ export default function Profile() {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', paddingTop: "5em" }}>
-      <Typography variant="h2">Statistics</Typography>
-      <Typography>Average result: </Typography>
-      <Box sx={{
-        width: "5em"
-      }}>
-      <HoleResultCard score={formattedAverageScore} count={formattedAverageScore} isLast={true}/> 
-      <Typography textAlign={"center"}><b>{getTagByValue(Math.floor(averageScore))}</b></Typography>
-      </Box>
-      <Typography>Total throws tracked: {totalThrows}</Typography>
-      <Box sx={{ marginTop: 4, textAlign: 'center' }}>
-        <Typography variant="h4">Result breakdown</Typography>
-        <Typography>Total holes played: {totalHolesPlayed}</Typography>
-        <PieChart 
-            series={[
-                {
-                    data: breakdownOfHoleResults.map((res, idx) => ({id: idx, value: res.count, label: res.identifier}))
-                }
-            ]} 
-            height={300} 
-            width={600}/>
-      </Box>
-    </Box>
+            <Typography variant="h2">Statistics</Typography>
+            <Typography>Average result: </Typography>
+            <Box sx={{
+                width: "5em"
+            }}>
+                <HoleResultCard score={formattedAverageScore} count={formattedAverageScore} isLast={true}/> 
+                <Typography textAlign={"center"}><b>{getTagByValue(Math.floor(averageScore))}</b></Typography>
+            </Box>
+            <Typography>Total throws tracked: {totalThrows}</Typography>
+            <Box sx={{ marginTop: 4, textAlign: 'center' }}>
+                <Typography variant="h4">Result breakdown</Typography>
+                <Typography>Total holes played: {totalHolesPlayed}</Typography>
+            <PieChart 
+                series={[
+                    {
+                        data: breakdownOfHoleResults.map((res, idx) => ({id: idx, value: res.count, label: res.identifier}))
+                    }
+                ]} 
+                height={300} 
+                width={600}/>
+            </Box>
+        </Box>
     )
 }
