@@ -23,12 +23,13 @@ public class CrudCommentService<TCommentModel, TCommentDTO> : CrudService<TComme
     }
     public async override Task<List<TCommentModel>> GetAllAsync(IFilterOptions request)
     {
-        if (request is BaseQuery filter)
+        if (request is Relationfilter filter)
         {
             return await _appDbContext
                 .Set<TCommentModel>()
                 .IgnoreAutoIncludes()
                 .Include(comment => comment.User)
+                .Where(comment => comment.RelationId == filter.RelationId)
                 .Skip(filter.PageSize * (filter.Page - 1))
                 .Take(filter.PageSize)
                 .ToListAsync();

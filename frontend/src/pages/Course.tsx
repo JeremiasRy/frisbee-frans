@@ -5,14 +5,16 @@ import { useEffect } from "react";
 import { getCourseStats } from "../redux/reducer/statisticsReducer";
 import { Box, LinearProgress, Paper, Typography } from "@mui/material";
 import HoleCardBox from "../components/HoleCardBox";
-import { createRequestWithId } from "../helper";
-import { CourseDto } from "../types/dtos";
+import { createRequest, createRequestWithId } from "../helper";
+import { CourseCommentDTO, CourseDto } from "../types/dtos";
 import { GradeBox } from "../components/GradeBox";
+import { getAllCourseComments } from "../redux/reducer/courseCommentReducer";
 
 export default function Course() {
     const { id } = useParams();
     const courseReducer = useAppSelector(state => state.course);
-    const statisticsReducer = useAppSelector(state => state.statistics)
+    const statisticsReducer = useAppSelector(state => state.statistics);
+    const commentReducer = useAppSelector(state => state.courseComments);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -21,6 +23,15 @@ export default function Course() {
         dispatch(getCourseById({...request}))
         return () => {
             controller.abort();
+        }
+    }, [id])
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const request = createRequest<CourseCommentDTO>(controller.signal, {relationId: id})
+        dispatch(getAllCourseComments({...request}))
+        return () => {
+            controller.abort()
         }
     }, [id])
 
@@ -43,8 +54,7 @@ export default function Course() {
 
     const course = courseReducer.entities[0];
     const {roundsPlayed, averageScore, bestScore} = {...statisticsReducer.courseStats}
-
-    console.log(course)
+    const comments = commentReducer.entities;
     
     return (
         <>

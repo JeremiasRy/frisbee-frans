@@ -7,6 +7,7 @@ public class Hole : BaseModel
 {
     public int Par { get; set; }
     public int Length { get; set; }
+    [JsonIgnore]
     public List<HoleComment>? Comments { get; set; }
     public int NthHole { get; set; }
     [NotMapped]

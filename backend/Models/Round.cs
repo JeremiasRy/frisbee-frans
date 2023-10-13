@@ -10,6 +10,7 @@ public class Round : BaseModel
     public int UserId { get; set; }
     public Course Course { get; set; } = null!;
     public int CourseId { get; set; }
+    [JsonIgnore]
     public List<RoundComment>? Comments { get; set; }
     public RoundStatus Status { get; set; }
     public List<HoleResult> RoundResults { get; set; } = null!;

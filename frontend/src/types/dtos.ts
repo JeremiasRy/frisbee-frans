@@ -30,3 +30,20 @@ export type LoginDto = {
     name: string,
     password: string
 }
+
+export interface CommentDTO {
+    text: string,
+    userId: number
+}
+
+export interface RoundCommentDTO extends CommentDTO {
+    roundId: number
+}
+
+export interface HoleCommentDTO extends CommentDTO {
+    holeId: number
+}
+
+export interface CourseCommentDTO extends CommentDTO {
+    courseId: number
+}

@@ -1,6 +1,4 @@
-﻿using static backend.Models.Course;
-
-namespace backend.Common.Filters;
+﻿namespace backend.Common.Filters;
 
 public class CommonFilter : BaseQuery
 {

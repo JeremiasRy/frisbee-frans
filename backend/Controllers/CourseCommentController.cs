@@ -5,7 +5,7 @@ using backend.Services.Abstraction;
 
 namespace backend.Controllers;
 
-public class CourseCommentController : CrudController<CourseComment, CourseCommentDTO>
+public class CourseCommentController : CrudCommentController<CourseComment, CourseCommentDTO>
 {
     public CourseCommentController(ICrudService<CourseComment, CourseCommentDTO> service) : base(service)
     {

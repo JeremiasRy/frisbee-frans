@@ -6,7 +6,8 @@ public static class QueryStringExtension
 {
     public static T? ParseParams<T>(this QueryString query) where T : new()
     {
-        if (query.Value is null)
+
+        if (query.Value == "")
         {
             return default;
         }

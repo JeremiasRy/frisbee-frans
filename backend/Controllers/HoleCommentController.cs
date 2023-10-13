@@ -5,7 +5,7 @@ using backend.Services.Abstraction;
 
 namespace backend.Controllers;
 
-public class HoleCommentController : CrudController<HoleComment, HoleCommentDTO>
+public class HoleCommentController : CrudCommentController<HoleComment, HoleCommentDTO>
 {
     public HoleCommentController(ICrudService<HoleComment, HoleCommentDTO> service) : base(service)
     {

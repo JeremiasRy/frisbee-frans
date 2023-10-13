@@ -5,7 +5,7 @@ using backend.Services.Abstraction;
 
 namespace backend.Controllers;
 
-public class RoundCommentController : CrudController<RoundComment, RoundCommentDTO>
+public class RoundCommentController : CrudCommentController<RoundComment, RoundCommentDTO>
 {
     public RoundCommentController(ICrudService<RoundComment, RoundCommentDTO> service) : base(service)
     {

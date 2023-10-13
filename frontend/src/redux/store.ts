@@ -6,6 +6,9 @@ import { LoggedIn } from "../types/models";
 import holeResultReducer from "./reducer/holeResultReducer";
 import holeReducer from "./reducer/holeReducer";
 import statisticsReducer from "./reducer/statisticsReducer";
+import holeCommentReducer from "./reducer/holeCommentReducer";
+import courseCommentReducer from "./reducer/courseCommentReducer";
+import roundCommentReducer from "./reducer/roundCommentReducer";
 
 let preLogin: LoggedIn | null = null
 const login = localStorage.getItem("login");
@@ -39,7 +42,10 @@ export const createStore = () => {
             round: roundReducer,
             login: loginReducer,
             holeResult: holeResultReducer,
-            statistics: statisticsReducer
+            statistics: statisticsReducer,
+            holeComments: holeCommentReducer,
+            courseComments: courseCommentReducer,
+            roundComments: roundCommentReducer
         },
         preloadedState: preLoadedState
     })

@@ -10,5 +10,6 @@ public class HoleCommentDTO : CommentDTO<HoleComment>
         model.HoleId = HoleId;
         model.UserId = UserId;
         model.Text = Text;
+        model.RelationId = HoleId;
     }
 }

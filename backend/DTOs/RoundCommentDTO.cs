@@ -11,5 +11,6 @@ public class RoundCommentDTO : CommentDTO<RoundComment>
         model.Text = Text;
         model.UserId = UserId;
         model.RoundId = RoundId;
+        model.RelationId = RoundId;
     }
 }

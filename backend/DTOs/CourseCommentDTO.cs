@@ -10,5 +10,6 @@ public class CourseCommentDTO : CommentDTO<CourseComment>
         model.Text = Text;
         model.CourseId = CourseId;
         model.UserId = UserId;
+        model.RelationId = CourseId;
     }
 }
