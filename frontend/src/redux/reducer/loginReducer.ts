@@ -79,7 +79,7 @@ export const { logout } = loginReducer.actions;
 
 export const login = createAsyncThunk(
     "login",
-    async (request: LoginDto, thunkAPI) => {
+    async (request: LoginDto) => {
         const result = await axios.post<LoggedIn | null>(`${import.meta.env.VITE_BACKEND_URL}/users/login`, request);
         return result.data
     }

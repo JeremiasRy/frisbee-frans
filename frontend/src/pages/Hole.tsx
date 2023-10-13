@@ -51,7 +51,7 @@ export default function Hole() {
         }}>
             <Typography variant="h1">Hole {hole.nthHole} at {hole.courseName}</Typography>
             <Typography variant="h4" textAlign={"center"}>Par {hole.par} | {hole.length}m</Typography>
-            {breakdownOfHoleResults && averageScore &&
+            {breakdownOfHoleResults !== undefined && averageScore !== undefined &&
             <Box sx={{
                 width: "100%",
                 display: "flex",

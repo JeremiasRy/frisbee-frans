@@ -7,16 +7,16 @@ using System.Net.Http;
 
 namespace HtmlParser;
 
-public class RequestHandler
+public static class RequestHandler
 {
-    readonly HttpClient _client = new();
+    static readonly HttpClient _client = new();
 
     /// <summary>
     /// Returns HTTP response as a string, string is empty if fetching failed.
     /// </summary>
     /// <param name="url"></param>
     /// <returns>string</returns>
-    public async Task<string> GetHttpResponse(string url)
+    public static async Task<string> GetHttpResponse(string url)
     {
         System.Diagnostics.Stopwatch sw = new();
         sw.Start();

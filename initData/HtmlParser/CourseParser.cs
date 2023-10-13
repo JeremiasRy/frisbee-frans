@@ -74,9 +74,8 @@ public class CourseParser
             return whiteSpace ? " " : "";
         });
     }
-    public CourseParser(string httpResponse)
+    public CourseParser(HtmlDocument doc)
     {
-        _doc = new HtmlDocument();
-        _doc.LoadHtml(httpResponse);
+        _doc = doc;
     }
 }
