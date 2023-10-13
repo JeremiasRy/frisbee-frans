@@ -39,6 +39,9 @@ export default function CourseCardWrapper(props:CourseCardWrapperProps) {
             maxHeight: `70vh`,
             maxWidth: "80vw",
             overflowY: "auto",
+            '&::-webkit-scrollbar': {
+                display: "none"
+            }
         }}
         onScroll={checkIfAtBottom}>
             {

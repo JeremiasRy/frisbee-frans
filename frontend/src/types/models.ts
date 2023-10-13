@@ -82,7 +82,7 @@ export type SortDirection = "ASCENDING" | "DESCENDING" | "NONE"
 
 export interface Comment extends BaseModel {
     text: string,
-    user: User
+    username: string
 }
 
 export interface RoundComment extends Comment {

@@ -37,6 +37,9 @@ export default function RoundCardWrapper(props:RoundCardWrapperProps) {
             maxHeight: `${height}vh`,
             maxWidth: "80vw",
             overflowY: "auto",
+            '&::-webkit-scrollbar': {
+                display: "none"
+            }
         }}
         onScroll={checkIfAtBottom}>
             {

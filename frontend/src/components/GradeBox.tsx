@@ -18,17 +18,20 @@ export function GradeBox(props:GradeBoxProps) {
     }
     return (
         <Box sx={{
-            height: "2em",
-            width: "4em",
+            minHeight: "2em",
+            minWidth: "5em",
+            width: "calc(100% / 2)",
+            margin: "auto",
             border: `0.25em solid ${returnColor()}`,
             color: returnColor(),
             borderRadius: "0.5em",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            fontFamily: "monospace"
+            fontFamily: "monospace",
+            marginTop: "1em"
         }}>
-            <Typography variant="h6">{grade === "NoGrade" ? "" : grade}</Typography>
+            <Typography sx={{textTransform: "uppercase", textEmphasis: "ButtonHighlight"}}variant="h6">{grade === "NoGrade" ? "" : grade}</Typography>
         </Box>
     )
 }
