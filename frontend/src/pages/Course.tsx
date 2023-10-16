@@ -1,22 +1,23 @@
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getCourseById } from "../redux/reducer/courseReducer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getCourseStats } from "../redux/reducer/statisticsReducer";
 import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, LinearProgress, Typography } from "@mui/material";
 import HoleCardBox from "../components/HoleCardBox";
 import { createRequest, createRequestWithId } from "../helper";
 import { CourseCommentDTO, CourseDto } from "../types/dtos";
 import { GradeBox } from "../components/GradeBox";
-import { getAllCourseComments } from "../redux/reducer/courseCommentReducer";
-import CommentBox from "../components/CommentBox";
+import { createCourseComment, getAllCourseComments } from "../redux/reducer/courseCommentReducer";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; 
+import CommentOutlet from "../components/CommentOutlet";
 
 export default function Course() {
     const { id } = useParams();
     const courseReducer = useAppSelector(state => state.course);
     const statisticsReducer = useAppSelector(state => state.statistics);
     const commentReducer = useAppSelector(state => state.courseComments);
+    const loginReducer = useAppSelector(state => state.login);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -25,6 +26,15 @@ export default function Course() {
         dispatch(getCourseById({...request}))
         return () => {
             controller.abort();
+        }
+    }, [id])
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const request = createRequest<CourseCommentDTO>(controller.signal, {relationId: id})
+        dispatch(getAllCourseComments({...request}))
+        return () => {
+            controller.abort()
         }
     }, [id])
 
@@ -58,6 +68,16 @@ export default function Course() {
     const {roundsPlayed, averageScore, bestScore} = {...statisticsReducer.courseStats}
     const comments = commentReducer.entities;
 
+    function onCommentSubmit(text:string) {
+        const controller = new AbortController();
+        const request = createRequest<CourseCommentDTO>(controller.signal, {}, {
+            courseId: parseInt(id as string),
+            text,
+            userId: loginReducer.loggedIn?.id as number
+        })
+        dispatch(createCourseComment({...request}));
+    }
+
     return (
         <Box sx={{
             display: "flex",
@@ -81,8 +101,8 @@ export default function Course() {
         </Grid>
         {roundsPlayed && averageScore && bestScore && <>
             <Typography variant="h4">Rounds played: {roundsPlayed}</Typography>
-            <Typography variant="h5">Average: {Math.floor(averageScore * 100) / 100} {averageScore < 0 ? "under par" : "over par"}</Typography>
-            <Typography variant="h5">Course record: {bestScore}</Typography></>
+            <Typography variant="h5">Average: {averageScore > 0 && "+"}{Math.floor(averageScore * 100) / 100} </Typography>
+            <Typography variant="h5">Course record: {bestScore > 0 &&  "+"}{bestScore}</Typography></>
         }
         <Accordion>
             <AccordionSummary
@@ -104,8 +124,7 @@ export default function Course() {
                 </Box>
             </AccordionDetails>
         </Accordion>
-        <Typography variant="h4">Comments</Typography>
-        {comments.map(comment => <CommentBox {...comment}/>)}
+        <CommentOutlet commentSubmitAction={onCommentSubmit} comments={comments} />
         </Box>
     )
 }

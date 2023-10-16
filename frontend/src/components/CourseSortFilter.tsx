@@ -7,10 +7,11 @@ export interface CourseSortFilterProps {
     handleClear: () => void
     setSortBy: React.Dispatch<React.SetStateAction<SortBy>>
     sortBy: SortBy
+    disabled: boolean
 }
 
 export default function CourseSortFilter(props:CourseSortFilterProps) {
-    const { handleSortByChange, handleDirectionChange, handleClear, sortBy} = {...props}
+    const { handleSortByChange, handleDirectionChange, handleClear, sortBy, disabled} = {...props}
     return (
       <Box sx={{
         display: "flex",
@@ -27,6 +28,7 @@ export default function CourseSortFilter(props:CourseSortFilterProps) {
             value={sortBy.column}
             onChange={handleSortByChange}
             label="Sort By"
+            disabled={disabled}
           >
             <MenuItem value="NONE">None</MenuItem>
             <MenuItem value="RoundsPlayed">Rounds played</MenuItem>

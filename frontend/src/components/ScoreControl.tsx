@@ -6,6 +6,7 @@ import RoundNthHoleIndicator from "./RoundNthHoleIndicator"
 import { ResultInput } from "./ResultInput"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import HoleResultCard from "./HoleResultCard"
 
 export interface ScoreControlProps {
     courseLength: number,
@@ -35,6 +36,13 @@ export default function ScoreControl(props:ScoreControlProps) {
                 <IconButton disabled={hole.nthHole === 1} size="large" onClick={() => handleNavigationChange("Previous")}><ArrowBackIosIcon/></IconButton>
                 <ResultInput par={hole.par} throws={throws} setThrows={setThrows} penalties={penalties} setPenalties={setPenalties} />
                 <IconButton disabled={throws === 0} size="large" onClick={() => handleNavigationChange("Next")}><ArrowForwardIosIcon/></IconButton>
+            </Box>
+            <Box sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center"
+            }}>
+                <HoleResultCard score={throws + penalties -hole.par} count={throws + penalties} isLast={true} />
             </Box>
         </Box>
     )

@@ -64,8 +64,8 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
                         state: "pending"
                     }
                 })
-                .addCase(this.create.fulfilled, (_, action) => {
-                    return {entities: [action.payload], state: "created"}
+                .addCase(this.create.fulfilled, (state, action) => {
+                    return {entities: [action.payload, ...state.entities as TModel[]], state: "created"}
                 })
                 .addCase(this.create.pending, (state) => {
                     return {
@@ -96,6 +96,7 @@ export class CrudReducer<TModel extends BaseModel, TDto> {
             async (request, thunkAPI) => {
                 const token = (thunkAPI.getState() as RootState).login.loggedIn?.token
                 const result = await axios.get<TModel[]>(this.url, {params: {...request.params}, headers: {Authorization: `Bearer ${token}`}, signal: request.signal});
+                
                 return result.data;
             }
         )

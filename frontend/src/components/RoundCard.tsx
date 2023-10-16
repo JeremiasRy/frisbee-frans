@@ -26,6 +26,19 @@ export default function RoundCard(props:RoundCardProps) {
             case "Completed": return <CheckIcon />
         }
     }
+    function prePaddingToScore(score:number) {
+        if (score === 0) {
+            return "±"
+        }
+        if (score > 0) {
+            return "+"
+        }  else {
+            return ""
+        }
+    }
+
+    const score = resultsToRender.filter(res => res.throws > 0).map(res => res.throws + res.penalties - res.par).reduce((a, b) => a + b, 0)
+    const scoreString = `${prePaddingToScore(score)}${score}`
   
     return (
         <Paper
@@ -90,7 +103,7 @@ export default function RoundCard(props:RoundCardProps) {
                         } 
                     </Box>
                 </Box>
-                <Typography variant="h3" textAlign="right"sx={{width: "5em"}}>{resultsToRender.filter(res => res.throws > 0).map(res => res.throws + res.penalties - res.par).reduce((a, b) => a + b, 0)}</Typography>
+                <Typography variant="h3" textAlign="right"sx={{width: "5em"}}>{scoreString}</Typography>
             </Box>
         </Paper>
     )

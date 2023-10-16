@@ -20,7 +20,7 @@ export default function Round() {
     const location = useLocation();
     const [localRoundResults, setLocalRoundResults] = useState<HoleResult[]>();
     
-    useEffect(() => {
+    useEffect(() => { //Basic round initialization i.e. navigated to existing round
         const controller = new AbortController();
         const request = createRequestWithId<RoundDto>(id, controller.signal)
         dispatch(getRound({...request}))
@@ -29,7 +29,7 @@ export default function Round() {
         }
     }, [id, location.pathname])
 
-    useEffect(() => {
+    useEffect(() => { //Created a new round, create empty results for layout
         const controller = new AbortController();
         if (roundReducer.state === "succeeded" && roundReducer.entities[0].roundResults.length === 0 && roundReducer.entities[0].status === "NotStarted") {
             const request = createRequest<HoleResultDto[]>(controller.signal, {}, createEmptyHoleresultDTOs())
@@ -40,17 +40,17 @@ export default function Round() {
         }
     }, [roundReducer.state])
 
-    useEffect(() => {
+    useEffect(() => { //Navigate to score input or navigate out of score input depending on the state of the app
         const round = roundReducer.entities[0];
         if (!round) {
             return;
         }
-        if (round.status === "OnGoing" && loginReducer.loggedIn?.id === round.userId) {
-            !location.pathname.includes("scoreinput") && navigate("scoreinput/1");
+        if (round.status === "OnGoing" && loginReducer.loggedIn?.id === round.userId && !location.pathname.includes("scoreinput")) {
+            navigate("scoreinput/1");
             return;
         }
-        if (round.status === "Completed") {
-            location.pathname.includes("scoreinput") && navigate("");
+        if (round.status === "Completed" && location.pathname.includes("scoreinput")) {
+            navigate("");
             return;
         }
     }, [roundReducer.entities[0], loginReducer])
@@ -83,7 +83,7 @@ export default function Round() {
         dispatch(updateRound({...request}))
     }
 
-    if (roundReducer.state === "pending" || roundReducer.entities.length === 0) {
+    if (roundReducer.state === "pending" && roundReducer.entities.length === 0) { // Show loading only on initialization, not on scoreinput rerenders
         return <LinearProgress />;
     }
 

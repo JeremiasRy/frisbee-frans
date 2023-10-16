@@ -1,4 +1,5 @@
 # Things to do:
+- fix flickering on score input
 - Admin actions
     - crud hole
     - crud course

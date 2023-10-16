@@ -5,6 +5,7 @@ import { createRound, setRoundReducerStateToIdle} from "../redux/reducer/roundRe
 import { RoundDto } from "../types/dtos";
 import { useNavigate } from "react-router-dom";
 import { createRequest } from "../helper";
+import { LinearProgress } from "@mui/material";
 
 
 export function SelectRound() {
@@ -44,6 +45,9 @@ export function SelectRound() {
     function navigateToRound() {
         const newRoundId = roundReducer.entities[0].id;
         navigate(`/rounds/${newRoundId}`);
+    }
+    if (roundReducer.state === "pending") {
+        return <LinearProgress/>
     }
 
     return (

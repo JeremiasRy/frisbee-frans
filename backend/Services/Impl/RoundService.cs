@@ -52,4 +52,15 @@ public class RoundService : CrudService<Round, RoundDTO>
         }
         return await base.GetAllAsync(request);
     }
+    public async override Task<Round> UpdateOneAsync(int id, RoundDTO request)
+    {
+        var result = await base.UpdateOneAsync(id, request);
+        if (result.Status == Round.RoundStatus.Completed)
+        {
+            using var sr = new StreamReader("Querys/UpdateCourseRoundCount.sql");
+            var query = sr.ReadToEnd();
+            await _appDbContext.Database.ExecuteSqlRawAsync(query);
+        }
+        return result;
+    }
 }

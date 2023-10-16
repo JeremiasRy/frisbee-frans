@@ -30,6 +30,7 @@ public class CrudCommentService<TCommentModel, TCommentDTO> : CrudService<TComme
                 .IgnoreAutoIncludes()
                 .Include(comment => comment.User)
                 .Where(comment => comment.RelationId == filter.RelationId)
+                .OrderByDescending(comment => comment.CreatedAt)
                 .Skip(filter.PageSize * (filter.Page - 1))
                 .Take(filter.PageSize)
                 .ToListAsync();
@@ -37,6 +38,7 @@ public class CrudCommentService<TCommentModel, TCommentDTO> : CrudService<TComme
         return await _appDbContext
             .Set<TCommentModel>()
             .IgnoreAutoIncludes()
+            .OrderByDescending(comment => comment.CreatedAt)
             .Include(comment => comment.User)
             .Take(20)
             .ToListAsync();

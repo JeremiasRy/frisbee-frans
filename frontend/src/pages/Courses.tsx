@@ -28,7 +28,7 @@ export default function Courses(props: CoursesProps) {
     const [grade, setGrade] = useState("NONE");
     const [atBottom, setAtBottom] = useState(false);
     const [page, setPage] = useState(1);
-    const [sortBy, setSortBy] = useState<SortBy>({direction: "NONE", column: "NONE"});
+    const [sortBy, setSortBy] = useState<SortBy>({direction: "DESCENDING", column: "RoundsPlayed"});
     const state = useAppSelector(state => state.course);
     const dispatch = useAppDispatch();
     const timeout = useRef<ReturnType<typeof setTimeout>>();
@@ -106,8 +106,8 @@ export default function Courses(props: CoursesProps) {
                     gap: "1em",
                     width: "40%"
                 }}>
-                    {sortBy.column === "NONE" && sortBy.direction === "NONE" && <GradeFilter grade={grade} handleGradeFilterChange={handleGradeFilterChange} />}
-                    {grade === "NONE" && <CourseSortFilter handleSortByChange={handleSortByChange} handleDirectionChange={handleDirectionChange} setSortBy={setSortBy} sortBy={sortBy} handleClear={handleClear}/>}
+                    <CourseSortFilter disabled={grade !== "NONE"} handleSortByChange={handleSortByChange} handleDirectionChange={handleDirectionChange} setSortBy={setSortBy} sortBy={sortBy} handleClear={handleClear}/>
+                    <GradeFilter disabled={!(sortBy.column === "NONE" && sortBy.direction === "NONE")} grade={grade} handleGradeFilterChange={handleGradeFilterChange} />
                 </Box>
             </Box>
                 <CourseCardWrapper courses={state.entities} onClickAction={onClickAction} setCourse={setCourse} atBottom={atBottom} page={page} setAtBottom={setAtBottom} setPage={setPage}/>

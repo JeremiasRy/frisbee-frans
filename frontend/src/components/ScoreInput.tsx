@@ -87,7 +87,7 @@ export default function ScoreInput() {
             rowGap: "5em",
         }}>
             {hole && <ScoreControl courseLength={course.holes.length} throws={throws} penalties={penalties} setThrows={setThrows} setPenalties={setPenalties} hole={hole} handleNavigationChange={handleNavigationButtonChange} />}
-            {enteredScoreOnAllHoles && <Button disabled={roundReducer.state === "pending" || holeResultReducer.state === "pending"} onClick={submitRound}>Submit round?</Button>}
+            {enteredScoreOnAllHoles && <Button disabled={roundReducer.state === "pending" || holeResultReducer.state === "pending"} onClick={submitRound} variant="contained">Submit round</Button>}
         </Box>
     )
 }

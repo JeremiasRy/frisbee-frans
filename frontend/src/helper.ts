@@ -99,3 +99,12 @@ export function createRequestWithId<TDto>(id:number | string | undefined, signal
                 requestData
         }
 }
+export const color = (score: number) => {
+        if (score === 0) {
+                return "white"
+        } else if (score > 0) {
+                return `rgba(200,0,0, ${0.2 * score})`
+        } else {
+                return `rgba(0,200,0, ${0.2 * Math.abs(score)})`
+        }
+}

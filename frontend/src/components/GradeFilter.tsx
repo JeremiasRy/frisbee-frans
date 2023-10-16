@@ -3,10 +3,11 @@ import { Grades } from "../helper";
 
 export interface GradeFilterProps {
     grade: string,
-    handleGradeFilterChange: (e: SelectChangeEvent) => void
+    handleGradeFilterChange: (e: SelectChangeEvent) => void,
+    disabled: boolean
 }
 export default function GradeFilter(props:GradeFilterProps) {
-    const { grade, handleGradeFilterChange } = {...props}
+    const { grade, handleGradeFilterChange, disabled } = {...props}
     return (
         <Box>
             <FormControl fullWidth>
@@ -17,6 +18,7 @@ export default function GradeFilter(props:GradeFilterProps) {
                 value={grade}
                 label="Grade"
                 onChange={handleGradeFilterChange}
+                disabled={disabled}
                 >
                 <MenuItem value="NONE">No filter</MenuItem>
                 {
