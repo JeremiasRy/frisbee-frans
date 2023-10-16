@@ -47,6 +47,7 @@ export function LoginForm() {
 				alignItems: 'center',
 				gap: '16px',
 			}}
+			onKeyDown={(e) => {if (e.key === "Enter" && name !== "" && password !== "") { handleClick() }}}
 		>
 			<Typography variant="h4">Please log in</Typography>
 			<Typography variant="body1">Don't worry if you don't have a user:</Typography>

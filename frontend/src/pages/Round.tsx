@@ -124,7 +124,7 @@ export default function Round() {
             {round.status === "NotStarted" && loginReducer.loggedIn?.id === round.userId && <Button onClick={() => startRound()} variant="contained" sx={{margin: "auto"}}>Start the round?</Button>}
             <Outlet context={[localRoundResults, setLocalRoundResults]}/>
             <RoundCard round={roundReducer.entities[0]} localResults={round.status === "OnGoing" ? localRoundResults as HoleResult[] : null} />
-            <CommentOutlet commentSubmitAction={handleCommentSubmit} comments={comments} />
+            {round.status === "Completed" && <CommentOutlet commentSubmitAction={handleCommentSubmit} comments={comments} />}
         </Box>
     )
 }
