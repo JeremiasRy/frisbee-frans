@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { getCourseById } from "../redux/reducer/courseReducer";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getCourseStats } from "../redux/reducer/statisticsReducer";
 import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, LinearProgress, Typography } from "@mui/material";
 import HoleCardBox from "../components/HoleCardBox";

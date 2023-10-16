@@ -1,13 +1,15 @@
 import { Outlet, useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Hole, HoleResult } from "../types/models";
-import { HoleResultDto, RoundDto } from "../types/dtos";
+import { HoleResultDto, RoundCommentDTO, RoundDto } from "../types/dtos";
 import { useEffect, useState } from "react";
 import { getRound, updateRound } from "../redux/reducer/roundReducer";
 import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import { createManyHoleResults } from "../redux/reducer/holeResultReducer";
 import RoundCard from "../components/RoundCard";
 import { createRequest, createRequestWithId } from "../helper";
+import { createRoundComment, getAllRoundCommments } from "../redux/reducer/roundCommentReducer";
+import CommentOutlet from "../components/CommentOutlet";
 
 type ContextType = [HoleResult[], React.Dispatch<React.SetStateAction<HoleResult[]>>] 
 
@@ -15,6 +17,7 @@ export default function Round() {
     const { id } = useParams();
     const roundReducer = useAppSelector(state => state.round);
     const loginReducer = useAppSelector(state => state.login);
+    const commentReducer = useAppSelector(state => state.roundComments);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
@@ -54,6 +57,15 @@ export default function Round() {
             return;
         }
     }, [roundReducer.entities[0], loginReducer])
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const request = createRequest<RoundCommentDTO>(controller.signal, {relationId: id});
+        dispatch(getAllRoundCommments({...request}));
+        return () => {
+            controller.abort();
+        }
+    }, [id])
     
     function createEmptyHoleresultDTOs() {
         return roundReducer.entities[0].course.holes.map(hole => createHoleResultDTOfromHole(hole))
@@ -87,7 +99,18 @@ export default function Round() {
         return <LinearProgress />;
     }
 
+    function handleCommentSubmit(text:string) {
+        const controller = new AbortController();
+        const request = createRequest<RoundCommentDTO>(controller.signal, {}, {
+            roundId: parseInt(id as string),
+            text,
+            userId: loginReducer.loggedIn?.id as number
+        })
+        dispatch(createRoundComment({...request}));
+    }
+
     const round = roundReducer.entities[0];
+    const comments = commentReducer.entities;
 
     return (
         <Box sx={{
@@ -101,6 +124,7 @@ export default function Round() {
             {round.status === "NotStarted" && loginReducer.loggedIn?.id === round.userId && <Button onClick={() => startRound()} variant="contained" sx={{margin: "auto"}}>Start the round?</Button>}
             <Outlet context={[localRoundResults, setLocalRoundResults]}/>
             <RoundCard round={roundReducer.entities[0]} localResults={round.status === "OnGoing" ? localRoundResults as HoleResult[] : null} />
+            <CommentOutlet commentSubmitAction={handleCommentSubmit} comments={comments} />
         </Box>
     )
 }
