@@ -27,7 +27,7 @@ export default function CommentInput(props:CommentInputProps) {
         width="70%" 
         gap={"1em"}
         onKeyDown={(e) => {if (e.key === "Enter" && comment.trim() !== '') {handleSubmit()}}}>
-          <Avatar alt="Avatar" src="avatar.jpg" />
+          <Avatar alt="Avatar" />
           <TextField
             label="Add a comment"
             variant="standard"

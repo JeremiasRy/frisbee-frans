@@ -18,7 +18,10 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
         string connectionString = _config.GetConnectionString("Default");
 
         options
-            .UseNpgsql(connectionString)
+            .UseNpgsql(connectionString, options =>
+            {
+                options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+            })
             .LogTo(Console.WriteLine, LogLevel.Information)
             .AddInterceptors(new AppDbContextSaveChangesInterceptors())
             .UseSnakeCaseNamingConvention();

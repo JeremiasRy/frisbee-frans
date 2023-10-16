@@ -20,6 +20,7 @@ export default function CourseCardWrapper(props:CourseCardWrapperProps) {
     useEffect(() => {
         if (atBottom && courses.length / 20 === page) {
             setPage(prev => prev + 1)
+            setAtBottom(false)
         }
     }, [atBottom, courses.length, page, setPage])
 
@@ -34,7 +35,7 @@ export default function CourseCardWrapper(props:CourseCardWrapperProps) {
             display: "flex",
             flexDirection: "row",
             flexWrap: "wrap",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             gap: "1em",
             maxHeight: `70vh`,
             maxWidth: "80vw",
@@ -48,7 +49,7 @@ export default function CourseCardWrapper(props:CourseCardWrapperProps) {
                 courses.map(course => 
                     <CourseCard key={course.id} course={course} onClickAction={onClickAction} setCourse={setCourse}/>)
             }
-            <div ref={ref}/>
+            <div ref={ref} style={{width: "100%"}}/>
         </Box>
     )
 }
