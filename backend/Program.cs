@@ -6,6 +6,7 @@ using backend.Services.Abstraction;
 using backend.Services.Impl;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -23,7 +24,11 @@ builder.Services
     .AddScoped<IStatisticsService, StatisticsService>()
     .AddScoped<ICrudService<RoundComment, RoundCommentDTO>, RoundCommentService>()
     .AddScoped<ICrudService<HoleComment, HoleCommentDTO>, HoleCommentService>()
-    .AddScoped<ICrudService<CourseComment, CourseCommentDTO>, CourseCommentService>();
+    .AddScoped<ICrudService<CourseComment, CourseCommentDTO>, CourseCommentService>()
+    .AddScoped<IDbUpdaterService, DbUpdaterService>();
+
+builder.Services
+    .AddHostedService<BackgroundWorker>();
 
 builder.Services
     .AddIdentity<User, IdentityRole<int>>(options =>
