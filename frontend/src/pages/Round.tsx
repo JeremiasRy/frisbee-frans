@@ -112,6 +112,10 @@ export default function Round() {
     const round = roundReducer.entities[0];
     const comments = commentReducer.entities;
 
+    if (!round) {
+        return;
+    }
+
     return (
         <Box sx={{
             width: "90%",

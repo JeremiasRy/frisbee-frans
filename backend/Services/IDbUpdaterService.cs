@@ -1,4 +1,4 @@
-﻿namespace backend.Services.Abstraction;
+﻿namespace backend.Services;
 
 public interface IDbUpdaterService
 {
