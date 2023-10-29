@@ -22,7 +22,7 @@ export default function HoleResultCard(props:HoleResultCardProps) {
                 borderRight: isLast ? "1px solid Black" : "",
                 backgroundColor: count > 0 ? color(score) : "white",
             }}>
-                <Typography variant="h5" sx={{margin: "auto"}}>{count}</Typography>
+                <Typography variant="h5" sx={{margin: "auto"}}>{Math.floor(count * 100) / 100}</Typography>
         </Box>
     )
 }
