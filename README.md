@@ -7,6 +7,11 @@ It's a rip from popular disc golf applications. Functionalities I provide:
 - Comments on Holes, Courses, Rounds
 - Statistics on Holes, Courses, Rounds (Averages, score distribution, amounts of throws tracked)
 
+# Demo pics
+![rounds view](https://raw.githubusercontent.com/JeremiasRy/frisbee-frans/main/demo-pics/friba.jpg)
+![tracking a round](https://github.com/JeremiasRy/frisbee-frans/blob/main/demo-pics/friba-3.jpg)
+![courses view](https://github.com/JeremiasRy/frisbee-frans/blob/main/demo-pics/friba-2.jpg)
+
 # Wanna run it?
 
 Sure man if you really want to. <br />
@@ -40,11 +45,6 @@ Now you can run `/initDAta/UploadToDb.ps1` to seed the database with some course
 
 DEV environment is:
 `dotnet run` in backend folder `npm run dev` in frontend folder.
-
-# Demo pics
-![rounds view](https://raw.githubusercontent.com/JeremiasRy/frisbee-frans/main/demo-pics/friba.jpg)
-![tracking a round](https://github.com/JeremiasRy/frisbee-frans/blob/main/demo-pics/friba-3.jpg)
-![courses view](https://github.com/JeremiasRy/frisbee-frans/blob/main/demo-pics/friba-2.jpg)
 
 # Things to do if I get some interest in this app:
 - Some small adjustments to styling
