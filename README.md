@@ -36,14 +36,15 @@ Now if you want you can `dotnet build` the information scraper and run the execu
 
 In the backend folder run `dotnet restore` after that migrate the database `dotnet ef database update`.
 
-Now you can run /initDAta/UploadToDb.ps1 to seed the database with some courses to play on!
+Now you can run `/initDAta/UploadToDb.ps1` to seed the database with some courses to play on!
 
 DEV environment is:
 `dotnet run` in backend folder `npm run dev` in frontend folder.
 
 # Demo pics
-
-
+![rounds view](https://raw.githubusercontent.com/JeremiasRy/frisbee-frans/main/demo-pics/friba.jpg)
+![tracking a round](https://github.com/JeremiasRy/frisbee-frans/blob/main/demo-pics/friba-3.jpg)
+![courses view](https://github.com/JeremiasRy/frisbee-frans/blob/main/demo-pics/friba-2.jpg)
 
 # Things to do if I get some interest in this app:
 - Some small adjustments to styling
