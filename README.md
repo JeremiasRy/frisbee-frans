@@ -47,6 +47,7 @@ DEV environment is:
 `dotnet run` in backend folder `npm run dev` in frontend folder.
 
 # Things to do if I get some interest in this app:
+- When clicking start round nothing happens until suddenly the round starts... So maybe a loading button to indicate something is happening?
 - Some small adjustments to styling
 - Add to profile section users most played courses
 - Courses need a base ordering when no filter is selected (id, created_at)
